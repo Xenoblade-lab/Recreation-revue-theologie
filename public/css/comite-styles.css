@@ -1,0 +1,367 @@
+/* ========================================
+   PAGE COMITÉ ÉDITORIAL – Design ergonomique
+   ======================================== */
+
+:root {
+  --comite-primary: #1e3a5f;
+  --comite-primary-light: #2c5282;
+  --comite-accent: #b3001b;
+  --comite-bg: #f1f5f9;
+  --comite-card-bg: #ffffff;
+  --comite-border: #e2e8f0;
+  --comite-text: #1e293b;
+  --comite-text-muted: #64748b;
+  --comite-radius: 12px;
+  --comite-radius-sm: 8px;
+  --comite-shadow: 0 2px 12px rgba(30, 58, 95, 0.06);
+  --comite-shadow-hover: 0 8px 24px rgba(30, 58, 95, 0.1);
+  --comite-space: 1.5rem;
+  --comite-space-lg: 2rem;
+  --comite-line-height: 1.65;
+}
+
+/* ----- En-tête de page ----- */
+.comite-page-header {
+  background: linear-gradient(135deg, var(--comite-primary) 0%, var(--comite-primary-light) 100%);
+  color: #fff;
+  padding: clamp(2rem, 5vw, 3.5rem) 1rem;
+  text-align: center;
+}
+
+.comite-page-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.comite-page-subtitle {
+  margin: 0;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  opacity: 0.95;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: var(--comite-line-height);
+}
+
+/* ----- Section principale ----- */
+.comite-section {
+  padding: clamp(2rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 4rem);
+  background: var(--comite-bg);
+}
+
+/* ----- Comités permanents (rédaction, scientifique) ----- */
+.comite-section--globaux {
+  padding-top: 0;
+}
+
+.comite-globaux {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--comite-space-lg);
+  margin-bottom: var(--comite-space-lg);
+}
+
+.comite-global-card {
+  background: var(--comite-card-bg);
+  border-radius: var(--comite-radius);
+  padding: var(--comite-space-lg);
+  box-shadow: var(--comite-shadow);
+  border: 1px solid var(--comite-border);
+}
+
+.comite-global-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--comite-primary);
+  margin: 0 0 0.5rem;
+}
+
+.comite-global-card__subtitle {
+  font-size: 0.8rem;
+  color: var(--comite-text-muted);
+  margin: 0 0 1rem;
+}
+
+.comite-global-card__content {
+  font-size: 0.95rem;
+  line-height: var(--comite-line-height);
+  color: var(--comite-text);
+}
+
+.container--comite {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ----- Navigation rapide (sommaire années) ----- */
+.comite-nav {
+  background: var(--comite-card-bg);
+  border-radius: var(--comite-radius);
+  padding: var(--comite-space);
+  margin-bottom: var(--comite-space-lg);
+  box-shadow: var(--comite-shadow);
+}
+
+.comite-nav__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--comite-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.comite-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.comite-nav__link {
+  display: inline-block;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  line-height: 1.5;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--comite-primary);
+  background: var(--comite-bg);
+  border: 1px solid var(--comite-border);
+  border-radius: var(--comite-radius-sm);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.comite-nav__link:hover,
+.comite-nav__link:focus {
+  background: var(--comite-primary);
+  color: #fff;
+  border-color: var(--comite-primary);
+  outline: none;
+}
+
+/* ----- Liste des cartes ----- */
+.comite-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--comite-space-lg);
+}
+
+/* ----- Carte par année ----- */
+.comite-year-card {
+  background: var(--comite-card-bg);
+  border-radius: var(--comite-radius);
+  box-shadow: var(--comite-shadow);
+  overflow: hidden;
+  scroll-margin-top: 1rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.comite-year-card:hover {
+  box-shadow: var(--comite-shadow-hover);
+}
+
+.comite-year-card__header {
+  background: linear-gradient(135deg, var(--comite-primary) 0%, var(--comite-primary-light) 100%);
+  color: #fff;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.comite-year-card__badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--comite-radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.comite-year-card__title {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.comite-year-card__body {
+  padding: clamp(1.25rem, 3vw, 1.75rem) 1.5rem;
+}
+
+.comite-year-card__empty {
+  margin: 0;
+  color: var(--comite-text-muted);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: var(--comite-line-height);
+}
+
+/* ----- Rédacteur en chef ----- */
+.comite-redacteur {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--comite-border);
+}
+
+.comite-redacteur:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.comite-redacteur__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--comite-accent);
+  margin-bottom: 0.4rem;
+}
+
+.comite-redacteur__name {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.15rem);
+  font-weight: 600;
+  color: var(--comite-primary);
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: var(--comite-line-height);
+}
+
+/* ----- Membres du comité ----- */
+.comite-membres {
+  margin-top: 0;
+}
+
+.comite-membres__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--comite-text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.comite-membres__content {
+  white-space: pre-line;
+  line-height: var(--comite-line-height);
+  color: var(--comite-text);
+  font-size: clamp(0.9375rem, 1.5vw, 1rem);
+}
+
+.comite-membres__content p {
+  margin: 0 0 0.5em;
+}
+
+/* ----- État vide ----- */
+.comite-empty {
+  text-align: center;
+  padding: clamp(2.5rem, 5vw, 3.5rem) 1.5rem;
+  background: var(--comite-card-bg);
+  border-radius: var(--comite-radius);
+  box-shadow: var(--comite-shadow);
+  color: var(--comite-text-muted);
+}
+
+.comite-empty-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  color: var(--comite-border);
+}
+
+.comite-empty-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.comite-empty p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: var(--comite-line-height);
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- Animation ----- */
+.fade-up {
+  animation: comiteFadeUp 0.4s ease forwards;
+}
+
+@keyframes comiteFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ----- Responsive & ergonomie ----- */
+@media (max-width: 640px) {
+  .comite-page-header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .comite-nav {
+    padding: 1.25rem 1rem;
+  }
+
+  .comite-nav__link {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0.5rem;
+  }
+
+  .comite-year-card__header {
+    padding: 1.1rem 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .comite-year-card__body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .comite-list {
+    gap: 1.5rem;
+  }
+}
+
+/* Focus visible (accessibilité) */
+.comite-nav__link:focus-visible {
+  outline: 2px solid var(--comite-primary);
+  outline-offset: 2px;
+}
+
+/* Réduction des mouvements si préféré */
+@media (prefers-reduced-motion: reduce) {
+  .comite-year-card,
+  .comite-nav__link {
+    transition: none;
+  }
+  .fade-up {
+    animation: none;
+  }
+}

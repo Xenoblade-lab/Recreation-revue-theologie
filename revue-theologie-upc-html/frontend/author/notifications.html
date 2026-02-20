@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | Espace Auteur - Revue UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Auteur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <a href="index.html">Dashboard</a>
+      <span>/</span>
+      <span>Notifications</span>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Espace auteur</p>
+        <nav>
+          <a href="index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg> Tableau de bord</a>
+          <a href="index.html#articles"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg> Mes articles</a>
+          <a href="abonnement.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#award"/></svg> Abonnement</a>
+          <a href="notifications.html" class="active"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#mail"/></svg> Notifications</a>
+          <a href="../soumettre.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#upload"/></svg> Soumettre un article</a>
+          <a href="../index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg> Voir le site</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header flex justify-between items-start">
+        <div>
+          <h1>Notifications</h1>
+          <p>Historique des notifications liees a vos articles.</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm">Tout marquer comme lu</button>
+      </div>
+      <div class="dashboard-card">
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="padding: 1rem; border-bottom: 1px solid var(--border);">
+            <p class="mb-0"><strong>Votre article &laquo; L'ecclesiologie reformee &raquo; a change de statut : Revision requise.</strong></p>
+            <p class="text-muted text-sm mt-1 mb-0">12 fév. 2026 · <a href="../article/3.html" class="text-primary">Voir l'article</a></p>
+          </li>
+          <li style="padding: 1rem; border-bottom: 1px solid var(--border);">
+            <p class="mb-0"><strong>Votre article &laquo; Ethique chretienne et justice sociale &raquo; est en evaluation.</strong></p>
+            <p class="text-muted text-sm mt-1 mb-0">10 fév. 2026 · <a href="../article/2.html" class="text-primary">Voir l'article</a></p>
+          </li>
+          <li style="padding: 1rem;">
+            <p class="mb-0"><strong>Votre article &laquo; L'hermeneutique biblique &raquo; a ete soumis avec succes.</strong></p>
+            <p class="text-muted text-sm mt-1 mb-0">15 fév. 2026 · <a href="../article/1.html" class="text-primary">Voir l'article</a></p>
+          </li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

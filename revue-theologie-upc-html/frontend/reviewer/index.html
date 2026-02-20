@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Evaluateur | Revue de la Faculte de Theologie - UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Evaluateur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <span>/</span>
+      <span>Evaluations</span>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar" id="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Espace evaluateur</p>
+        <nav>
+          <a href="index.html" class="active">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg>
+            Tableau de bord
+          </a>
+          <a href="terminees.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clipboard-check"/></svg>
+            Evaluations terminees
+          </a>
+          <a href="historique.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clock"/></svg>
+            Historique
+          </a>
+          <a href="../publications.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#book"/></svg>
+            Publications
+          </a>
+          <a href="../index.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg>
+            Voir le site
+          </a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Tableau de bord evaluateur</h1>
+        <p>Articles assignes et evaluations en cours.</p>
+      </div>
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon primary"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg></div>
+          <div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">En attente</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#clock"/></svg></div>
+          <div>
+            <div class="stat-value">1</div>
+            <div class="stat-label">En cours</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#check"/></svg></div>
+          <div>
+            <div class="stat-value">18</div>
+            <div class="stat-label">Terminees</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon accent"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#clipboard-check"/></svg></div>
+          <div>
+            <div class="stat-value">86 %</div>
+            <div class="stat-label">Taux de completion</div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-card">
+        <h2>Articles assignes a evaluer</h2>
+        <p class="text-muted text-sm mb-4">Cliquez sur « Evaluer » pour acceder au formulaire d'evaluation (telechargement du manuscrit, recommandation, commentaires auteur/editeur).</p>
+        <div class="overflow-auto">
+          <table class="dashboard-table">
+            <thead>
+              <tr>
+                <th>Titre</th>
+                <th>Date d'assignation</th>
+                <th>Delai restant</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>L'hermeneutique biblique dans le contexte africain</td>
+                <td>15 fév. 2026</td>
+                <td>10 jours</td>
+                <td><span class="badge badge-primary">En attente</span></td>
+                <td><a href="evaluation.html?id=1" class="btn btn-sm btn-accent">Evaluer</a></td>
+              </tr>
+              <tr>
+                <td>Ethique chretienne et justice sociale en RDC</td>
+                <td>12 fév. 2026</td>
+                <td>7 jours</td>
+                <td><span class="badge" style="background: rgba(245,158,11,0.2); color: #b45309;">En cours</span></td>
+                <td><a href="evaluation.html?id=2" class="btn btn-sm btn-accent">Reprendre</a></td>
+              </tr>
+              <tr>
+                <td>Theologie pratique et ministere pastoral</td>
+                <td>5 fév. 2026</td>
+                <td>2 jours</td>
+                <td><span class="badge badge-primary">En attente</span></td>
+                <td><a href="evaluation.html?id=3" class="btn btn-sm btn-accent">Evaluer</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-sm text-muted mt-4 mb-0"><a href="terminees.html" class="text-primary">Evaluations terminees</a> · <a href="historique.html" class="text-primary">Historique complet</a></p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Rappel du processus d'evaluation</h2>
+        <ul class="text-sm text-muted" style="margin: 0; padding-left: 1.25rem;">
+          <li>Telechargez et lisez le manuscrit.</li>
+          <li>Remplissez le formulaire : recommandation (Accepte / Revisions mineures / Revisions majeures / Rejete), commentaires pour l'auteur, commentaires pour l'editeur, note optionnelle.</li>
+          <li>Vous pouvez sauvegarder un brouillon et reprendre plus tard.</li>
+          <li>Une fois soumise, l'evaluation est definitive et le statut de l'article est mis a jour.</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC. Espace evaluateur.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

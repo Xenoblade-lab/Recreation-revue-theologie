@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructions aux auteurs | Revue UPC</title>
+  <link rel="icon" href="images/logo_upc.png"><link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="site-header"><div class="container inner flex justify-between"><a href="index.html" class="logo"><img src="images/logo_upc.png" alt="Logo UPC"><div class="logo-text"><p class="title">Revue de Theologie</p><p class="sub">UPC</p></div></a><nav class="nav-desktop"><a href="index.html">Accueil</a><a href="presentation.html">A propos</a><a href="publications.html">Publications</a><a href="archives.html">Archives</a><a href="contact.html">Contact</a></nav><button type="button" id="menu-toggle" class="menu-toggle"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#menu"/></svg></button></div><div id="nav-mobile" class="nav-mobile"><div class="container flex flex-col gap-1"><a href="index.html">Accueil</a><a href="presentation.html">A propos</a><a href="publications.html">Publications</a><a href="archives.html">Archives</a><a href="contact.html">Contact</a></div></div></header>
+  <main class="flex-1"><div class="banner"><div class="container"><h1 class="font-serif text-3xl md:text-4xl font-bold">Instructions aux auteurs</h1><div class="divider"></div><p>Format des manuscrits et modalites de soumission.</p></div></div><div class="container section"><div class="card p-8 max-w-3xl mx-auto"><h2 class="font-serif text-xl font-bold mb-4">Format des manuscrits</h2><ul class="text-muted leading-relaxed" style="list-style: none; padding: 0;"><li class="mb-2">• Langue : francais ou anglais.</li><li class="mb-2">• Longueur : 5 000 a 8 000 mots (notes incluses).</li><li class="mb-2">• Resume : 150-250 mots en francais et en anglais.</li><li class="mb-2">• References : style Chicago (notes de bas de page).</li></ul><h2 class="font-serif text-xl font-bold mb-4 mt-8">Soumission</h2><p class="text-muted leading-relaxed">Les manuscrits sont soumis en ligne via la plateforme. Formats acceptes : PDF, Word (.docx), LaTeX.</p><p class="mt-8"><a href="soumettre.html" class="btn btn-primary">Soumettre un article</a></p></div></div></main>
+  <footer class="site-footer"><div class="container"><div class="footer-bottom"><p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC.</p><a href="mentions-legales.html">Mentions legales</a></div></div></footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script><script src="js/main.js"></script>
+</body>
+</html>

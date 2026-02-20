@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon abonnement | Espace Auteur - Revue UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Auteur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <a href="index.html">Dashboard</a>
+      <span>/</span>
+      <span>Abonnement</span>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Espace auteur</p>
+        <nav>
+          <a href="index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg> Tableau de bord</a>
+          <a href="index.html#articles"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg> Mes articles</a>
+          <a href="abonnement.html" class="active"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#award"/></svg> Abonnement</a>
+          <a href="notifications.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#mail"/></svg> Notifications</a>
+          <a href="../soumettre.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#upload"/></svg> Soumettre un article</a>
+          <a href="../index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg> Voir le site</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Mon abonnement</h1>
+        <p>Gerer votre abonnement auteur et consulter l'historique des paiements.</p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Statut actuel</h2>
+        <p><strong>Abonnement actif</strong> jusqu'au 15 mars 2027.</p>
+        <p class="text-muted text-sm">Tarif applique : Afrique — 25,00 $ (1 an).</p>
+        <p class="mt-4 mb-0"><a href="#" class="btn btn-outline-primary">Telecharger le reçu</a> <a href="#" class="btn btn-outline">Resilier l'abonnement</a></p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Historique des paiements</h2>
+        <table class="dashboard-table">
+          <thead>
+            <tr><th>Date</th><th>Montant</th><th>Moyen</th><th>Statut</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>15 mars 2026</td><td>25,00 $</td><td>Orange Money</td><td><span class="badge" style="background: rgba(34,197,94,0.1); color: #059669;">Valide</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

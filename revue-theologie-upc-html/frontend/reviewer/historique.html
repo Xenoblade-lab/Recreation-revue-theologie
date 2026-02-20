@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historique des evaluations | Espace Evaluateur - Revue UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Evaluateur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <a href="index.html">Dashboard</a>
+      <span>/</span>
+      <span>Historique</span>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Espace evaluateur</p>
+        <nav>
+          <a href="index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg> Tableau de bord</a>
+          <a href="terminees.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clipboard-check"/></svg> Evaluations terminees</a>
+          <a href="historique.html" class="active"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clock"/></svg> Historique</a>
+          <a href="../publications.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#book"/></svg> Publications</a>
+          <a href="../index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg> Voir le site</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Historique des evaluations</h1>
+        <p>Toutes vos evaluations (en cours et terminees).</p>
+      </div>
+      <div class="dashboard-card">
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>Titre</th>
+              <th>Date assignation</th>
+              <th>Statut</th>
+              <th>Recommandation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>L'hermeneutique biblique dans le contexte africain</td>
+              <td>15 fév. 2026</td>
+              <td><span class="badge badge-primary">En attente</span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Ethique chretienne et justice sociale en RDC</td>
+              <td>12 fév. 2026</td>
+              <td><span class="badge" style="background: rgba(245,158,11,0.2); color: #b45309;">En cours</span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Histoire de l'Eglise congolaise au XXe siecle</td>
+              <td>20 janv. 2026</td>
+              <td><span class="badge" style="background: rgba(34,197,94,0.1); color: #059669;">Termine</span></td>
+              <td>Revisions majeures</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

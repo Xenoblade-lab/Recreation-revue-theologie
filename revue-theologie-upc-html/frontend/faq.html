@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | Revue UPC</title>
+  <link rel="icon" href="images/logo_upc.png"><link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="site-header"><div class="container inner flex justify-between"><a href="index.html" class="logo"><img src="images/logo_upc.png" alt="Logo UPC"><div class="logo-text"><p class="title">Revue de Theologie</p><p class="sub">UPC</p></div></a><nav class="nav-desktop"><a href="index.html">Accueil</a><a href="presentation.html">A propos</a><a href="publications.html">Publications</a><a href="archives.html">Archives</a><a href="contact.html">Contact</a></nav><button type="button" id="menu-toggle" class="menu-toggle"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#menu"/></svg></button></div><div id="nav-mobile" class="nav-mobile"><div class="container flex flex-col gap-1"><a href="index.html">Accueil</a><a href="presentation.html">A propos</a><a href="publications.html">Publications</a><a href="archives.html">Archives</a><a href="contact.html">Contact</a></div></div></header>
+  <main class="flex-1"><div class="banner"><div class="container"><h1 class="font-serif text-3xl md:text-4xl font-bold">FAQ</h1><div class="divider"></div><p>Questions frequentes sur la revue et la soumission d'articles.</p></div></div><div class="container section"><div class="card p-8 max-w-3xl mx-auto"><h2 class="font-serif text-lg font-bold mb-2">Comment soumettre un article ?</h2><p class="text-muted text-sm mb-6">Creez un compte auteur, connectez-vous et utilisez le formulaire de soumission en ligne. Voir <a href="soumettre.html">Soumettre un article</a> et <a href="instructions-auteurs.html">Instructions aux auteurs</a>.</p><h2 class="font-serif text-lg font-bold mb-2">Quel est le delai d'evaluation ?</h2><p class="text-muted text-sm mb-6">L'evaluation en double aveugle prend generalement entre 2 et 4 mois. Vous serez informe par email a chaque etape.</p><h2 class="font-serif text-lg font-bold mb-2">La revue est-elle en acces ouvert ?</h2><p class="text-muted text-sm mb-6">Oui. Les articles publies sont accessibles gratuitement en ligne. Les auteurs conservent leurs droits ; les articles sont sous licence CC BY-NC 4.0.</p><p class="mt-8"><a href="contact.html" class="btn btn-primary">Nous contacter</a></p></div></div></main>
+  <footer class="site-footer"><div class="container"><div class="footer-bottom"><p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC.</p><a href="mentions-legales.html">Mentions legales</a></div></div></footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script><script src="js/main.js"></script>
+</body>
+</html>

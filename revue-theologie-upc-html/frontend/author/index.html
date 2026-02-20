@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Auteur | Revue de la Faculte de Theologie - UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Auteur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <span>/</span>
+      <span>Mon espace</span>
+      <a href="abonnement.html" class="text-primary">Abonnement</a>
+      <a href="notifications.html" class="text-primary">Notifications <span class="badge badge-accent">3</span></a>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar" id="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Espace auteur</p>
+        <nav>
+          <a href="index.html" class="active">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg>
+            Tableau de bord
+          </a>
+          <a href="#articles">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg>
+            Mes articles
+          </a>
+          <a href="abonnement.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#award"/></svg>
+            Abonnement
+          </a>
+          <a href="notifications.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#mail"/></svg>
+            Notifications
+          </a>
+          <a href="../soumettre.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#upload"/></svg>
+            Soumettre un article
+          </a>
+          <a href="../index.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg>
+            Voir le site
+          </a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Mon tableau de bord</h1>
+        <p>Gerer vos soumissions et suivre l'avancement de vos articles.</p>
+      </div>
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon primary"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg></div>
+          <div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Articles soumis</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#clock"/></svg></div>
+          <div>
+            <div class="stat-value">1</div>
+            <div class="stat-label">En evaluation</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#check"/></svg></div>
+          <div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Publies</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon accent"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#clipboard-check"/></svg></div>
+          <div>
+            <div class="stat-value">1</div>
+            <div class="stat-label">Revisions requises</div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-card">
+        <h2>Soumettre un nouvel article</h2>
+        <p class="text-muted text-sm mb-4">Remplissez le formulaire ci-dessous pour soumettre un article. Les champs marques d'un astérisque sont obligatoires.</p>
+        <form action="#" method="post" class="flex flex-col gap-4">
+          <div class="form-group">
+            <label for="titre">Titre de l'article *</label>
+            <input type="text" id="titre" name="titre" placeholder="Titre complet de l'article" required class="h-11">
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <div class="form-group" style="min-width: 12rem;">
+              <label for="categorie">Categorie *</label>
+              <select id="categorie" name="categorie" required class="h-11" style="width:100%;padding:0.5rem 0.75rem;border:1px solid var(--input);border-radius:var(--radius);background:var(--background);font-size:0.875rem;">
+                <option value="">Choisir</option>
+                <option value="theologie-systematique">Theologie Systematique</option>
+                <option value="etudes-bibliques">Etudes Bibliques</option>
+                <option value="ethique-chretienne">Ethique Chretienne</option>
+                <option value="histoire-eglise">Histoire de l'Eglise</option>
+                <option value="theologie-pratique">Theologie Pratique</option>
+              </select>
+            </div>
+            <div class="form-group" style="min-width: 12rem;">
+              <label for="type">Type de publication *</label>
+              <select id="type" name="type" required class="h-11" style="width:100%;padding:0.5rem 0.75rem;border:1px solid var(--input);border-radius:var(--radius);background:var(--background);font-size:0.875rem;">
+                <option value="">Choisir</option>
+                <option value="recherche">Article de recherche</option>
+                <option value="note">Note de recherche</option>
+                <option value="compte-rendu">Compte-rendu</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="resume">Resume / contenu *</label>
+            <textarea id="resume" name="resume" rows="4" placeholder="Resume de l'article (obligatoire)" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="fichier">Fichier (PDF, Word ou LaTeX) *</label>
+            <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx,.tex" required style="font-size:0.875rem;">
+            <p class="text-xs text-muted mt-1">Formats acceptes : PDF, DOC, DOCX, TEX. Taille max. 10 Mo.</p>
+          </div>
+          <div class="wrap-row">
+            <button type="submit" class="btn btn-accent">Soumettre l'article</button>
+            <a href="../instructions-auteurs.html" class="btn btn-outline">Instructions aux auteurs</a>
+          </div>
+        </form>
+      </div>
+      <div class="dashboard-card">
+        <h2>Mes articles</h2>
+        <div class="overflow-auto">
+          <table class="dashboard-table">
+            <thead>
+              <tr>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>L'hermeneutique biblique dans le contexte africain</td>
+                <td>15 fév. 2026</td>
+                <td><span class="badge badge-primary">Soumis</span></td>
+                <td class="wrap-row"><a href="../article/1.html" class="btn btn-sm btn-outline">Voir</a> <a href="#" class="btn btn-sm btn-outline">Modifier</a></td>
+              </tr>
+              <tr>
+                <td>Ethique chretienne et justice sociale en RDC</td>
+                <td>12 fév. 2026</td>
+                <td><span class="badge" style="background: rgba(245,158,11,0.2); color: #b45309;">En evaluation</span></td>
+                <td class="wrap-row"><a href="../article/2.html" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+              <tr>
+                <td>L'ecclesiologie reformee face aux defis de la modernite</td>
+                <td>10 fév. 2026</td>
+                <td><span class="badge" style="background: rgba(179,0,27,0.1); color: var(--accent);">Revision requise</span></td>
+                <td class="wrap-row"><a href="../article/3.html" class="btn btn-sm btn-outline">Voir</a> <a href="#" class="btn btn-sm btn-accent">Modifier et resoumettre</a></td>
+              </tr>
+              <tr>
+                <td>Histoire de l'Eglise congolaise au XXe siecle</td>
+                <td>5 janv. 2026</td>
+                <td><span class="badge" style="background: rgba(34,197,94,0.1); color: #059669;">Publie</span></td>
+                <td class="wrap-row"><a href="../article/1.html" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-sm text-muted mt-4 mb-0"><a href="#articles" class="text-primary">Voir tous mes articles</a></p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Abonnement</h2>
+        <p class="text-muted text-sm mb-2">Votre abonnement auteur est <strong>actif</strong> jusqu'au 15 mars 2027.</p>
+        <p class="text-sm mb-0"><a href="abonnement.html" class="btn btn-sm btn-outline-primary">Gerer mon abonnement</a> · <a href="abonnement.html" class="text-primary">Telecharger mes reçus</a></p>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC. Espace auteur.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

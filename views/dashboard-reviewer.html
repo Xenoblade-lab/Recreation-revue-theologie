@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Évaluateur - Revue de Théologie UPC</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="logo_upc.png" alt="UPC Logo">
+                    <h2>Évaluateur</h2>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">SM</div>
+                    <div class="user-details">
+                        <h3>Pr. Samuel Mulamba</h3>
+                        <p>Évaluateur</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Principal</div>
+                    <div class="nav-item active">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span>Tableau de bord</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Évaluations</div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span>Articles assignés</span>
+                        <span class="badge">5</span>
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Évaluations terminées</span>
+                    </div>
+                    <div class="nav-item">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Historique</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Compte</div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span>Mon profil</span>
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Déconnexion</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <div class="dashboard-header fade-up">
+                <div class="header-title">
+                    <h1>Articles à évaluer</h1>
+                    <p>Vous avez 5 articles en attente d'évaluation</p>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span class="notification-badge"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card fade-up">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">En attente</div>
+                </div>
+
+                <div class="stat-card fade-up">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">En cours</div>
+                </div>
+
+                <div class="stat-card fade-up">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">28</div>
+                    <div class="stat-label">Terminées</div>
+                </div>
+
+                <div class="stat-card fade-up">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">4.2</div>
+                    <div class="stat-label">Jours moyens/éval.</div>
+                </div>
+            </div>
+
+            <!-- Assigned Articles -->
+            <div class="content-card fade-up" style="margin-bottom: var(--spacing-xl);">
+                <div class="card-header">
+                    <h2>Articles assignés</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Soumis le</th>
+                            <th>Délai</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>La pneumatologie africaine : une réflexion trinitaire</td>
+                            <td>15 Jan 2025</td>
+                            <td>5 jours restants</td>
+                            <td><span class="status-badge pending">En attente</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-primary btn-sm" onclick="window.location.href='#review-form'">Commencer l'évaluation</button>
+                                    <button class="action-btn view" title="Télécharger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Herméneutique décoloniale et lecture africaine</td>
+                            <td>12 Jan 2025</td>
+                            <td>8 jours restants</td>
+                            <td><span class="status-badge in-review">En cours</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-outline btn-sm" onclick="window.location.href='#review-form'">Continuer</button>
+                                    <button class="action-btn view" title="Télécharger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Justice environnementale chrétienne en Afrique</td>
+                            <td>10 Jan 2025</td>
+                            <td>10 jours restants</td>
+                            <td><span class="status-badge pending">En attente</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-primary btn-sm" onclick="window.location.href='#review-form'">Commencer l'évaluation</button>
+                                    <button class="action-btn view" title="Télécharger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Evaluation Form -->
+            <div class="content-card fade-up" id="review-form">
+                <div class="card-header">
+                    <h2>Formulaire d'évaluation</h2>
+                </div>
+                <form class="auth-form">
+                    <div class="form-section">
+                        <h3>Informations de l'article</h3>
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label>Titre</label>
+                                <input type="text" value="La pneumatologie africaine" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label>Date de soumission</label>
+                                <input type="text" value="15 Janvier 2025" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Évaluation</h3>
+                        <div class="form-field">
+                            <label>Points forts</label>
+                            <textarea placeholder="Décrivez les points forts de l'article..."></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label>Points faibles</label>
+                            <textarea placeholder="Décrivez les points faibles de l'article..."></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label>Commentaires pour l'auteur</label>
+                            <textarea placeholder="Vos commentaires et suggestions..."></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label>Recommandation</label>
+                            <select>
+                                <option value="">Sélectionnez une recommandation</option>
+                                <option value="accept">Accepter</option>
+                                <option value="minor">Révisions mineures</option>
+                                <option value="major">Révisions majeures</option>
+                                <option value="reject">Rejeter</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end;">
+                        <button type="button" class="btn btn-outline">Sauvegarder le brouillon</button>
+                        <button type="submit" class="btn btn-primary">Soumettre l'évaluation</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="dashboard-script.js"></script>
+</body>
+</html>

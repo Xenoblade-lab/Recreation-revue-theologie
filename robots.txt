@@ -1,0 +1,107 @@
+Projet-Revue-Theologie-UPC/          # Racine du projet de la revue
+│
+├── css/                             # Dossier cible pour centraliser les feuilles de style
+│   └── styles.css                   # Feuille de style principale (version structurée du projet)
+│
+├── styles.css                       # Ancien style global à la racine (à fusionner progressivement dans css/styles.css)
+├── numeros-styles.css               # Styles spécifiques pour la page numéros (version HTML statique)
+├── recherche-styles.css             # Styles spécifiques pour la page de recherche (version HTML statique)
+├── soumettre-styles.css             # Styles spécifiques pour la page de soumission (version HTML statique)
+├── comite-styles.css                # Styles spécifiques pour la page du comité (version HTML statique)
+├── instructions-styles.css          # Styles pour les pages d’instructions (maquettes HTML)
+├── dashboard-styles.css             # Styles pour les tableaux de bord HTML (admin/auteur/reviewer)
+├── auth-styles.css                  # Styles pour les pages d’authentification HTML (login/register)
+│
+├── js/                              # Scripts JavaScript principaux du site
+│   ├── main.js                      # Scripts génériques (navigation, interactions globales)
+│   ├── articles.js                  # Logique liée à l’affichage des articles (liste, détails, etc.)
+│   ├── soumissions.js               # Gestion du formulaire de soumission d’article (validation, étapes, etc.)
+│   ├── recherche.js                 # Logique de recherche (filtrage, résultats dynamiques)
+│   ├── compte-auteur.js             # Gestion du compte auteur (profil, mise à jour des infos)
+│   └── admin.js                     # Scripts pour le tableau de bord admin (actions, filtres, tableaux)
+│
+├── script.js                        # Script générique historique (maquette) — à intégrer/ranger dans js/ si encore utile
+├── numeros-script.js                # Script spécifique pour la page numéros HTML
+├── recherche-script.js              # Script spécifique pour la page recherche HTML
+├── soumettre-script.js              # Script spécifique pour la page soumettre HTML
+├── comite-script.js                 # Script spécifique pour la page comite.html
+├── dashboard-script.js              # Script pour les dashboards HTML (admin/auteur/reviewer)
+├── auth-script.js                   # Script pour les pages d’authentification HTML (login/register)
+│
+├── assets/                          # Ressources statiques (images, PDF, etc.)
+│   ├── images/                      # Toutes les images du site
+│   │   ├── logo/                    # Logos de la revue / université
+│   │   ├── auteurs/                 # Photos et visuels des auteurs
+│   │   └── numeros/                 # Visuels des numéros publiés (couvertures, vignettes)
+│   └── pdf/                         # Documents PDF téléchargeables
+│       └── articles/                # PDF des articles publiés par numéro
+│
+├── includes/                        # Fragments PHP réutilisables (partials)
+│   ├── db.php                       # Connexion à la base de données et configuration PDO/MySQLi
+│   ├── auth.php                     # Fonctions d’authentification (login, vérification de rôles)
+│   ├── header.php                   # En-tête HTML commun (balises <head>, ouverture du <body>, etc.)
+│   ├── footer.php                   # Pied de page commun du site
+│   ├── navbar-public.php            # Barre de navigation pour les visiteurs (site public)
+│   ├── navbar-auteur.php            # Barre de navigation spécifique aux auteurs connectés
+│   └── navbar-admin.php             # Barre de navigation spécifique aux administrateurs
+│
+├── gestion/                         # Scripts de traitement (back-office technique)
+│   ├── login.php                    # Traitement de la connexion (auteur + admin)
+│   ├── logout.php                   # Déconnexion et destruction de session
+│   ├── inscription_auteur.php       # Traitement du formulaire d’inscription auteur
+│   ├── soumettre_article.php        # Réception et enregistrement d’un nouvel article soumis
+│   ├── mettre_a_jour_article.php    # Mise à jour/modification d’un article existant
+│   ├── valider_article.php          # Validation / changement de statut d’un article par l’admin
+│   ├── gerer_numero.php             # Création/édition/suppression des numéros de la revue
+│   ├── gerer_auteurs.php            # Gestion des comptes auteurs (activation, rôles, etc.)
+│   └── gerer_comite.php             # Gestion des membres du comité éditorial
+│
+├── pages/                           # TOUTES les pages web en PHP (publiques + espaces privés)
+│   ├── index.php                    # Accueil publique de la revue
+│   ├── revue-a-propos.php           # Présentation de la revue et de la faculté
+│   ├── comite-editorial.php         # Présentation du comité éditorial (version PHP de comite.html)
+│   ├── consignes-auteurs.php        # Consignes aux auteurs (soumission, format, éthique)
+│   ├── politique-editoriale.php     # Politique éditoriale (plagiat, évaluation, etc.)
+│   ├── numeros.php                  # Liste des numéros publiés
+│   ├── numero-detail.php            # Détail d’un numéro (table des matières, articles)
+│   ├── article.php                  # Page de lecture d’un article individuel
+│   ├── recherche.php                # Page de recherche (version PHP de recherche.html)
+│   ├── inscription-auteur.php       # Formulaire d’inscription auteur (version PHP de register.html / instructions)
+│   ├── login.php                    # Page de connexion auteurs/admin (version PHP de login.html / auth)
+│   ├── espace-auteur.php            # Tableau de bord de l’auteur connecté
+│   ├── mes-articles.php             # Liste des articles soumis par l’auteur
+│   ├── soumettre-article.php        # Interface de soumission d’article (version PHP de soumettre.html)
+│   ├── profil-auteur.php            # Gestion du profil auteur (infos, mot de passe)
+│   ├── admin-dashboard.php          # Tableau de bord admin (version PHP de dashboard-admin.html)
+│   ├── admin-articles.php           # Gestion des articles côté admin
+│   ├── admin-numeros.php            # Gestion des numéros (création, ordre, visibilité)
+│   ├── admin-auteurs.php            # Gestion des comptes auteurs (validation, blocage, droits)
+│   └── admin-comite.php             # Gestion des membres du comité éditorial
+│
+├── index.html                       # Ancienne page d’accueil statique (maquette) — ciblée pour remplacement par pages/index.php
+├── numeros.html                     # Maquette HTML de la liste des numéros (doublon de pages/numeros.php)
+├── recherche.html                   # Maquette HTML de la recherche (doublon de pages/recherche.php)
+├── soumettre.html                   # Maquette HTML de la soumission d’article (doublon de pages/soumettre-article.php)
+├── comite.html                      # Maquette HTML du comité éditorial (doublon de pages/comite-editorial.php)
+├── instructions.html                # Page d’instructions HTML (maquette générale pour auteurs)
+├── instruct.html                    # Variante/ancienne version d’instructions.html
+├── login.html                       # Maquette HTML de la page de connexion
+├── register.html                    # Maquette HTML de la page d’inscription
+├── dashboard-admin.html             # Maquette HTML du tableau de bord admin
+├── dashboard-author.html            # Maquette HTML du tableau de bord auteur
+├── dashboard-reviewer.html          # Maquette HTML du tableau de bord reviewer
+│
+├── admin/                           # Répertoire réservé pour un futur espace admin (actuellement vide)
+├── dash/                            # Répertoire réservé pour un futur regroupement des dashboards (actuellement vide)
+│
+└── structure du projet.txt          # Documentation de la structure du projet (ce fichier)
+
+
+<!-- <link rel="stylesheet" href="./css/styles.css">
+<link rel="stylesheet" href="./css/auth-styles.css">
+<link rel="stylesheet" href="./css/instructions-styles.css">
+<link rel="stylesheet" href="./css/dashboard-styles.css">
+<link rel="stylesheet" href="./css/soumettre-styles.css">
+<link rel="stylesheet" href="./css/recherche-styles.css">
+<link rel="stylesheet" href="./css/numeros-styles.css">
+<link rel="stylesheet" href="./css/comite-styles.css"> -->

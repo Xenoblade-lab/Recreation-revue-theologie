@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page non trouvée - Revue de la Faculté de Théologie</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .error-section {
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-gray-50);
+        }
+
+        .error-content h1 {
+            font-size: 8rem;
+            color: var(--color-red);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-heading);
+            line-height: 1;
+        }
+
+        .error-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-blue);
+        }
+
+        .error-content p {
+            margin-bottom: var(--spacing-xl);
+            color: var(--color-gray-600);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.125rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo_upc.png" alt="UPC Logo">
+                    <div class="logo-text">
+                        <h1>Revue de la Faculté de Théologie</h1>
+                        <p>Université Protestante au Congo</p>
+                    </div>
+                </div>
+                <nav class="main-nav">
+                    <a href="index.html">Accueil</a>
+                    <a href="numeros.html">Numéros & Archives</a>
+                    <a href="soumettre.html">Soumettre</a>
+                    <a href="instructions.html">Instructions</a>
+                    <a href="comite.html">Comité</a>
+                    <a href="recherche.html">Recherche</a>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <a href="index.html">Accueil</a>
+        <a href="numeros.html">Numéros & Archives</a>
+        <a href="soumettre.html">Soumettre</a>
+        <a href="instructions.html">Instructions</a>
+        <a href="comite.html">Comité</a>
+        <a href="recherche.html">Recherche</a>
+    </nav>
+
+    <!-- Error Content -->
+    <section class="error-section">
+        <div class="container">
+            <div class="error-content fade-up">
+                <h1>404</h1>
+                <h2>Page non trouvée</h2>
+                <p>
+                    Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
+                    Vérifiez l'URL ou retournez à la page d'accueil.
+                </p>
+                <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Revue de Théologie UPC</h3>
+                    <p>
+                        Université Protestante au Congo<br>
+                        Faculté de Théologie<br>
+                        Kinshasa, RD Congo
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="numeros.html">Numéros & Archives</a></li>
+                        <li><a href="soumettre.html">Soumettre un article</a></li>
+                        <li><a href="instructions.html">Instructions aux auteurs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="comite.html">Comité éditorial</a></li>
+                        <li><a href="recherche.html">Recherche avancée</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Twitter</a>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Revue de la Faculté de Théologie - UPC. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

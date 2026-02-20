@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluation d'un article | Espace Evaluateur - Revue UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Evaluateur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <a href="index.html">Dashboard</a>
+      <span>/</span>
+      <span>Evaluation</span>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Espace evaluateur</p>
+        <nav>
+          <a href="index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg> Tableau de bord</a>
+          <a href="terminees.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clipboard-check"/></svg> Evaluations terminees</a>
+          <a href="historique.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clock"/></svg> Historique</a>
+          <a href="../publications.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#book"/></svg> Publications</a>
+          <a href="../index.html"><svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg> Voir le site</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Evaluation de l'article</h1>
+        <p>L'hermeneutique biblique dans le contexte africain — Delai restant : 10 jours</p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Informations de l'article</h2>
+        <p><strong>Titre :</strong> L'hermeneutique biblique dans le contexte africain : perspectives et defis.</p>
+        <p class="text-muted text-sm">Categorie : Etudes Bibliques · Type : Article de recherche.</p>
+        <p class="mb-0"><a href="../article/1.html" class="btn btn-sm btn-outline-primary">Voir la page article</a> <a href="#" class="btn btn-sm btn-outline">Telecharger le manuscrit (PDF)</a></p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Formulaire d'evaluation</h2>
+        <p class="text-muted text-sm mb-4">Recommandation obligatoire. Les commentaires pour l'auteur sont visibles par l'auteur ; les commentaires pour l'editeur restent confidentiels.</p>
+        <form action="#" method="post" class="flex flex-col gap-4">
+          <div class="form-group">
+            <label for="recommendation">Recommandation *</label>
+            <select id="recommendation" name="recommendation" required class="h-11" style="width:100%;max-width:20rem;padding:0.5rem 0.75rem;border:1px solid var(--input);border-radius:var(--radius);background:var(--background);font-size:0.875rem;">
+              <option value="">Choisir</option>
+              <option value="accepte">Accepte</option>
+              <option value="revision_mineure">Revisions mineures requises</option>
+              <option value="revision_majeure">Revisions majeures requises</option>
+              <option value="rejete">Rejete</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="commentaires_public">Commentaires pour l'auteur (public)</label>
+            <textarea id="commentaires_public" name="commentaires_public" rows="4" placeholder="Commentaires visibles par l'auteur"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="commentaires_prive">Commentaires pour l'editeur (prive)</label>
+            <textarea id="commentaires_prive" name="commentaires_prive" rows="4" placeholder="Commentaires confidentiels"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="note">Note globale (optionnel, sur 10)</label>
+            <input type="number" id="note" name="note" min="0" max="10" step="0.5" placeholder="Ex. 7.5" style="width:6rem;padding:0.5rem 0.75rem;border:1px solid var(--input);border-radius:var(--radius);">
+          </div>
+          <div class="wrap-row">
+            <button type="submit" name="submit" class="btn btn-accent">Soumettre l'evaluation</button>
+            <button type="submit" name="draft" class="btn btn-outline">Sauvegarder le brouillon</button>
+            <a href="index.html" class="btn btn-outline">Retour au dashboard</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

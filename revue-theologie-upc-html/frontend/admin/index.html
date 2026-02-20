@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Administrateur | Revue de la Faculte de Theologie - UPC</title>
+  <link rel="icon" href="../images/logo_upc.png">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard-layout min-h-screen flex flex-col">
+  <div class="dashboard-topbar">
+    <div class="flex items-center gap-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <img src="../images/logo_upc.png" alt="Logo UPC" width="36" height="36">
+        <span class="font-serif font-bold text-primary">Revue de Theologie</span>
+      </a>
+      <span class="text-muted">|</span>
+      <span class="text-sm font-medium">Espace Administrateur</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <span>/</span>
+      <span>Dashboard</span>
+      <a href="../login.html" class="ml-4 text-accent">Deconnexion</a>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar" id="dashboard-sidebar">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Administration</p>
+        <nav>
+          <a href="index.html" class="active">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#tag"/></svg>
+            Tableau de bord
+          </a>
+          <a href="#users">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#user"/></svg>
+            Utilisateurs
+          </a>
+          <a href="#articles">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg>
+            Articles
+          </a>
+          <a href="#evaluations">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#clipboard-check"/></svg>
+            Evaluations
+          </a>
+          <a href="#volumes">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#book"/></svg>
+            Volumes & Numeros
+          </a>
+          <a href="#paiements">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#award"/></svg>
+            Paiements
+          </a>
+          <a href="../index.html">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="../images/icons.svg#globe"/></svg>
+            Voir le site
+          </a>
+        </nav>
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Tableau de bord</h1>
+        <p>Vue d'ensemble de la revue et des dernieres activites.</p>
+      </div>
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon primary"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#file-text"/></svg></div>
+          <div>
+            <div class="stat-value">127</div>
+            <div class="stat-label">Articles au total</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#check"/></svg></div>
+          <div>
+            <div class="stat-value">89</div>
+            <div class="stat-label">Articles publies</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#user"/></svg></div>
+          <div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">Evaluateurs actifs</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon accent"><svg class="icon-svg icon-24" aria-hidden="true"><use href="../images/icons.svg#award"/></svg></div>
+          <div>
+            <div class="stat-value">1 250 $</div>
+            <div class="stat-label">Revenus du mois</div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-card">
+        <h2>Dernieres soumissions</h2>
+        <div class="overflow-auto">
+          <table class="dashboard-table">
+            <thead>
+              <tr>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Auteur</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>L'hermeneutique biblique dans le contexte africain</td>
+                <td>15 fév. 2026</td>
+                <td><span class="badge badge-primary">Soumis</span></td>
+                <td>Dr. Jean Mbala</td>
+                <td><a href="../article/1.html" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+              <tr>
+                <td>Ethique chretienne et justice sociale en RDC</td>
+                <td>12 fév. 2026</td>
+                <td><span class="badge" style="background: rgba(245,158,11,0.2); color: #b45309;">En evaluation</span></td>
+                <td>Prof. Marie Kabila</td>
+                <td><a href="../article/2.html" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+              <tr>
+                <td>L'ecclesiologie reformee face aux defis de la modernite</td>
+                <td>10 fév. 2026</td>
+                <td><span class="badge" style="background: rgba(34,197,94,0.1); color: #059669;">Accepte</span></td>
+                <td>Prof. Samuel Ngoma</td>
+                <td><a href="../article/3.html" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+              <tr>
+                <td>Histoire de l'Eglise congolaise au XXe siecle</td>
+                <td>8 fév. 2026</td>
+                <td><span class="badge badge-accent">Revision requise</span></td>
+                <td>Dr. Paul Mutombo</td>
+                <td><a href="#" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+              <tr>
+                <td>Theologie pratique et ministere pastoral</td>
+                <td>5 fév. 2026</td>
+                <td><span class="badge badge-primary">Soumis</span></td>
+                <td>Rev. Anne Tshimanga</td>
+                <td><a href="#" class="btn btn-sm btn-outline">Voir</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-sm text-muted mt-4 mb-0"><a href="#articles" class="text-primary">Voir tous les articles</a> · <a href="#evaluations" class="text-primary">Gerer les evaluations</a></p>
+      </div>
+      <div class="dashboard-card">
+        <h2>Actions rapides</h2>
+        <div class="flex flex-wrap gap-2">
+          <a href="#users" class="btn btn-outline-primary">Creer un utilisateur</a>
+          <a href="#users" class="btn btn-outline-primary">Creer un evaluateur</a>
+          <a href="#volumes" class="btn btn-outline-primary">Creer un volume</a>
+          <a href="#paiements" class="btn btn-outline-primary">Valider des paiements</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - UPC. Espace administrateur.</p>
+        <a href="../login.html">Deconnexion</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

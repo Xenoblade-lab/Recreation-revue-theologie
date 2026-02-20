@@ -1,0 +1,281 @@
+
+3
+
+Zoom automatique
+DOCUMENTATION — Site web pour la Revue de la Faculté de Théologie (Université
+Protestante au Congo, UPC)
+1. Résumé exécutif
+La présente documentation décrit la conception, le contenu, le workflow
+éditosoumettre.htmlrial, l'architecture technique et le design recommandés pour construire et
+maintenir le site web officiel de la revue de la Faculté de Théologie de l’UPC.
+L’objectif est d’obtenir une plateforme professionnelle, accessible, pérenne et
+adaptée à la publication et à l’indexation des articles scientifiques en théologie.
+2. Objectifs du site
+• Publier des articles et numéros (volumes/numéros) de la revue.
+• Gérer les soumissions, l’évaluation par les pairs, la correction et la publication.
+• Rendre la revue visible (indexation, référencement académique).
+• Préserver et exposer les archives (anciens numéros).
+• Fournir informations pratiques (soumissions, comité, politique, contacts).
+• Permettre téléchargements d’articles (PDF), inscriptions aux alertes et accès aux
+métadonnées (Crossref/DOI).
+3. Publics cibles
+• Chercheurs et enseignants en théologie.
+• Étudiants (licence, masters, doctorat).
+• Pasteurs, responsables d’églises, praticiens religieux.
+• Bibliothèques, indexeurs, et le grand public intéressé par la théologie.
+4. Contenu et rubriques indispensables (pages)
+• Accueil : mise en avant du dernier numéro, actualités, annonces.
+• À propos : mission, historique, politique éditoriale.
+• Comité éditorial : rédacteur en chef, comité scientifique, réviseurs.
+• Soumissions / Instructions aux auteurs : normes, templates, processus, types
+d’articles.
+• Numéros & Archives : volumes, tables des matières, page article avec PDF,
+métadonnées.
+• Politique éditoriale & éthique : peer review, plagiat, corrections, droits d’auteur.
+• Informations pratiques : contact, soumission en ligne, abonnements si payant.
+• Aide / FAQ : guide rapide pour auteurs, évaluateurs, lecteurs.
+• Recherche / indexation : DOI, indexation, license (ex : CC BY).
+• Actualités / Événements : colloques, parutions de livres, conférences.
+• Page de données ouvertes (le cas échéant) / annexes.
+5. Fonctionnalités principales (features)
+Fonctionnalités utilisateurs :
+• Consultation par numéro, recherche par auteur/mot-clé, filtres.
+• Téléchargement PDF d’articles et export citation (RIS, BibTeX).
+• Alertes par e-mail ou flux RSS pour nouveaux numéros.
+• Pages auteurs avec affiliation et contacts.
+Fonctionnalités auteur / éditeur :
+• Système de soumission en ligne (upload manuscrit, métadonnées).
+• Workflow de peer-review (assignation réviseurs, rapports, décisions).
+• Outils de gestion de versions et de copyediting.
+• Attribution DOI (via Crossref) et métadonnées conformes (title, abstract,
+keywords, ORCID).
+• Tableau de bord pour rédacteur/éditeur/relecteur.
+• Statistiques d’usage (vues, téléchargements).
+Fonctionnalités techniques :
+• Interface d’administration sécurisée.
+• Sauvegardes automatiques, SSL/TLS (HTTPS).
+• Export d’archives (XML, PDF).
+• Compatibilité mobile (responsive).
+• Accessibilité WCAG 2.1 (niveau AA recommandé).
+• Support multilingue (français/anglais).
+6. Recommandation technique — plateformes
+Option recommandée :
+• Open Journal Systems (OJS) (PKP) : solution open-source conçue pour revues
+académiques, gère tout le cycle (soumission → peer review → pub). Installation
+PHP/MySQL, prise en charge de DOI, métadonnées, export, etc. (fortement
+recommandée).
+Pourquoi : adapté aux revues, déjà adopté mondialement, facilite indexation et
+conformité aux standards académiques. (voir PKP/OJS).
+Alternatives :
+• WordPress + plugin (ex. Scholarly / PublishPress) : plus simple si la revue est
+légère, mais nécessite plus de travail pour workflow complet.
+• Plateformes SaaS (hébergement OJS géré) si pas de compétences serveurs en
+interne.
+(Références pour OJS : guides officiels et fonctionnalités OJS).
+7. Architecture technique proposée (haut niveau)
+• Serveur : VPS ou hébergement cloud (DigitalOcean, OVH, Hetzner, ou hébergeur
+local stable).
+• Stack : LAMP (Linux, Apache/Nginx, MySQL/MariaDB, PHP) — configuration
+requise par OJS.
+• Sauvegardes : snapshot quotidien + backup externalisé (S3 compatible ou
+stockage hors site).
+• Certificat SSL : Let's Encrypt.
+• Nom de domaine : ex. revue-theologie.upc.ac.cd ou revueft.upc.ac.cd.
+• Email transactionnel : SMTP (ex. Mandrill, Mailgun, ou service université).
+• CDN facultatif pour PDFs lourds.
+8. Workflow éditorial détaillé (modèle recommandé)
+1. Soumission en ligne (auteur) — métadonnées + fichier(s).
+2. Vérification éditoriale initiale (éditeur) — conformité, plagiat (outil anti-plagiat).
+3. Assignation à un ou deux réviseurs (double-aveugle ou simple selon politique).
+4. Révision(s) — rapport(s) et recommandation (accepté, réviser, rejet).
+5. Décision éditoriale (éditeur) — notification auteur.
+6. Copyediting et mise en page (production) — correction finale, layout, attribution
+DOI.
+7. Publication en ligne (article + métadonnées) — notification, mise à jour RSS.
+8. Archivage (institutionnel) — dépôt PDF/metadata.
+Inclure SLAs (délais cibles) : ex. 2 semaines pour vérif initiale, 6–8 semaines pour revue.
+9. Rôles & responsabilités
+• Rédacteur en chef : politiques, décisions finales.
+• Rédacteur(s) associé(s) : gestion des soumissions.
+• Secrétaire de rédaction : communication auteurs, mise en page.
+• Relecteurs / réviseurs externes : évaluation scientifique.
+• Administrateur technique : hébergement, backups, mises à jour.
+• Éditeur de production / correcteur : normes éditoriales, mise en forme.
+10. Politique de peer-review (modèle à adapter)
+• Type : double-aveugle (les identités des auteurs et réviseurs sont masquées).
+• Nombre de réviseurs : au moins 2 par article.
+• Critères d’acceptation : originalité, méthodologie, contribution, conformité
+éthique.
+• Délais : Révision initiale 6–8 semaines, révision autorisée 4 semaines.
+• Plagiat : tous les manuscrits passent par un outil anti-plagiat (policy: seuil X%).
+• Gestion des conflits d’intérêts : réviseurs doivent déclarer conflit.
+11. Guide / instructions aux auteurs (template rapide)
+• Type d’articles acceptés (recherches, notes, recensions, traductions).
+• Langues acceptées (français/anglais).
+• Format du manuscrit : docx + PDF final, police Times New Roman 12, interligne
+1.5.
+• Longueur : articles 5 000–8 000 mots, notes 1 500–3 000 mots.
+• Structure : Titre, résumé (FR/EN), mots-clés, texte, références (style
+bibliographique ex. Chicago ou SBL), annexes.
+• Fichiers graphiques : formats PNG/JPG/SVG ≥300 dpi pour impressions.
+• Modèle Word / LaTeX téléchargeable.
+• Consentement copyright & licence (ex. CC BY-NC).
+12. Métadonnées & DOI
+• Fournir métadonnées complètes (title, abstract, keywords, author affiliations,
+ORCID).
+• Système DOI : inscription via Crossref (pour crédibilité et indexation). Prévoir
+budget d’inscription annuel.
+• Export XML conforme (JATS ou autre) si possible pour archivage.
+13. Indexation & visibilité
+• S’assurer que la revue est indexable : sitemap des articles, métadonnées
+structurées, Google Scholar inclusion.
+• Candidature au DOAJ (si OA) et autres indexations disciplinaires.
+• Référencement SEO : pages articles avec balises meta (title, description), URLs
+lisibles, JSON-LD pour schema.org/ScholarlyArticle.
+14. Design / UI / UX — recommandations esthétiques
+Principes :
+• Lisibilité & sobriété : design académique, hiérarchie visuelle claire.
+• Responsive : mobile-first.
+• Couleurs : palette sobre — ex. blanc (#FFFFFF), bleu profond (signe
+institutionnel), beige/crème pour contraste. Eviter couleurs criardes.
+• Typographie : combinaison serif pour titres (ex. Merriweather, Playfair Display) +
+sans-serif pour corps (ex. Open Sans, Lato) pour lecture web.
+• Mise en page article : largeur de lecture confortable (~700–900px), navigation fixe
+(numéros, sommaire), boutons de téléchargement visibles.
+• Éléments graphiques : logo faculté, bannières pour numéros spéciaux.
+• Accessibilité : contrastes, taille texte ajustable, alt sur images, navigation clavier.
+Thèmes & inspirations :
+• Sites de revues universitaires (journals.sagepub, OUP, Concilium) → modernité
+académique, typographie soignée. Voir exemples pour inspiration de mise en
+page d’articles.
+15. Wireframes & sitemap (proposition)
+Sitemap principal :
+• / (Accueil)
+• /a-propos
+• /comite
+• /soumettre
+• /instructions-auteurs
+• /numeros (archive)
+• /numeros/volume-X/numero-Y
+• /articles/
+• /actualites
+• /contact
+• /politique-editoriale
+• /faq
+Wireframe (texte) — page article :
+• En-tête : titre, auteurs, affiliations, DOI, badges (OA).
+• Résumé(s) FR/EN.
+• Boutons : Télécharger PDF | Citer (BibTeX/RIS) | Voir métadonnées.
+• Corps : texte, images, encadrés, références.
+• Sidebar : sommaire du numéro, autres articles liés, info auteur.
+16. Schéma de base de données (conceptuel)
+Tables principales :
+• users (id, nom, email, role, affiliation, orcid)
+• journals (si plusieurs)
+• volumes (id, année, numéro, description)
+• issues (id, volume_id, titre, date_publication)
+• articles (id, issue_id, title, abstract, pdf_path, status, doi)
+• authors_articles (article_id, user_id, ordre, affiliation_text)
+• reviews (id, article_id, reviewer_id, report_text, recommendation, date)
+• submissions (id, article_id, submitted_at, track_changes)
+• files (id, article_id, file_type, path)
+• logs / audit
+17. Exemples de politiques & templates (à personnaliser)
+• Lettre d’acceptation / refus.
+• Template de rapport de relecteur (rubriques: résumé, points forts, points faibles,
+recommandation).
+• Formulaire déclaration conflit d’intérêts.
+18. Aspects légaux & droits
+• Définir la licence (ex. Creative Commons — CC BY preferable pour diffusion, ou
+CC BY-NC selon stratégie).
+• Politique de droit d’auteur : auteurs conservent droits / cèdent certains droits au
+journal selon politique.
+• RGPD & protection des données (si traitement de données personnelles
+d’auteurs/reviseurs) — informer sur stockage et durée.
+19. Accessibilité & conformité
+• Respecter WCAG 2.1 AA (contraste, navigation clavier, balises aria).
+• Fournir version texte des PDF pour lecteurs d’écran si possible.
+• Vérifier accessibilité via outils (Wave, Lighthouse).
+20. SEO & métadonnées techniques
+• Meta titles uniques pour chaque article.
+• Balises OpenGraph pour partages réseaux sociaux.
+• Sitemap XML automatisé.
+• Fichier robots.txt configuré pour indexation des pages publiques.
+• Structured data (schema.org/ScholarlyArticle).
+21. Sécurité & maintenance
+• Mises à jour régulières (CMS, plugins).
+• Sauvegardes quotidiennes + test de restauration.
+• HTTPS obligatoire ; politique mots de passe forts ; 2FA pour comptes
+administrateurs.
+• Politique de gestion des accès (principe du moindre privilège).
+22. Plan de migration / intégration d'archives
+• Recenser anciens numéros (PDF, métadonnées).
+• Normaliser métadonnées (auteurs, affiliations, année).
+• Import en lot via OJS (si OJS retenu) ou importer manuellement.
+• Indexation et redirections d’URLs anciennes.
+23. Processus éditorial & calendrier (ex. annuel)
+• Janvier–Mars : Appel à communications / soumissions pour volume X.
+• Avril–Juin : Revues & décisions pour numéro spécial.
+• Juillet–Août : Mise en page et production.
+• Septembre : Publication et lancement du numéro.
+• Tout au long : maintenance, promotion, archivage.
+24. Promotion & communication
+• Annonces sur site, réseaux sociaux (Facebook, Twitter/X, LinkedIn).
+• Envoi d’une newsletter (Mailing list).
+• Collaboration avec bibliothèques universitaires pour indexation.
+• Participation à bases d’indexation et DOAJ.
+25. Checklist de lancement
+Technique :
+• Domaine et SSL ok.
+• CMS installé et configuré.
+• Sauvegarde en place.
+• Import des numéros d’essai (1–2 numéros).
+Contenu :
+• Politiques, comités, instructions aux auteurs prêtes.
+• Modèle d’article et PDF d’exemple.
+Fonctionnalités :
+• Soumission de test OK.
+• Workflow review testé.
+• Métadonnées & DOI testés.
+Visuel :
+• Logo, charte couleur, typographie finalisés.
+Légal :
+• Licence choisie et politique de confidentialité en place.
+26. Maintenance & budget estimatif (approx.)
+Coûts annuels approximatifs (estimation très variable selon choix) :
+• Hébergement VPS/Cloud : 100–600 USD/an (selon provider et traffic).
+• Nom de domaine : 10–50 USD/an.
+• Certificat SSL : gratuit (Let's Encrypt) ou payant 20–150 USD/an.
+• DOI (Crossref) : coût variable ; adhésion + frais par DOI (prévoir budget ~200–600
+USD/an selon volume).
+• Assistance technique / dev externe (si pas en interne) : 300–3 000 USD selon
+maintenance.
+• Outils anti-plagiat (si payant) : variable.
+Total estimé (petit budget) : 400–1 200 USD/an. (budget moyen à élevé si services
+professionnels externalisés).
+27. Ressources & références utiles (pour implémenter)
+• OJS (PKP) — documentation & téléchargement.
+• Guides de bonnes pratiques peer-review (éditeurs universitaires).
+• Exemples de revues en théologie pour inspiration (mise en page, instructions).
+(Consulter documentation OJS et guides éditeurs pour démarches concrètes
+d’installation et de configuration).
+28. Propositions de prochaines étapes (actionnable)
+29. Valider gouvernance : qui sera rédacteur en chef, équipe technique, comité
+scientifique.
+30. Choisir plateforme (OJS recommandé) et hébergement.
+31. Préparer contenu initial : 2 numéros à publier pour lancement (ou numéro pilote).
+32. Mettre en place politique éditoriale rédigée et templates (auteur / relecteur).
+33. Déployer environnements test → test complet du workflow → mise en production.
+34. Lancer la communication (annonce officielle, réseaux, bibliothèques).
+35. Annexes — modèles rapides
+• Modèle de mail pour relecteurs.
+• Template de page “Instructions aux auteurs” (ex. format minimal).
+• Exemple de template citation BibTeX.
+FIN — Document préparé pour la revue de la Faculté de Théologie (adaptable et
+éditable).
+Si tu veux, je peux maintenant :
+• produire le contenu prêt à copier (page « Instructions aux auteurs » complète +
+template Word/LaTeX),
+• générer un sitemap XML exemple avec les URL que tu veux,
+• ou préparer maquettes visuelles (wireframes simples) / échantillons de pages
+(accueil + page article) en HTML/CSS.

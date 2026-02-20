@@ -1,0 +1,11 @@
+Évaluateur soumet → "Révisions majeures requises"
+         ↓
+Système vérifie toutes les évaluations
+         ↓
+Toutes terminées ? → OUI → Statut = "revision_requise"
+         ↓                    ↓
+        NON              Auteur voit le statut
+         ↓                    ↓
+Statut = "en_evaluation"  Auteur peut modifier
+         ↓                    ↓
+Attente autres évaluations  Resoumission possible
