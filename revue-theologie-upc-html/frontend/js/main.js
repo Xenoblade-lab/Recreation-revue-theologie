@@ -1,5 +1,6 @@
 /**
- * Revue de la Faculte de Theologie - UPC - Script principal
+ * Revue de la Faculte de Theologie - UPC - Script page test (index_2.html)
+ * Menu mobile, carousels, formulaire newsletter, sondage.
  */
 (function () {
   'use strict';
@@ -15,7 +16,6 @@
     });
   }
 
-  // Fermer le menu mobile au clic sur un lien (navigation)
   var mobileLinks = document.querySelectorAll('#nav-mobile a');
   mobileLinks.forEach(function (link) {
     link.addEventListener('click', function () {
@@ -23,16 +23,74 @@
     });
   });
 
-  // Filtres publications : bouton Filtres
-  var filterBtn = document.getElementById('filter-toggle');
-  var filterPanel = document.getElementById('filter-panel');
-  if (filterBtn && filterPanel) {
-    filterBtn.addEventListener('click', function () {
-      filterPanel.classList.toggle('open');
+  // Carousels : boutons prev/next pour .issues-carousel et .coming-blocks
+  function scrollCarousel(container, direction) {
+    if (!container) return;
+    var step = 240;
+    if (direction === 'next') container.scrollBy({ left: step, behavior: 'smooth' });
+    else container.scrollBy({ left: -step, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.section-previous-issues .btn-prev').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      scrollCarousel(document.getElementById('issues-carousel'), 'prev');
+    });
+  });
+  document.querySelectorAll('.section-previous-issues .btn-next').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      scrollCarousel(document.getElementById('issues-carousel'), 'next');
+    });
+  });
+
+  // Newsletter (index_2)
+  var newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = newsletterForm.querySelector('.newsletter-input');
+      if (input && input.value.trim()) {
+        alert('Merci ! Vous recevrez nos actualites a l\'adresse : ' + input.value.trim());
+        input.value = '';
+      }
     });
   }
 
-  // Filtres publications : chips catégorie et année
+  // Sondage "Question de la semaine"
+  var pollForm = document.getElementById('widget-poll');
+  if (pollForm) {
+    pollForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var checked = pollForm.querySelector('input[name="question_week"]:checked');
+      if (checked) {
+        alert('Merci d\'avoir participe au sondage.');
+        pollForm.reset();
+      } else {
+        alert('Veuillez choisir une option.');
+      }
+    });
+  }
+
+  // Recherche accueil (redirection simple vers publications avec query)
+  var homeSearch = document.getElementById('home-search');
+  var btnSearchSubmit = document.querySelector('.btn-search-submit');
+  if (homeSearch && btnSearchSubmit) {
+    function doSearch() {
+      var q = homeSearch.value.trim();
+      if (q) window.location.href = 'publications.html?q=' + encodeURIComponent(q);
+    }
+    btnSearchSubmit.addEventListener('click', doSearch);
+    homeSearch.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
+    });
+  }
+
+  // Filtres publications (si présents sur la page)
+  var filterBtn = document.getElementById('filter-toggle');
+  var filterPanel = document.getElementById('filter-panel');
+  if (filterBtn && filterPanel) {
+    filterBtn.addEventListener('click', function () { filterPanel.classList.toggle('open'); });
+  }
+
   var categoryChips = document.querySelectorAll('[data-filter="category"]');
   var yearChips = document.querySelectorAll('[data-filter="year"]');
   var articlesContainer = document.getElementById('articles-list');
@@ -49,7 +107,6 @@
   function getSearchQuery() {
     return searchInput ? searchInput.value.trim().toLowerCase() : '';
   }
-
   function filterArticles() {
     if (!articlesContainer) return;
     var cat = getSelectedCategory();
@@ -71,9 +128,7 @@
       if (show) count++;
     });
     var countEl = document.getElementById('results-count');
-    if (countEl) {
-      countEl.textContent = count + ' article' + (count !== 1 ? 's' : '') + ' trouvé' + (count !== 1 ? 's' : '');
-    }
+    if (countEl) countEl.textContent = count + ' article' + (count !== 1 ? 's' : '') + ' trouvé' + (count !== 1 ? 's' : '');
   }
 
   categoryChips.forEach(function (btn) {
@@ -114,7 +169,7 @@
     });
   }
 
-  // Login/Register : toggle mot de passe (swap eye / eye-off icon)
+  // Toggle mot de passe (login/register)
   var iconPath = document.querySelector('.password-toggle use');
   var iconBase = iconPath ? (iconPath.getAttribute('href') || '').split('#')[0] : '';
   document.querySelectorAll('.password-toggle').forEach(function (btn) {

@@ -171,7 +171,7 @@
   }
   
   /* ========================================
-     HEADER
+     HEADER - Bloc compact (éviter conflits)
      ======================================== */
   .site-header {
     position: sticky;
@@ -179,14 +179,31 @@
     background-color: var(--color-white);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     z-index: 1000;
-    padding: var(--spacing-sm) 0;
+    padding: 0.25rem 0 !important;
+  }
+  
+  .site-header .container {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  
+  .site-header h1,
+  .site-header h2,
+  .site-header h3,
+  .site-header h4,
+  .site-header p {
+    margin: 0 !important;
+    padding: 0 !important;
   }
   
   .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--spacing-lg);
+    gap: 0.75rem;
+    min-height: 48px !important;
+    max-height: 50px;
+    flex-wrap: nowrap;
   }
 
   .header-actions {
@@ -201,10 +218,10 @@
   }
   
   .btn-login {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: transparent;
     color: var(--color-blue);
     border: 2px solid var(--color-blue);
@@ -221,10 +238,10 @@
   /* Harmonisation des boutons dans le header */
   .header-actions .btn,
   .header-actions .btn-submit {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    border-radius: 6px;
+    border-radius: 5px;
     white-space: nowrap;
     transition: var(--transition);
   }
@@ -264,27 +281,94 @@
     box-shadow: 0 4px 12px rgba(179, 0, 27, 0.2);
   }
   
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
+  /* Logo : le lien <a> doit être flex pour aligner image + texte côte à côte */
+  .site-header .logo {
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0;
+    max-height: 48px;
   }
   
+  .site-header .logo a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+  
+  .site-header .logo img {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: block;
+    object-fit: contain;
+  }
+  
+  .site-header .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    line-height: 1.1 !important;
+    min-width: 0;
+    height: 100%;
+  }
+  
+  .site-header .logo-text h1 {
+    font-size: 0.8rem !important;
+    color: var(--color-blue);
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.1 !important;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    height: auto;
+  }
+  
+  .site-header .logo-text p {
+    font-size: 0.6rem !important;
+    color: var(--color-gray-600);
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    height: auto;
+  }
+  
+  /* Règles génériques logo (fallback) */
   .logo img {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    flex-shrink: 0;
   }
   
   .logo-text h1 {
-    font-size: 1.125rem;
+    font-size: 0.875rem;
     color: var(--color-blue);
-    margin-bottom: 0.125rem;
+    margin-bottom: 0;
+    line-height: 1.15;
+    font-weight: 600;
   }
   
   .logo-text p {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: var(--color-gray-600);
+    line-height: 1.15;
+    margin-top: 0.05rem;
   }
   
   .logo-upc-link {
@@ -304,14 +388,22 @@
   }
   
   .main-nav {
-    display: flex;
-    gap: var(--spacing-lg);
+    display: flex !important;
+    gap: 0.6rem;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    height: 100%;
   }
   
   .main-nav a {
     font-weight: 500;
     color: var(--color-gray-700);
     position: relative;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+    padding: 0.15rem 0 !important;
+    line-height: 1.2 !important;
+    display: inline-block;
   }
   
   .main-nav a::after {
@@ -1130,13 +1222,13 @@
     position: relative;
     background: none;
     border: none;
-    padding: 0.5rem;
+    padding: 0.4rem;
     cursor: pointer;
     color: var(--color-gray-700);
     transition: all 0.2s ease;
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1335,11 +1427,11 @@
   .user-btn {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.5rem;
     background: none;
     border: none;
-    padding: 0.375rem 0.625rem;
-    border-radius: 8px;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
     color: var(--color-gray-700);
@@ -1363,8 +1455,8 @@
   }
   
   .user-avatar {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-red) 100%);
     color: white;
@@ -1372,15 +1464,15 @@
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
   
   .user-name {
     font-weight: 600;
-    font-size: 0.875rem;
-    max-width: 140px;
+    font-size: 0.8rem;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

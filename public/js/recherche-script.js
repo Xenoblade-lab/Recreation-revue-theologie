@@ -2,8 +2,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchForm = document.getElementById('advanced-search-form');
     const resultsContainer = document.getElementById('search-results');
-    const resultsSummary = document.querySelector('.results-summary');
+    const resultsSummary = document.getElementById('results-summary');
     const filterChips = document.querySelectorAll('.chip');
+    
+    if (!resultsSummary) {
+        console.error('Élément results-summary introuvable');
+    }
 
     // Les données mockées ont été supprimées - la recherche utilise maintenant la base de données
 
@@ -26,8 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedFilter = document.querySelector('.chip.is-selected').getAttribute('data-filter');
 
         // Show loading state
-        resultsSummary.innerHTML = '<div class="loading-spinner">Recherche en cours...</div>';
-        resultsContainer.innerHTML = '';
+        if (resultsSummary) {
+            resultsSummary.innerHTML = '<div class="loading-spinner">Recherche en cours...</div>';
+        }
+        if (resultsContainer) {
+            resultsContainer.innerHTML = '';
+        }
 
         // Préparer les données du formulaire
         const formData = new FormData();
@@ -78,8 +86,21 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success && Array.isArray(data.results)) {
                 displayResults(data.results);
             } else {
-                resultsSummary.innerHTML = '<p class="error">Aucun résultat trouvé</p>';
-                resultsContainer.innerHTML = '';
+                // Aucun résultat ou erreur dans la réponse
+                if (resultsSummary) {
+                    resultsSummary.innerHTML = `
+                        <div class="empty-results">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h3>Aucun résultat trouvé</h3>
+                            <p>Essayez de modifier vos critères de recherche</p>
+                        </div>
+                    `;
+                }
+                if (resultsContainer) {
+                    resultsContainer.innerHTML = '';
+                }
             }
         })
         .catch(error => {
@@ -95,13 +116,23 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             filterChips.forEach(c => c.classList.remove('is-selected'));
             filterChips[0].classList.add('is-selected');
-            resultsSummary.textContent = 'Saisissez vos critères puis lancez la recherche pour afficher les résultats.';
-            resultsContainer.innerHTML = '';
+            if (resultsSummary) {
+                resultsSummary.innerHTML = '<p>Saisissez vos critères puis lancez la recherche pour afficher les résultats.</p>';
+            }
+            if (resultsContainer) {
+                resultsContainer.innerHTML = '';
+            }
         }, 10);
     });
 
     function displayResults(results) {
+        if (!resultsSummary || !resultsContainer) {
+            console.error('Éléments de résultats introuvables');
+            return;
+        }
+        
         if (results.length === 0) {
+            // Aucun résultat : afficher le message d'erreur
             resultsSummary.innerHTML = `
                 <div class="empty-results">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Afficher le nombre de résultats trouvés (remplacer TOUT le contenu)
         resultsSummary.innerHTML = `<p class="results-count">${results.length} résultat${results.length > 1 ? 's' : ''} trouvé${results.length > 1 ? 's' : ''}</p>`;
         
         resultsContainer.innerHTML = results.map(result => {

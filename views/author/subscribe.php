@@ -427,6 +427,7 @@
         </div>
     </div>
 
+    <script src="<?= Router\Router::$defaultUri ?>js/author-notify.js"></script>
     <script>
         const tarifs = {
             afrique: 25.00,
@@ -621,7 +622,6 @@
         });
     </script>
     <script src="<?= Router\Router::$defaultUri ?>js/script.js"></script>
-    <script src="<?= Router\Router::$defaultUri ?>js/author-notify.js"></script>
     <script src="<?= Router\Router::$defaultUri ?>js/dashboard-script.js"></script>
     <script src="<?= Router\Router::$defaultUri ?>js/user-dropdown.js"></script>
 </body>

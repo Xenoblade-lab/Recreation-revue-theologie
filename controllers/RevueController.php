@@ -373,18 +373,20 @@ class RevueController {
         // Filtre par mot-clé (titre ou contenu)
         if (!empty($filters['keyword'])) {
             $keyword = trim($filters['keyword']);
-            $sql .= " AND (a.titre LIKE :keyword OR a.contenu LIKE :keyword OR COALESCE(a.mots_cles, '') LIKE :keyword)";
+            // Rechercher dans le titre et le contenu (pas de colonne mots_cles dans la table)
+            // Utiliser COALESCE pour gérer les valeurs NULL
+            $sql .= " AND (a.titre LIKE :keyword OR COALESCE(a.contenu, '') LIKE :keyword)";
             $params[':keyword'] = '%' . $keyword . '%';
         }
         
-        // Filtre par année
+        // Filtre par année (utiliser l'année du volume si disponible, sinon date_soumission)
         if (!empty($filters['year_from'])) {
-            $sql .= " AND YEAR(COALESCE(a.date_soumission, a.created_at)) >= :year_from";
+            $sql .= " AND (COALESCE(v.annee, YEAR(COALESCE(a.date_soumission, a.created_at))) >= :year_from)";
             $params[':year_from'] = (int)$filters['year_from'];
         }
         
         if (!empty($filters['year_to'])) {
-            $sql .= " AND YEAR(COALESCE(a.date_soumission, a.created_at)) <= :year_to";
+            $sql .= " AND (COALESCE(v.annee, YEAR(COALESCE(a.date_soumission, a.created_at))) <= :year_to)";
             $params[':year_to'] = (int)$filters['year_to'];
         }
         

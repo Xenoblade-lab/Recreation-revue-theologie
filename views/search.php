@@ -100,10 +100,10 @@
 
                 <div class="results-panel fade-up">
                     <h2>Résultats</h2>
-                    <p class="results-summary">
+                    <div class="results-summary" id="results-summary">
                         <?php if (!empty($results)): ?>
-                            <?= count($results) ?> résultat<?= count($results) > 1 ? 's' : '' ?> trouvé<?= count($results) > 1 ? 's' : '' ?>
-                        <?php elseif (!empty($searchParams) && (isset($searchParams['author']) || isset($searchParams['keyword']))): ?>
+                            <p class="results-count"><?= count($results) ?> résultat<?= count($results) > 1 ? 's' : '' ?> trouvé<?= count($results) > 1 ? 's' : '' ?></p>
+                        <?php elseif (!empty($searchParams) && (isset($searchParams['author']) || isset($searchParams['keyword']) || isset($searchParams['year_from']) || isset($searchParams['year_to']))): ?>
                             <div class="empty-results">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -112,9 +112,9 @@
                                 <p>Essayez de modifier vos critères de recherche</p>
                             </div>
                         <?php else: ?>
-                            Saisissez vos critères puis lancez la recherche pour afficher les résultats.
+                            <p>Saisissez vos critères puis lancez la recherche pour afficher les résultats.</p>
                         <?php endif; ?>
-                    </p>
+                    </div>
                     <ul class="results-list" id="search-results">
                         <?php if (!empty($results)): ?>
                             <?php foreach ($results as $article): ?>

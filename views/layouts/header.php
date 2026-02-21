@@ -10,11 +10,10 @@ $baseUrl = Router\Router::$defaultUri;
                     <a href="<?= Router\Router::route("") ?>">
                         <img src="<?= $baseUrl ?>assets/logo_upc.png" alt="UPC Logo">
                         <div class="logo-text">
-                            <h1>Revue de la Faculté de Théologie</h1>
-                            <p>Université Protestante au Congo</p>
+                            <h1>Revue de Théologie</h1>
+                            <p>UPC</p>
                         </div>
                     </a>
-                    <a href="https://upc.ac.cd/" target="_blank" rel="noopener noreferrer" class="logo-upc-link" title="Site de l'UPC">Site UPC</a>
                 </div>
                 <nav class="main-nav">
                     <a href="<?= Router\Router::route("") ?>" class=<?= App\Html::class('/') ?>>Accueil</a>
@@ -155,7 +154,6 @@ $baseUrl = Router\Router::$defaultUri;
                 <a href="<?= Router\Router::route('comite') ?>" class=<?= App\Html::class('/comite') ?>>Comité éditorial</a>
                 <a href="<?= Router\Router::route('search') ?>" class=<?= App\Html::class('/search') ?>>Recherche</a>
                 <a href="<?= Router\Router::route('publications') ?>" class=<?= App\Html::class('/publications') ?>>Publications</a>
-                <a href="https://upc.ac.cd/" target="_blank" rel="noopener noreferrer" class="mobile-nav__upc">Site UPC</a>
                 <?php if(!Service\AuthService::isLoggedIn()): ?>
                     <a href="<?= Router\Router::route("login") ?>" class="mobile-nav__login">Se connecter</a>
                     <a href="<?= Router\Router::route("submit") ?>" class="mobile-nav__submit">Soumettre un article</a>
