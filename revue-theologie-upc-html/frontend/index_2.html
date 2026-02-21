@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revue de la Faculte de Theologie | Universite Protestante au Congo</title>
+  <meta name="description" content="Revue scientifique de la Faculte de Theologie de l'Universite Protestante au Congo (UPC). Publication d'articles academiques en theologie, etudes bibliques, ethique chretienne et histoire de l'Eglise.">
+  <link rel="icon" href="images/logo_upc.png" type="image/png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="site-header">
+    <div class="container inner flex justify-between">
+      <a href="index.html" class="logo">
+        <img src="images/logo_upc.png" alt="Logo Universite Protestante au Congo">
+        <div class="logo-text">
+          <p class="title">Revue de Theologie</p>
+          <p class="sub">Universite Protestante au Congo</p>
+        </div>
+      </a>
+      <nav class="nav-desktop">
+        <a href="index.html">Accueil</a>
+        <div class="dropdown">
+          <a href="presentation.html">A propos <span aria-hidden="true">▼</span></a>
+          <div class="dropdown-menu">
+            <a href="presentation.html">Presentation</a>
+            <a href="comite.html">Comite editorial</a>
+            <a href="politique-editoriale.html">Politique editoriale</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="publications.html">Articles <span aria-hidden="true">▼</span></a>
+          <div class="dropdown-menu">
+            <a href="publications.html">Publications</a>
+            <a href="instructions-auteurs.html">Instructions aux auteurs</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="archives.html">Archives <span aria-hidden="true">▼</span></a>
+          <div class="dropdown-menu">
+            <a href="archives.html">Volumes & Numeros</a>
+            <a href="actualites.html">Actualites</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <span class="header-desk-actions">
+          <button type="button" class="btn btn-icon btn-outline" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="images/icons.svg#search"/></svg></button>
+          <a href="login.html" class="btn btn-sm btn-outline-primary">Connexion</a>
+          <a href="soumettre.html" class="btn btn-sm btn-accent">Soumettre un article</a>
+        </span>
+        <button type="button" id="menu-toggle" class="menu-toggle" aria-label="Menu" aria-expanded="false"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#menu"/></svg></button>
+      </div>
+    </div>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <div class="container flex flex-col gap-1">
+        <a href="index.html">Accueil</a>
+        <a href="presentation.html">A propos</a>
+        <div class="sub">
+          <a href="presentation.html">Presentation</a>
+          <a href="comite.html">Comite editorial</a>
+          <a href="politique-editoriale.html">Politique editoriale</a>
+        </div>
+        <a href="publications.html">Articles</a>
+        <div class="sub">
+          <a href="publications.html">Publications</a>
+          <a href="instructions-auteurs.html">Instructions aux auteurs</a>
+        </div>
+        <a href="archives.html">Archives</a>
+        <div class="sub">
+          <a href="archives.html">Volumes & Numeros</a>
+          <a href="actualites.html">Actualites</a>
+        </div>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <div class="actions">
+          <a href="login.html" class="btn btn-outline-primary">Connexion</a>
+          <a href="soumettre.html" class="btn btn-accent">Soumettre un article</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container wrap flex">
+        <div class="cover-wrap">
+          <div style="position: relative;">
+            <div class="cover-bar" aria-hidden="true"></div>
+            <div class="cover-card">
+              <div class="top">
+                <p>Revue de la Faculte de Theologie</p>
+                <p class="sub">Universite Protestante au Congo</p>
+              </div>
+              <div class="img-wrap">
+                <img src="images/revue-cover.jpg" alt="Couverture de la Revue de Theologie">
+              </div>
+              <div class="bottom">
+                <span>Volume 28 - 2025</span>
+                <span>ISSN 0800-0000</span>
+              </div>
+            </div>
+            <div class="badge-float"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#book"/></svg> Nouveau Numero</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="pill"><span></span> Publication scientifique depuis 1959</div>
+          <h1 class="font-serif text-4xl md:text-4xl lg:text-6xl font-bold text-balance leading-tight">
+            Bienvenue a la <span class="text-primary">Revue de Theologie</span>
+          </h1>
+          <div class="divider mx-auto" style="width: 5rem;"></div>
+          <p class="lead">
+            Plateforme de publication et d'archivage d'articles scientifiques en theologie,
+            etudes bibliques, ethique chretienne et histoire de l'Eglise.
+          </p>
+          <div class="ctas flex">
+            <a href="publications.html" class="btn btn-lg btn-primary">Explorer les publications →</a>
+            <a href="soumettre.html" class="btn btn-lg btn-outline" style="border-color: var(--accent); color: var(--accent);">Soumettre un article</a>
+          </div>
+          <div class="stats flex">
+            <div><p class="v mb-0">200+</p><p class="l mb-0">Articles publies</p></div>
+            <div class="sep" aria-hidden="true"></div>
+            <div><p class="v mb-0">28</p><p class="l mb-0">Volumes</p></div>
+            <div class="sep" aria-hidden="true"></div>
+            <div><p class="v mb-0">65+</p><p class="l mb-0">Annees</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section bg-background">
+      <div class="container">
+        <div class="section-title text-center mb-6">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance">Une plateforme complete pour la recherche theologale</h2>
+          <div class="divider center"></div>
+          <p class="text-muted text-lg" style="max-width: 42rem; margin: 0 auto;">De la soumission a la publication, notre plateforme accompagne chaque etape du processus editorial scientifique.</p>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#upload"/></svg></div>
+            <h3 class="font-serif text-lg font-bold mb-2">Soumission en ligne</h3>
+            <p class="text-muted text-sm leading-relaxed">Soumettez vos articles directement via notre plateforme. Formats acceptes : PDF, Word, LaTeX.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#user"/></svg></div>
+            <h3 class="font-serif text-lg font-bold mb-2">Evaluation par les pairs</h3>
+            <p class="text-muted text-sm leading-relaxed">Processus d'evaluation rigoureux en double aveugle par des experts en theologie.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#book"/></svg></div>
+            <h3 class="font-serif text-lg font-bold mb-2">Publication & Archivage</h3>
+            <p class="text-muted text-sm leading-relaxed">Organisation en volumes et numeros avec attribution de DOI pour chaque article.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#file-text"/></svg></div>
+            <h3 class="font-serif text-lg font-bold mb-2">Acces aux PDFs</h3>
+            <p class="text-muted text-sm leading-relaxed">Telechargez les articles individuels ou les numeros complets au format PDF.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#globe"/></svg></div>
+            <h3 class="font-serif text-lg font-bold mb-2">Visibilite internationale</h3>
+            <p class="text-muted text-sm leading-relaxed">Indexation academique pour une diffusion maximale de la recherche theologale.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#search"/></svg></div>
+            <h3 class="font-serif text-lg font-bold mb-2">Recherche avancee</h3>
+            <p class="text-muted text-sm leading-relaxed">Retrouvez facilement les articles par auteur, mot-cle, categorie ou annee.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Articles -->
+    <section class="section bg-secondary">
+      <div class="container">
+        <div class="flex flex-col gap-4 mb-8" style="flex-direction: column;">
+          <div>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance mb-0">Derniers articles publies</h2>
+            <div class="divider" style="margin-top: 1rem; margin-bottom: 1rem;"></div>
+            <p class="text-muted text-lg" style="max-width: 36rem;">Decouvrez les publications les plus recentes de notre revue.</p>
+          </div>
+          <a href="publications.html" class="btn btn-outline-primary" style="align-self: flex-start;">Voir toutes les publications →</a>
+        </div>
+        <div class="grid-3">
+          <article class="article-card">
+            <div class="bar"></div>
+            <div style="padding: 1.5rem;">
+              <span class="badge badge-primary mb-4"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#tag"/></svg> Etudes Bibliques</span>
+              <h3 class="font-serif text-lg font-bold leading-snug mb-3"><a href="article/1.html">L'hermeneutique biblique dans le contexte africain : perspectives et defis</a></h3>
+              <p class="text-muted text-sm leading-relaxed line-clamp-3 mb-4">Cet article examine les approches hermeneutiques specifiques au contexte africain, en considerant les traditions orales et les structures communautaires...</p>
+              <div class="meta">
+                <span><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#user"/></svg> Prof. Jean-Baptiste Malenge</span>
+                <span style="margin-left: auto;"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#clock"/></svg> 15 janvier 2025</span>
+              </div>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="bar"></div>
+            <div style="padding: 1.5rem;">
+              <span class="badge badge-accent mb-4"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#tag"/></svg> Ethique Chretienne</span>
+              <h3 class="font-serif text-lg font-bold leading-snug mb-3"><a href="article/2.html">Ethique chretienne et justice sociale en Republique Democratique du Congo</a></h3>
+              <p class="text-muted text-sm leading-relaxed line-clamp-3 mb-4">Une analyse approfondie de la relation entre l'enseignement ethique chretien et les mouvements de justice sociale dans le contexte congolais...</p>
+              <div class="meta">
+                <span><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#user"/></svg> Dr. Marie Kubanza</span>
+                <span style="margin-left: auto;"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#clock"/></svg> 10 decembre 2024</span>
+              </div>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="bar"></div>
+            <div style="padding: 1.5rem;">
+              <span class="badge badge-gold mb-4"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#tag"/></svg> Theologie Systematique</span>
+              <h3 class="font-serif text-lg font-bold leading-snug mb-3"><a href="article/3.html">L'ecclesiologie reformee face aux defis de la modernite en Afrique</a></h3>
+              <p class="text-muted text-sm leading-relaxed line-clamp-3 mb-4">Cette etude explore comment l'ecclesiologie reformee peut s'adapter aux realites contemporaines africaines tout en restant fidele a ses fondements...</p>
+              <div class="meta">
+                <span><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#user"/></svg> Prof. Samuel Ngoma</span>
+                <span style="margin-left: auto;"><svg class="icon-svg icon-16" aria-hidden="true"><use href="images/icons.svg#clock"/></svg> 5 novembre 2024</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="section bg-secondary">
+      <div class="container">
+        <div class="section-title">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance">Domaines de publication</h2>
+          <div class="divider center"></div>
+          <p class="text-muted text-lg">La revue couvre l'ensemble des disciplines theologales, avec un accent particulier sur les perspectives africaines.</p>
+        </div>
+        <div class="grid-5">
+          <a href="publications.html?category=Etudes%20Bibliques" class="card text-center">
+            <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#book"/></svg></div>
+            <h3 class="font-serif font-bold text-sm mb-2">Etudes Bibliques</h3>
+            <p class="text-muted text-xs leading-relaxed mb-3">Exegese, hermeneutique, analyse textuelle de l'Ancien et du Nouveau Testament.</p>
+            <span class="text-xs font-medium text-primary">45 articles</span>
+          </a>
+          <a href="publications.html?category=Theologie%20Systematique" class="card text-center">
+            <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#book"/></svg></div>
+            <h3 class="font-serif font-bold text-sm mb-2">Theologie Systematique</h3>
+            <p class="text-muted text-xs leading-relaxed mb-3">Dogmatique, christologie, pneumatologie et reflexion theologale structuree.</p>
+            <span class="text-xs font-medium text-primary">38 articles</span>
+          </a>
+          <a href="publications.html?category=Ethique%20Chretienne" class="card text-center">
+            <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#clipboard-check"/></svg></div>
+            <h3 class="font-serif font-bold text-sm mb-2">Ethique Chretienne</h3>
+            <p class="text-muted text-xs leading-relaxed mb-3">Bioethique, justice sociale, ethique politique et morale chretienne appliquee.</p>
+            <span class="text-xs font-medium text-primary">32 articles</span>
+          </a>
+          <a href="publications.html?category=Histoire%20de%20l'Eglise" class="card text-center">
+            <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#book"/></svg></div>
+            <h3 class="font-serif font-bold text-sm mb-2">Histoire de l'Eglise</h3>
+            <p class="text-muted text-xs leading-relaxed mb-3">Histoire du christianisme en Afrique, mouvements de reveil, missions.</p>
+            <span class="text-xs font-medium text-primary">28 articles</span>
+          </a>
+          <a href="publications.html?category=Theologie%20Pratique" class="card text-center">
+            <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#graduation-cap"/></svg></div>
+            <h3 class="font-serif font-bold text-sm mb-2">Theologie Pratique</h3>
+            <p class="text-muted text-xs leading-relaxed mb-3">Pastorale, liturgie, missiologie, education chretienne et formation.</p>
+            <span class="text-xs font-medium text-primary">25 articles</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Archives Preview -->
+    <section class="section bg-background">
+      <div class="container">
+        <div class="section-title">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance">Volumes & Archives</h2>
+          <div class="divider center"></div>
+          <p class="text-muted text-lg">Consultez et telechargez l'ensemble des numeros de la revue, organises par volume.</p>
+        </div>
+        <div class="grid-3">
+          <div class="volume-card">
+            <div class="head">
+              <h3>Volume 28</h3>
+              <p><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#calendar"/></svg> Annee 2025</p>
+            </div>
+            <div class="body">
+              <ul>
+                <li><a href="numero/1.html"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#file-text"/></svg> Numero 1 - Janvier-Mars 2025 <small>8 articles</small></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="volume-card">
+            <div class="head">
+              <h3>Volume 27</h3>
+              <p><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#calendar"/></svg> Annee 2024</p>
+            </div>
+            <div class="body">
+              <ul>
+                <li><a href="numero/2.html"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#file-text"/></svg> Numero 1 - Janvier-Juin 2024 <small>12 articles</small></a></li>
+                <li><a href="numero/3.html"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#file-text"/></svg> Numero 2 - Juillet-Decembre 2024 <small>10 articles</small></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="volume-card">
+            <div class="head">
+              <h3>Volume 26</h3>
+              <p><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#calendar"/></svg> Annee 2023</p>
+            </div>
+            <div class="body">
+              <ul>
+                <li><a href="numero/4.html"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#file-text"/></svg> Numero 1 - Janvier-Juin 2023 <small>9 articles</small></a></li>
+                <li><a href="numero/5.html"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="images/icons.svg#file-text"/></svg> Numero 2 - Juillet-Decembre 2023 <small>11 articles</small></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-6">
+          <a href="archives.html" class="btn btn-outline-primary">Voir toutes les archives</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submission CTA -->
+    <section class="section bg-primary submission-cta">
+      <div class="bg-pattern" aria-hidden="true"></div>
+      <div class="container relative" style="z-index: 1;">
+        <div class="section-title">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance" style="color: var(--primary-foreground);">Comment soumettre un article ?</h2>
+          <div class="divider center" style="background: var(--upc-gold);"></div>
+          <p style="color: rgba(255,255,255,0.8);">Un processus simple et transparent en trois etapes pour publier vos travaux de recherche.</p>
+        </div>
+        <div class="grid-3 mb-8">
+          <div class="step">
+            <div class="step-num"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#upload"/></svg></div>
+            <span class="num">01</span>
+            <h3>Soumission</h3>
+            <p>Creez votre compte, abonnez-vous et soumettez votre article en ligne avec les metadonnees requises.</p>
+          </div>
+          <div class="step">
+            <div class="step-num"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#clipboard-check"/></svg></div>
+            <span class="num">02</span>
+            <h3>Evaluation</h3>
+            <p>Votre article est evalue en double aveugle par des experts du domaine. Vous recevez les commentaires.</p>
+          </div>
+          <div class="step">
+            <div class="step-num"><svg class="icon-svg icon-24" aria-hidden="true"><use href="images/icons.svg#check"/></svg></div>
+            <span class="num">03</span>
+            <h3>Publication</h3>
+            <p>Apres acceptation, votre article est publie dans un numero de la revue avec attribution de DOI.</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="soumettre.html" class="btn btn-lg btn-accent">Commencer la soumission →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <div class="logo-block">
+            <img src="images/logo_upc.png" alt="Logo UPC">
+            <div>
+              <p class="font-serif font-bold text-sm mb-0" style="color: var(--primary-foreground);">Revue de Theologie</p>
+              <p class="text-xs mb-0" style="color: rgba(255,255,255,0.6);">UPC - Kinshasa</p>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed mb-3" style="color: rgba(255,255,255,0.7);">Revue scientifique de la Faculte de Theologie de l'Universite Protestante au Congo, contribuant au rayonnement de la recherche theologale en Afrique.</p>
+          <p class="text-xs font-medium mt-3 italic" style="color: var(--upc-gold);">"Verite, Foi, Liberte"</p>
+        </div>
+        <div>
+          <h3 class="footer-title">Navigation</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="archives.html">Archives</a></li>
+            <li><a href="comite.html">Comite editorial</a></li>
+            <li><a href="presentation.html">Presentation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Pour les auteurs</h3>
+          <ul>
+            <li><a href="soumettre.html">Soumettre un article</a></li>
+            <li><a href="instructions-auteurs.html">Instructions aux auteurs</a></li>
+            <li><a href="politique-editoriale.html">Processus d'evaluation</a></li>
+            <li><a href="login.html">Connexion auteur</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Contact</h3>
+          <ul>
+            <li class="contact-block">
+              <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="images/icons.svg#map-pin"/></svg></span>
+              <span>Universite Protestante au Congo, Kinshasa, RD Congo</span>
+            </li>
+            <li class="contact-block">
+              <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="images/icons.svg#mail"/></svg></span>
+              <a href="mailto:revue.theologie@upc.ac.cd">revue.theologie@upc.ac.cd</a>
+            </li>
+            <li class="contact-block">
+              <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="images/icons.svg#phone"/></svg></span>
+              <span>+243 000 000 000</span>
+            </li>
+            <li class="contact-block">
+              <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="images/icons.svg#external-link"/></svg></span>
+              <a href="https://www.upc.ac.cd" target="_blank" rel="noopener noreferrer">www.upc.ac.cd</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculte de Theologie - Universite Protestante au Congo. Tous droits reserves.</p>
+        <div class="flex gap-4">
+          <a href="politique-editoriale.html">Politique editoriale</a>
+          <a href="mentions-legales.html">Mentions legales</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/main.js"></script>
+</body>
+</html>
