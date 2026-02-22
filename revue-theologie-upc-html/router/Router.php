@@ -45,23 +45,28 @@ class Router
             $uri = substr($uri, 0, $q);
         }
         $uri = '/' . trim($uri, '/');
-        if (self::$basePath !== null && self::$basePath !== '' && strpos($uri, self::$basePath) === 0) {
-            $uri = substr($uri, strlen(self::$basePath)) ?: '/';
+        $base = self::$basePath;
+        if ($base !== null && $base !== '') {
+            $baseLen = strlen($base);
+            // Comparaison insensible à la casse (Windows peut modifier la casse)
+            if ($baseLen > 0 && strcasecmp(substr($uri, 0, $baseLen), $base) === 0) {
+                $uri = substr($uri, $baseLen) ?: '/';
+            }
         }
         return $uri;
     }
 
     /**
      * Convertit un pattern du type /article/[i:id] en regex et extrait les paramètres.
+     * Placeholders __INT_xxx__ / __STR_xxx__ (preg_quote n'échappe pas _ et lettres).
      */
     private static function matchPattern(string $pattern, string $uri): ?array
     {
-        // Remplacer [i:id] et [s:slug] avant preg_quote
-        $regex = preg_replace('#\[i:(\w+)\]#', '<<INT:$1>>', $pattern);
-        $regex = preg_replace('#\[s:(\w+)\]#', '<<STR:$1>>', $regex);
+        $regex = preg_replace('#\[i:(\w+)\]#', '__INT_$1__', $pattern);
+        $regex = preg_replace('#\[s:(\w+)\]#', '__STR_$1__', $regex);
         $regex = preg_quote($regex, '#');
-        $regex = preg_replace('#<<INT:(\w+)>>#', '(?P<$1>\d+)', $regex);
-        $regex = preg_replace('#<<STR:(\w+)>>#', '(?P<$1>[^/]+)', $regex);
+        $regex = preg_replace('#__INT_(\w+)__#', '(?P<$1>\d+)', $regex);
+        $regex = preg_replace('#__STR_(\w+)__#', '(?P<$1>[^/]+)', $regex);
         $regex = '#^' . $regex . '$#';
 
         if (preg_match($regex, $uri, $m)) {

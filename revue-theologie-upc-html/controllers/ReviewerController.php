@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Service\AuthService;
 use Models\EvaluationModel;
+use Models\NotificationModel;
 
 /**
  * Contrôleur espace évaluateur (reviewer) : dashboard, évaluations assignées, formulaire, terminées, historique.
@@ -172,5 +173,33 @@ class ReviewerController
         $evaluateurId = (int) $user['id'];
         $list = EvaluationModel::getByEvaluateurId($evaluateurId, null, 100);
         $this->render('historique', ['evaluations' => $list], 'Historique des évaluations | Revue UPC', 'historique');
+    }
+
+    public function notifications(array $params = []): void
+    {
+        $user = AuthService::getUser();
+        $notifications = NotificationModel::getByUserId((int) $user['id']);
+        $this->render('notifications', ['notifications' => $notifications], 'Notifications | Espace évaluateur - Revue UPC', 'notifications');
+    }
+
+    public function notificationMarkRead(array $params = []): void
+    {
+        requireReviewer();
+        $id = $params['id'] ?? '';
+        $user = AuthService::getUser();
+        if ($id !== '') {
+            NotificationModel::markAsRead($id, (int) $user['id']);
+        }
+        header('Location: ' . $this->base() . '/reviewer/notifications');
+        exit;
+    }
+
+    public function notificationsMarkAllRead(array $params = []): void
+    {
+        requireReviewer();
+        $user = AuthService::getUser();
+        NotificationModel::markAllAsRead((int) $user['id']);
+        header('Location: ' . $this->base() . '/reviewer/notifications');
+        exit;
     }
 }

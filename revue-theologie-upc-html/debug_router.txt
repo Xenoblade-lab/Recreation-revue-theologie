@@ -1,0 +1,48 @@
+2026-02-22 22:14:17
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/article/10
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/article/10
+---
+2026-02-22 22:14:19
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/article/10
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/article/10
+---
+2026-02-22 22:14:20
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/article/10
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/article/10
+---
+2026-02-22 22:14:20
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/
+---
+2026-02-22 22:14:21
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/
+---
+2026-02-22 22:14:22
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/
+---
+2026-02-22 22:14:23
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/
+---
+2026-02-22 22:14:25
+basePath=/Recreation-revu-theologie/revue-theologie-upc-html/public
+REQUEST_URI=/Recreation-revu-theologie/revue-theologie-upc-html/public/article/10
+SCRIPT_NAME=/Recreation-revu-theologie/revue-theologie-upc-html/public/index.php
+resolved_uri=/article/10
+---

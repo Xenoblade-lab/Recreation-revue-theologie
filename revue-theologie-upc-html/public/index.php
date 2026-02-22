@@ -47,10 +47,13 @@ spl_autoload_register(function ($class) {
 require_once dirname(__DIR__) . '/includes/auth.php';
 
 // Base path pour le routeur (sous-dossier si le site n'est pas à la racine du vhost)
-$basePath = '';
 $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-if (strpos($scriptName, '/revue-theologie-upc-html/public') !== false) {
-    $basePath = preg_replace('#/index\.php.*$#', '', $scriptName);
+$basePath = dirname($scriptName);
+if (strpos($basePath, '\\') !== false) {
+    $basePath = str_replace('\\', '/', $basePath);
+}
+if ($basePath === '/' || $basePath === '.') {
+    $basePath = '';
 }
 require_once dirname(__DIR__) . '/router/Router.php';
 

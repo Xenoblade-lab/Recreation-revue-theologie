@@ -17,6 +17,15 @@ $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
       </div>
       <div class="topbar-links flex items-center gap-4">
         <?php if ($isLoggedIn): ?>
+          <?php
+          $role = $currentUser['role'] ?? '';
+          $dashboardUrl = $base . '/';
+          $dashboardLabel = 'Mon espace';
+          if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = 'Administration'; }
+          elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = 'Espace évaluateur'; }
+          elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = 'Mon espace'; }
+          ?>
+          <a href="<?= $dashboardUrl ?>"><?= htmlspecialchars($dashboardLabel) ?></a>
           <span class="text-sm"><?= htmlspecialchars(trim(($currentUser['prenom'] ?? '') . ' ' . ($currentUser['nom'] ?? ''))) ?></span>
           <a href="<?= $base ?>/logout">Déconnexion</a>
         <?php else: ?>
@@ -67,8 +76,26 @@ $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
         <a href="<?= $base ?>/faq">FAQ</a>
       </nav>
       <div class="header-actions">
-        <span class="header-desk-actions">
-          <button type="button" class="btn btn-icon btn-outline" id="header-search-btn" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
+        <span class="header-desk-actions flex items-center gap-2">
+          <form action="<?= $base ?>/search" method="get" class="flex items-center gap-1" role="search">
+            <input type="search" id="header-search-input" name="q" placeholder="" class="input input-sm" style="width: 140px;" aria-label="Rechercher">
+            <button type="submit" class="btn btn-icon btn-outline" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
+          </form>
+          <?php
+          $notificationCount = 0;
+          if ($isLoggedIn && !empty($currentUser['id'])) {
+              $notificationCount = \Models\NotificationModel::countUnreadByUserId((int) $currentUser['id']);
+          }
+          ?>
+          <?php
+          $isReviewer = in_array($currentUser['role'] ?? '', ['redacteur', 'redacteur en chef'], true);
+          $notifUrl = $isReviewer ? $base . '/reviewer/notifications' : $base . '/author/notifications';
+          if ($isLoggedIn && ($notificationCount > 0 || in_array($currentUser['role'] ?? '', ['auteur', 'admin'], true) || $isReviewer)): ?>
+            <a href="<?= $notifUrl ?>" class="btn btn-icon btn-outline position-relative" aria-label="Notifications">
+              <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
+              <?php if ($notificationCount > 0): ?><span class="badge" style="position:absolute;top:-4px;right:-4px;min-width:1.1em;font-size:0.7rem;"><?= $notificationCount > 99 ? '99+' : $notificationCount ?></span><?php endif; ?>
+            </a>
+          <?php endif; ?>
           <a href="<?= $base ?>/soumettre" class="btn btn-sm btn-accent">Soumettre un article</a>
         </span>
         <button type="button" id="menu-toggle" class="menu-toggle" aria-label="Menu" aria-expanded="false"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#menu"/></svg></button>
@@ -97,6 +124,15 @@ $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
         <a href="<?= $base ?>/faq">FAQ</a>
         <div class="actions">
           <?php if ($isLoggedIn): ?>
+            <?php
+            $role = $currentUser['role'] ?? '';
+            $dashboardUrl = $base . '/';
+            $dashboardLabel = 'Mon espace';
+            if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = 'Administration'; }
+            elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = 'Espace évaluateur'; }
+            elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = 'Mon espace'; }
+            ?>
+            <a href="<?= $dashboardUrl ?>" class="btn btn-outline-primary"><?= htmlspecialchars($dashboardLabel) ?></a>
             <a href="<?= $base ?>/logout" class="btn btn-outline">Déconnexion</a>
           <?php else: ?>
             <a href="<?= $base ?>/login" class="btn btn-outline-primary">Connexion</a>

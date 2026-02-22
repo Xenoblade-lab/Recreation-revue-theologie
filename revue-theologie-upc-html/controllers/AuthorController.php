@@ -212,4 +212,27 @@ class AuthorController
             'notifications' => $notifications,
         ], 'Notifications | Espace auteur - Revue UPC', 'notifications');
     }
+
+    /** Marquer une notification comme lue (POST) */
+    public function notificationMarkRead(array $params = []): void
+    {
+        requireAuth();
+        $id = $params['id'] ?? '';
+        $user = AuthService::getUser();
+        if ($id !== '') {
+            NotificationModel::markAsRead($id, (int) $user['id']);
+        }
+        header('Location: ' . $this->base() . '/author/notifications');
+        exit;
+    }
+
+    /** Marquer toutes les notifications comme lues (POST) */
+    public function notificationsMarkAllRead(array $params = []): void
+    {
+        requireAuth();
+        $user = AuthService::getUser();
+        NotificationModel::markAllAsRead((int) $user['id']);
+        header('Location: ' . $this->base() . '/author/notifications');
+        exit;
+    }
 }

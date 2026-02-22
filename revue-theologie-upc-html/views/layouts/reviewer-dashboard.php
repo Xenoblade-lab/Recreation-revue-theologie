@@ -50,6 +50,10 @@ $pageTitle = $pageTitle ?? 'Espace évaluateur | Revue UPC';
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clock"/></svg>
             Historique
           </a>
+          <a href="<?= $base ?>/reviewer/notifications" class="<?= ($_SESSION['reviewer_page'] ?? '') === 'notifications' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
+            Notifications
+          </a>
           <a href="<?= $base ?>/publications">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg>
             Publications

@@ -150,4 +150,89 @@ class RevueController
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
         $this->render('mentions-legales', ['base' => $base], 'Mentions légales | Revue UPC');
     }
+
+    /** Recherche : articles et numéros par mot-clé (GET /search?q=...) */
+    public function search(array $params = []): void
+    {
+        $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+        $q = trim($_GET['q'] ?? '');
+        $articles = [];
+        $numeros = [];
+        if ($q !== '') {
+            $articles = ArticleModel::search($q, 30);
+            $numeros = RevueModel::search($q, 20);
+        }
+        $this->render('search', [
+            'q'         => $q,
+            'articles' => $articles,
+            'numeros'   => $numeros,
+            'base'      => $base,
+        ], 'Recherche' . ($q !== '' ? ' : ' . $q : '') . ' | Revue UPC');
+    }
+
+    /** Téléchargement PDF d'un article (contrôle d'accès : publié ou auteur/admin) */
+    public function downloadArticle(array $params = []): void
+    {
+        $id = (int) ($params['id'] ?? 0);
+        $article = $id ? ArticleModel::getById($id) : null;
+        if (!$article || empty($article['fichier_path'])) {
+            http_response_code(404);
+            header('Content-Type: text/plain; charset=utf-8');
+            echo 'Article ou fichier introuvable.';
+            return;
+        }
+        $path = $article['fichier_path'];
+        $path = ltrim(str_replace('\\', '/', $path), '/');
+        // Essayer plusieurs emplacements possibles
+        $candidates = [
+            BASE_PATH . '/public/' . $path,
+        ];
+        if (strpos($path, 'articles/') !== false || strpos($path, 'uploads/') !== false) {
+            $candidates[] = BASE_PATH . '/public/uploads/articles/' . basename($path);
+        }
+        if (strpos($path, 'articles/') === 0) {
+            $candidates[] = BASE_PATH . '/public/articles/' . basename($path);
+        }
+        $fullPath = null;
+        foreach ($candidates as $c) {
+            if (is_file($c)) {
+                $fullPath = $c;
+                break;
+            }
+        }
+        if ($fullPath === null) {
+            $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+            $articleUrl = $base . '/article/' . $id;
+            http_response_code(404);
+            header('Content-Type: text/html; charset=utf-8');
+            $nomFichier = htmlspecialchars(basename($path));
+            echo '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>PDF non disponible</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem;">';
+            echo '<h1>PDF non disponible</h1>';
+            echo '<p>Le fichier <strong>' . $nomFichier . '</strong> n’est pas présent sur le serveur.</p>';
+            echo '<p>Pour activer le téléchargement, placez ce fichier dans le dossier <code>public/uploads/articles/</code> du projet.</p>';
+            echo '<p><a href="' . htmlspecialchars($articleUrl) . '">← Retour à l’article</a></p>';
+            echo '</body></html>';
+            return;
+        }
+        $statut = $article['statut'] ?? '';
+        $allowed = ($statut === 'valide');
+        if (!$allowed && class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn()) {
+            $user = \Service\AuthService::getUser();
+            $userId = (int) ($user['id'] ?? 0);
+            $allowed = ($userId === (int) ($article['auteur_id'] ?? 0))
+                || \Service\AuthService::hasRole('admin');
+        }
+        if (!$allowed) {
+            http_response_code(403);
+            header('Content-Type: text/plain; charset=utf-8');
+            echo 'Accès non autorisé à ce fichier.';
+            return;
+        }
+        $filename = basename($path);
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . preg_replace('/[^\w\.\-]/', '_', $filename) . '"');
+        header('Content-Length: ' . filesize($fullPath));
+        readfile($fullPath);
+        exit;
+    }
 }

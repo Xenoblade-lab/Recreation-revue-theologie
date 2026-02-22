@@ -228,19 +228,19 @@ Référence : [Plan_refactorisation.md](Plan_refactorisation.md)
 
 ### 7.1 Recherche
 
-- [ ] **7.1.1** Route `GET /search` (et POST si formulaire)
-- [ ] **7.1.2** Vue résultats (articles, numéros) selon mots-clés
+- [x] **7.1.1** Route `GET /search` (paramètre `q`) + formulaire header et accueil
+- [x] **7.1.2** Vue résultats (articles publiés + numéros) selon mots-clés
 
 ### 7.2 Téléchargements
 
-- [ ] **7.2.1** Route sécurisée pour télécharger un PDF d’article
-- [ ] **7.2.2** Lien « Télécharger PDF » sur les pages article et numéro
+- [x] **7.2.1** Route sécurisée pour télécharger un PDF d’article
+- [x] **7.2.2** Lien « Télécharger PDF » sur pages article, publications et recherche
 
 ### 7.3 Notifications
 
-- [ ] **7.3.1** Création des notifications côté serveur (nouvel article, statut, évaluation assignée, etc.)
-- [ ] **7.3.2** Marquage « lu » (route API ou POST)
-- [ ] **7.3.3** Badge compteur dans le header (si prévu dans le design)
+- [x] **7.3.1** Création des notifications (changement statut article, assignation évaluateur)
+- [x] **7.3.2** Marquage « lu » (POST author/reviewer notification/read et read-all)
+- [x] **7.3.3** Badge compteur dans le header + lien notifications (auteur/reviewer)
 
 ### 7.4 Tests et corrections
 
@@ -250,7 +250,7 @@ Référence : [Plan_refactorisation.md](Plan_refactorisation.md)
 
 ### 7.5 SEO et accessibilité
 
-- [ ] **7.5.1** Meta title et description sur les pages principales
+- [x] **7.5.1** Meta title (contrôleurs) et description (layout main.php, `$metaDescription` optionnelle)
 - [ ] **7.5.2** Vérifier contrastes et structure des titres (accessibilité)
 
 ---

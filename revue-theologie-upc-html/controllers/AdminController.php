@@ -9,6 +9,7 @@ use Models\EvaluationModel;
 use Models\VolumeModel;
 use Models\RevueModel;
 use Models\RevueInfoModel;
+use Models\NotificationModel;
 
 /**
  * Contrôleur administration : dashboard, utilisateurs, articles, paiements, volumes, paramètres.
@@ -193,6 +194,16 @@ class AdminController
             exit;
         }
         ArticleModel::updateStatut($id, $statut);
+        $article = ArticleModel::getById($id);
+        if ($article && !empty($article['auteur_id'])) {
+            $msg = 'Le statut de votre article a été mis à jour.';
+            $statutLabels = ['soumis' => 'Soumis', 'valide' => 'Publié', 'rejete' => 'Rejeté'];
+            $label = $statutLabels[$statut] ?? $statut;
+            NotificationModel::create((int) $article['auteur_id'], 'ArticleStatusChanged', [
+                'message' => 'Votre article « ' . ($article['titre'] ?? '') . ' » : ' . $label . '.',
+                'link' => 'author/article/' . $id,
+            ]);
+        }
         header('Location: ' . $this->base() . '/admin/article/' . $id);
         exit;
     }
@@ -210,7 +221,15 @@ class AdminController
             header('Location: ' . $this->base() . '/admin/article/' . $id);
             exit;
         }
-        EvaluationModel::assign($id, $evaluateurId);
+        $evalId = EvaluationModel::assign($id, $evaluateurId);
+        if ($evalId) {
+            $article = ArticleModel::getById($id);
+            $titre = $article['titre'] ?? 'Article';
+            NotificationModel::create($evaluateurId, 'EvaluationAssigned', [
+                'message' => 'Un nouvel article vous a été assigné pour évaluation : « ' . $titre . ' ».',
+                'link' => 'reviewer/evaluation/' . $evalId,
+            ]);
+        }
         header('Location: ' . $this->base() . '/admin/article/' . $id);
         exit;
     }

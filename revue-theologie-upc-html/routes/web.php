@@ -26,6 +26,8 @@ Router::get('/author/article/[i:id]', [AuthorController::class, 'articleDetail']
 Router::get('/author/article/[i:id]/edit', [AuthorController::class, 'articleEdit']);
 Router::post('/author/article/[i:id]/edit', [AuthorController::class, 'articleUpdate']);
 Router::get('/author/notifications', [AuthorController::class, 'notifications']);
+Router::post('/author/notification/[s:id]/read', [AuthorController::class, 'notificationMarkRead']);
+Router::post('/author/notifications/read-all', [AuthorController::class, 'notificationsMarkAllRead']);
 
 Router::get('/soumettre', function (array $params = []) {
     $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
@@ -39,6 +41,9 @@ Router::get('/reviewer/evaluation/[i:id]', [ReviewerController::class, 'evaluati
 Router::post('/reviewer/evaluation/[i:id]', [ReviewerController::class, 'evaluationPost']);
 Router::get('/reviewer/terminees', [ReviewerController::class, 'terminees']);
 Router::get('/reviewer/historique', [ReviewerController::class, 'historique']);
+Router::get('/reviewer/notifications', [ReviewerController::class, 'notifications']);
+Router::post('/reviewer/notification/[s:id]/read', [ReviewerController::class, 'notificationMarkRead']);
+Router::post('/reviewer/notifications/read-all', [ReviewerController::class, 'notificationsMarkAllRead']);
 
 Router::get('/admin', [AdminController::class, 'index']);
 Router::get('/admin/users', [AdminController::class, 'users']);
@@ -57,6 +62,8 @@ Router::get('/admin/parametres', [AdminController::class, 'parametres']);
 Router::post('/admin/parametres', [AdminController::class, 'parametresUpdate']);
 
 Router::get('/', [RevueController::class, 'index']);
+Router::get('/search', [RevueController::class, 'search']);
+Router::get('/download/article/[i:id]', [RevueController::class, 'downloadArticle']);
 Router::get('/publications', [RevueController::class, 'publications']);
 Router::get('/archives', [RevueController::class, 'archives']);
 Router::get('/article/[i:id]', [RevueController::class, 'articleDetails']);

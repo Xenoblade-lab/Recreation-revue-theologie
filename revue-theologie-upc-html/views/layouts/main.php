@@ -12,7 +12,8 @@ $pageTitle = $pageTitle ?? 'Revue de la Faculté de Théologie | UPC';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($pageTitle) ?></title>
-  <meta name="description" content="Revue scientifique de la Faculté de Théologie de l'UPC. Publication d'articles en théologie, études bibliques, éthique chrétienne et histoire de l'Église.">
+  <meta name="description" content="<?= htmlspecialchars($metaDescription ?? 'Revue scientifique de la Faculté de Théologie de l\'UPC. Publication d\'articles en théologie, études bibliques, éthique chrétienne et histoire de l\'Église.') ?>">
+  <meta name="robots" content="index, follow">
   <link rel="icon" href="<?= $base ?>/images/logo_upc.png" type="image/png">
   <link rel="stylesheet" href="<?= $base ?>/css/styles.css">
 </head>

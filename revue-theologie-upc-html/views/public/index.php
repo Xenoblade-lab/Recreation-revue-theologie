@@ -52,8 +52,11 @@ $firstNumero = $numeros[0] ?? null;
           </div>
         </div>
         <div class="search-bar-inline">
-          <input type="search" placeholder="Rechercher un article..." class="search-input" id="home-search">
-          <button type="button" class="btn btn-primary btn-search-submit" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
+          <form action="<?= $base ?>/search" method="get" class="flex gap-2 items-center w-full" role="search">
+            <label for="home-search" class="sr-only">Rechercher un article ou un numéro</label>
+            <input type="search" id="home-search" name="q" placeholder="Rechercher un article..." class="search-input flex-1">
+            <button type="submit" class="btn btn-primary btn-search-submit" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
+          </form>
         </div>
         <?php if ($firstArticle): ?>
         <div class="featured-article-card">

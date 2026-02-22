@@ -27,7 +27,7 @@ $contenu = $article['contenu'] ?? '';
       <?php if (!empty($article['fichier_path'])): ?>
       <div class="card p-6 text-center mt-8">
         <p class="text-sm text-muted mb-4">Pour lire l'article complet, téléchargez le PDF.</p>
-        <a href="<?= $base ?>/<?= htmlspecialchars(ltrim($article['fichier_path'], '/')) ?>" class="btn btn-accent" target="_blank" rel="noopener">Télécharger le PDF</a>
+        <a href="<?= $base ?>/download/article/<?= (int) ($article['id'] ?? 0) ?>" class="btn btn-accent">Télécharger le PDF</a>
       </div>
       <?php endif; ?>
     </div>
@@ -37,7 +37,7 @@ $contenu = $article['contenu'] ?? '';
         <div class="card p-6 text-center" style="background: var(--primary); color: var(--primary-foreground);">
           <h3 class="font-serif font-bold mb-2">Télécharger</h3>
           <p class="text-sm mb-4" style="color: rgba(255,255,255,0.7);">Accès au texte intégral au format PDF</p>
-          <a href="<?= $base ?>/<?= htmlspecialchars(ltrim($article['fichier_path'], '/')) ?>" class="btn btn-accent w-full" target="_blank" rel="noopener">PDF</a>
+          <a href="<?= $base ?>/download/article/<?= (int) ($article['id'] ?? 0) ?>" class="btn btn-accent w-full">Télécharger PDF</a>
         </div>
         <?php endif; ?>
         <div class="card p-6">

@@ -183,4 +183,32 @@ class ArticleModel
         $stmt = $db->prepare("UPDATE articles SET issue_id = :iid, updated_at = NOW() WHERE id = :id");
         return $stmt->execute([':id' => $id, ':iid' => $issueId]);
     }
+
+    /** Recherche dans les articles publiés (titre, contenu, nom et prénom auteur) */
+    public static function search(string $query, int $limit = 30, int $offset = 0): array
+    {
+        if (trim($query) === '') {
+            return [];
+        }
+        $db = getDB();
+        $term = '%' . trim($query) . '%';
+        $stmt = $db->prepare("
+            SELECT a.id, a.titre, a.contenu, a.fichier_path, a.date_soumission,
+                   u.nom AS auteur_nom, u.prenom AS auteur_prenom
+            FROM articles a
+            LEFT JOIN users u ON u.id = a.auteur_id
+            WHERE a.statut = 'valide'
+              AND (a.titre LIKE :q1 OR a.contenu LIKE :q2 OR u.nom LIKE :q3 OR u.prenom LIKE :q4)
+            ORDER BY a.date_soumission DESC
+            LIMIT :lim OFFSET :off
+        ");
+        $stmt->bindValue(':q1', $term, \PDO::PARAM_STR);
+        $stmt->bindValue(':q2', $term, \PDO::PARAM_STR);
+        $stmt->bindValue(':q3', $term, \PDO::PARAM_STR);
+        $stmt->bindValue(':q4', $term, \PDO::PARAM_STR);
+        $stmt->bindValue(':lim', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':off', $offset, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

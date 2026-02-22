@@ -36,7 +36,7 @@ $extrait = function ($html, $len = 220) {
         </div>
         <div class="flex gap-2 flex-shrink-0">
           <a href="<?= $base ?>/article/<?= (int)$a['id'] ?>" class="btn btn-outline-primary btn-sm">Lire</a>
-          <?php if (!empty($a['fichier_path'])): ?><a href="<?= $base ?>/<?= htmlspecialchars(ltrim($a['fichier_path'], '/')) ?>" class="btn btn-outline btn-sm" target="_blank" rel="noopener">PDF</a><?php endif; ?>
+          <?php if (!empty($a['fichier_path'])): ?><a href="<?= $base ?>/download/article/<?= (int)$a['id'] ?>" class="btn btn-outline btn-sm">PDF</a><?php endif; ?>
         </div>
       </div>
     </article>

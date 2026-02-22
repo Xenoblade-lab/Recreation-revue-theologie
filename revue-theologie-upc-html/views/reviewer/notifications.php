@@ -1,8 +1,10 @@
 <?php
 $notifications = $notifications ?? [];
 $base = $base ?? '';
+$readAllUrl = $base . '/reviewer/notifications/read-all';
+$readOneUrl = $base . '/reviewer/notification/';
 
-function authorFormatDate(?string $d): string {
+function reviewerFormatDate(?string $d): string {
     if (!$d) return '—';
     $t = strtotime($d);
     return $t ? date('j F Y', $t) : $d;
@@ -16,10 +18,10 @@ foreach ($notifications as $n) {
 <div class="dashboard-header flex flex-wrap items-center justify-between gap-4">
   <div>
     <h1>Notifications</h1>
-    <p>Historique des notifications liées à vos articles.</p>
+    <p>Notifications liées à vos évaluations.</p>
   </div>
   <?php if ($hasUnread): ?>
-    <form method="post" action="<?= $base ?>/author/notifications/read-all" class="mb-0">
+    <form method="post" action="<?= $readAllUrl ?>" class="mb-0">
       <button type="submit" class="btn btn-outline btn-sm">Tout marquer comme lu</button>
     </form>
   <?php endif; ?>
@@ -46,14 +48,14 @@ foreach ($notifications as $n) {
         <div class="flex-1">
           <p class="mb-0"><strong><?= htmlspecialchars($message) ?></strong></p>
           <p class="text-muted text-sm mt-1 mb-0">
-            <?= authorFormatDate($n['created_at'] ?? null) ?>
+            <?= reviewerFormatDate($n['created_at'] ?? null) ?>
             <?php if ($link): ?>
               · <a href="<?= $base ?>/<?= htmlspecialchars(ltrim($link, '/')) ?>" class="text-primary">Voir</a>
             <?php endif; ?>
           </p>
         </div>
         <?php if ($isUnread && $id !== ''): ?>
-          <form method="post" action="<?= $base ?>/author/notification/<?= htmlspecialchars($id) ?>/read" class="mb-0">
+          <form method="post" action="<?= $readOneUrl . htmlspecialchars($id) ?>/read" class="mb-0">
             <button type="submit" class="btn btn-sm btn-outline">Marquer comme lu</button>
           </form>
         <?php endif; ?>
