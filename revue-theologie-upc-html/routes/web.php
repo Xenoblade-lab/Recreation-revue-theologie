@@ -1,0 +1,71 @@
+<?php
+/**
+ * Routes web — Revue de Théologie UPC
+ */
+use Router\Router;
+use Controllers\RevueController;
+use Controllers\AuthController;
+use Controllers\AuthorController;
+use Controllers\ReviewerController;
+use Controllers\AdminController;
+use Service\AuthService;
+
+Router::get('/login', [AuthController::class, 'showLogin']);
+Router::post('/login', [AuthController::class, 'login']);
+Router::get('/register', [AuthController::class, 'showRegister']);
+Router::post('/register', [AuthController::class, 'register']);
+Router::get('/logout', [AuthController::class, 'logout']);
+Router::get('/forgot-password', [AuthController::class, 'showForgotPassword']);
+Router::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+
+Router::get('/author', [AuthorController::class, 'index']);
+Router::get('/author/abonnement', [AuthorController::class, 'abonnement']);
+Router::get('/author/soumettre', [AuthorController::class, 'showSoumettre']);
+Router::post('/author/soumettre', [AuthorController::class, 'soumettre']);
+Router::get('/author/article/[i:id]', [AuthorController::class, 'articleDetail']);
+Router::get('/author/article/[i:id]/edit', [AuthorController::class, 'articleEdit']);
+Router::post('/author/article/[i:id]/edit', [AuthorController::class, 'articleUpdate']);
+Router::get('/author/notifications', [AuthorController::class, 'notifications']);
+
+Router::get('/soumettre', function (array $params = []) {
+    $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+    if (!AuthService::isLoggedIn()) { header('Location: ' . $base . '/login'); exit; }
+    if (AuthService::hasRole('auteur')) { header('Location: ' . $base . '/author/soumettre'); exit; }
+    header('Location: ' . $base . '/'); exit;
+});
+
+Router::get('/reviewer', [ReviewerController::class, 'index']);
+Router::get('/reviewer/evaluation/[i:id]', [ReviewerController::class, 'evaluation']);
+Router::post('/reviewer/evaluation/[i:id]', [ReviewerController::class, 'evaluationPost']);
+Router::get('/reviewer/terminees', [ReviewerController::class, 'terminees']);
+Router::get('/reviewer/historique', [ReviewerController::class, 'historique']);
+
+Router::get('/admin', [AdminController::class, 'index']);
+Router::get('/admin/users', [AdminController::class, 'users']);
+Router::get('/admin/users/create', [AdminController::class, 'userCreate']);
+Router::post('/admin/users/create', [AdminController::class, 'userStore']);
+Router::get('/admin/users/[i:id]/edit', [AdminController::class, 'userEdit']);
+Router::post('/admin/users/[i:id]/edit', [AdminController::class, 'userUpdate']);
+Router::get('/admin/articles', [AdminController::class, 'articles']);
+Router::get('/admin/article/[i:id]', [AdminController::class, 'articleDetail']);
+Router::post('/admin/article/[i:id]/statut', [AdminController::class, 'articleUpdateStatut']);
+Router::post('/admin/article/[i:id]/assign', [AdminController::class, 'articleAssign']);
+Router::post('/admin/article/[i:id]/issue', [AdminController::class, 'articleSetIssue']);
+Router::get('/admin/paiements', [AdminController::class, 'paiements']);
+Router::get('/admin/volumes', [AdminController::class, 'volumes']);
+Router::get('/admin/parametres', [AdminController::class, 'parametres']);
+Router::post('/admin/parametres', [AdminController::class, 'parametresUpdate']);
+
+Router::get('/', [RevueController::class, 'index']);
+Router::get('/publications', [RevueController::class, 'publications']);
+Router::get('/archives', [RevueController::class, 'archives']);
+Router::get('/article/[i:id]', [RevueController::class, 'articleDetails']);
+Router::get('/numero/[i:id]', [RevueController::class, 'numeroDetails']);
+Router::get('/presentation', [RevueController::class, 'presentation']);
+Router::get('/comite', [RevueController::class, 'comite']);
+Router::get('/contact', [RevueController::class, 'contact']);
+Router::get('/faq', [RevueController::class, 'faq']);
+Router::get('/politique-editoriale', [RevueController::class, 'politiqueEditoriale']);
+Router::get('/instructions-auteurs', [RevueController::class, 'instructionsAuteurs']);
+Router::get('/actualites', [RevueController::class, 'actualites']);
+Router::get('/mentions-legales', [RevueController::class, 'mentionsLegales']);
