@@ -99,6 +99,7 @@ class AuthorController
         }
 
         $fichierPath = null;
+        $fichierNomOriginal = null;
         if (!empty($_FILES['fichier']['tmp_name']) && is_uploaded_file($_FILES['fichier']['tmp_name'])) {
             $uploadDir = BASE_PATH . '/public/uploads/articles';
             if (!is_dir($uploadDir)) {
@@ -113,10 +114,11 @@ class AuthorController
             $safeName = 'article_' . uniqid() . '_' . time() . '.' . $ext;
             if (move_uploaded_file($_FILES['fichier']['tmp_name'], $uploadDir . '/' . $safeName)) {
                 $fichierPath = 'uploads/articles/' . $safeName;
+                $fichierNomOriginal = basename($_FILES['fichier']['name']);
             }
         }
 
-        $id = ArticleModel::create($userId, $titre, $contenu, $fichierPath);
+        $id = ArticleModel::create($userId, $titre, $contenu, $fichierPath, $fichierNomOriginal);
         if ($id) {
             unset($_SESSION['author_old']);
             header('Location: ' . $this->base() . '/author/article/' . $id);
@@ -185,6 +187,7 @@ class AuthorController
             exit;
         }
         $fichierPath = null;
+        $fichierNomOriginal = null;
         if (!empty($_FILES['fichier']['tmp_name']) && is_uploaded_file($_FILES['fichier']['tmp_name'])) {
             $uploadDir = BASE_PATH . '/public/uploads/articles';
             if (!is_dir($uploadDir)) {
@@ -195,10 +198,11 @@ class AuthorController
                 $safeName = 'article_' . uniqid() . '_' . time() . '.' . $ext;
                 if (move_uploaded_file($_FILES['fichier']['tmp_name'], $uploadDir . '/' . $safeName)) {
                     $fichierPath = 'uploads/articles/' . $safeName;
+                    $fichierNomOriginal = basename($_FILES['fichier']['name']);
                 }
             }
         }
-        ArticleModel::updateByAuthor($id, $userId, $titre, $contenu, $fichierPath);
+        ArticleModel::updateByAuthor($id, $userId, $titre, $contenu, $fichierPath, $fichierNomOriginal);
         header('Location: ' . $this->base() . '/author/article/' . $id);
         exit;
     }

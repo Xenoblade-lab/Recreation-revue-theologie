@@ -7,7 +7,7 @@ $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
 $pageTitle = $pageTitle ?? 'Revue de la Faculté de Théologie | UPC';
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<?= function_exists('current_lang') ? htmlspecialchars(current_lang()) : 'fr' ?>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -10,6 +10,22 @@ use Controllers\ReviewerController;
 use Controllers\AdminController;
 use Service\AuthService;
 
+// Changement de langue (FR, EN, Lingala)
+Router::get('/lang', function (array $params = []) {
+    $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+    $l = isset($_GET['l']) ? trim($_GET['l']) : '';
+    if (set_lang($l)) {
+        $redirect = $_GET['redirect'] ?? $_SERVER['HTTP_REFERER'] ?? $base . '/';
+        if (!preg_match('#^' . preg_quote($base, '#') . '#', $redirect)) {
+            $redirect = $base . '/';
+        }
+        header('Location: ' . $redirect);
+        exit;
+    }
+    header('Location: ' . $base . '/');
+    exit;
+});
+
 Router::get('/login', [AuthController::class, 'showLogin']);
 Router::post('/login', [AuthController::class, 'login']);
 Router::get('/register', [AuthController::class, 'showRegister']);

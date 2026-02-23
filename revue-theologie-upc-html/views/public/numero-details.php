@@ -5,14 +5,14 @@ $parts = $parts ?? [];
 $volume = $volume ?? null;
 $articlesNumero = $articlesNumero ?? [];
 if (!$revue) return;
-$volLabel = $volume ? 'Volume ' . ($volume['numero_volume'] ?? $volume['annee'] ?? '') . ' — ' : '';
+$volLabel = $volume ? (function_exists('__') ? htmlspecialchars(__('common.volume')) : 'Volume') . ' ' . ($volume['numero_volume'] ?? $volume['annee'] ?? '') . ' — ' : '';
 $datePub = !empty($revue['date_publication']) ? date('F Y', strtotime($revue['date_publication'])) : '';
 ?>
 <div class="banner">
   <div class="container">
-    <h1 class="font-serif text-3xl font-bold"><?= $volLabel ?>Numéro <?= htmlspecialchars($revue['numero']) ?></h1>
+    <h1 class="font-serif text-3xl font-bold"><?= $volLabel ?><?= function_exists('__') ? htmlspecialchars(__('common.issue')) : 'Numéro' ?> <?= htmlspecialchars($revue['numero']) ?></h1>
     <div class="divider"></div>
-    <p><?= $datePub ?> — <?= count($articlesNumero) ?> article(s)</p>
+    <p><?= $datePub ?> — <?= count($articlesNumero) ?> <?= htmlspecialchars(__('numero.articles_in_issue')) ?></p>
   </div>
 </div>
 <div class="container section">
@@ -21,7 +21,7 @@ $datePub = !empty($revue['date_publication']) ? date('F Y', strtotime($revue['da
   <?php endif; ?>
   <div class="card p-8 max-w-3xl mx-auto">
     <?php if (!empty($articlesNumero)): ?>
-    <p class="text-muted mb-4">Ce numéro contient les articles suivants :</p>
+    <p class="text-muted mb-4"><?= htmlspecialchars(__('numero.contains')) ?></p>
     <ul class="flex flex-col gap-2">
       <?php foreach ($articlesNumero as $a):
         $auteur = trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''));
@@ -30,7 +30,7 @@ $datePub = !empty($revue['date_publication']) ? date('F Y', strtotime($revue['da
       <?php endforeach; ?>
     </ul>
     <?php elseif (!empty($parts)): ?>
-    <p class="text-muted mb-4">Contenu du numéro :</p>
+    <p class="text-muted mb-4"><?= htmlspecialchars(__('numero.contents')) ?></p>
     <ul class="flex flex-col gap-2">
       <?php foreach ($parts as $p): ?>
       <li>
@@ -42,11 +42,11 @@ $datePub = !empty($revue['date_publication']) ? date('F Y', strtotime($revue['da
       <?php endforeach; ?>
     </ul>
     <?php else: ?>
-    <p class="text-muted">Aucun article ou section listé pour ce numéro.</p>
+    <p class="text-muted"><?= htmlspecialchars(__('numero.none')) ?></p>
     <?php endif; ?>
     <p class="mt-6">
-      <a href="<?= $base ?>/archives" class="btn btn-outline-primary">Retour aux archives</a>
-      <a href="<?= $base ?>/publications" class="btn btn-primary">Toutes les publications</a>
+      <a href="<?= $base ?>/archives" class="btn btn-outline-primary"><?= htmlspecialchars(__('numero.back_archives')) ?></a>
+      <a href="<?= $base ?>/publications" class="btn btn-primary"><?= htmlspecialchars(__('numero.all_publications')) ?></a>
     </p>
   </div>
 </div>

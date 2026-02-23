@@ -228,9 +228,11 @@ class RevueController
             echo 'Accès non autorisé à ce fichier.';
             return;
         }
-        $filename = basename($path);
+        $filename = !empty($article['fichier_nom_original']) ? basename($article['fichier_nom_original']) : basename($path);
+        $filename = preg_replace('/[^\w\.\-]/', '_', $filename) ?: 'article.pdf';
+        $inline = isset($_GET['inline']) && $_GET['inline'] === '1';
         header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="' . preg_replace('/[^\w\.\-]/', '_', $filename) . '"');
+        header('Content-Disposition: ' . ($inline ? 'inline' : 'attachment') . '; filename="' . $filename . '"');
         header('Content-Length: ' . filesize($fullPath));
         readfile($fullPath);
         exit;

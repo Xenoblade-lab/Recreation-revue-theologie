@@ -6,6 +6,7 @@
 $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
 $isLoggedIn = class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn();
 $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
+$currentLang = function_exists('current_lang') ? current_lang() : 'fr';
 ?>
   <!-- Barre utilitaire -->
   <div class="topbar-utility">
@@ -20,19 +21,28 @@ $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
           <?php
           $role = $currentUser['role'] ?? '';
           $dashboardUrl = $base . '/';
-          $dashboardLabel = 'Mon espace';
-          if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = 'Administration'; }
-          elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = 'Espace évaluateur'; }
-          elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = 'Mon espace'; }
+          $dashboardLabel = __('nav.my_space');
+          if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = __('nav.admin'); }
+          elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = __('nav.reviewer'); }
+          elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = __('nav.my_space'); }
           ?>
           <a href="<?= $dashboardUrl ?>"><?= htmlspecialchars($dashboardLabel) ?></a>
           <span class="text-sm"><?= htmlspecialchars(trim(($currentUser['prenom'] ?? '') . ' ' . ($currentUser['nom'] ?? ''))) ?></span>
-          <a href="<?= $base ?>/logout">Déconnexion</a>
+          <a href="<?= $base ?>/logout"><?= htmlspecialchars(__('nav.logout')) ?></a>
         <?php else: ?>
-          <a href="<?= $base ?>/login">Connexion</a>
-          <a href="<?= $base ?>/register">Inscription</a>
+          <a href="<?= $base ?>/login"><?= htmlspecialchars(__('nav.login')) ?></a>
+          <a href="<?= $base ?>/register"><?= htmlspecialchars(__('nav.register')) ?></a>
         <?php endif; ?>
-        <span class="lang-select"><span class="lang-current">Français</span><span aria-hidden="true">▼</span></span>
+        <div class="dropdown lang-dropdown">
+          <a href="#" class="lang-select" aria-haspopup="true" aria-expanded="false" id="lang-toggle">
+            <span class="lang-current"><?= htmlspecialchars(__('lang.' . $currentLang)) ?></span><span aria-hidden="true">▼</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="lang-toggle">
+            <a href="<?= $base ?>/lang?l=fr"><?= htmlspecialchars(__('lang.fr')) ?></a>
+            <a href="<?= $base ?>/lang?l=en"><?= htmlspecialchars(__('lang.en')) ?></a>
+            <a href="<?= $base ?>/lang?l=ln"><?= htmlspecialchars(__('lang.ln')) ?></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -48,38 +58,38 @@ $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
         </div>
       </a>
       <nav class="nav-desktop">
-        <a href="<?= $base ?>/">Accueil</a>
+        <a href="<?= $base ?>/"><?= htmlspecialchars(__('nav.home')) ?></a>
         <div class="dropdown">
-          <a href="<?= $base ?>/presentation">À propos <span aria-hidden="true">▼</span></a>
+          <a href="<?= $base ?>/presentation"><?= htmlspecialchars(__('nav.about')) ?> <span aria-hidden="true">▼</span></a>
           <div class="dropdown-menu">
-            <a href="<?= $base ?>/presentation">Présentation</a>
-            <a href="<?= $base ?>/comite">Comité éditorial</a>
-            <a href="<?= $base ?>/politique-editoriale">Politique éditoriale</a>
+            <a href="<?= $base ?>/presentation"><?= htmlspecialchars(__('nav.presentation')) ?></a>
+            <a href="<?= $base ?>/comite"><?= htmlspecialchars(__('nav.comite')) ?></a>
+            <a href="<?= $base ?>/politique-editoriale"><?= htmlspecialchars(__('nav.politique')) ?></a>
           </div>
         </div>
         <div class="dropdown">
-          <a href="<?= $base ?>/publications">Articles <span aria-hidden="true">▼</span></a>
+          <a href="<?= $base ?>/publications"><?= htmlspecialchars(__('nav.articles')) ?> <span aria-hidden="true">▼</span></a>
           <div class="dropdown-menu">
-            <a href="<?= $base ?>/publications">Publications</a>
-            <a href="<?= $base ?>/instructions-auteurs">Instructions aux auteurs</a>
+            <a href="<?= $base ?>/publications"><?= htmlspecialchars(__('nav.publications')) ?></a>
+            <a href="<?= $base ?>/instructions-auteurs"><?= htmlspecialchars(__('nav.instructions')) ?></a>
           </div>
         </div>
         <div class="dropdown dropdown-badge">
-          <a href="<?= $base ?>/archives">Archives <span aria-hidden="true">▼</span></a>
+          <a href="<?= $base ?>/archives"><?= htmlspecialchars(__('nav.archives')) ?> <span aria-hidden="true">▼</span></a>
           <span class="nav-badge">Nouveau</span>
           <div class="dropdown-menu">
-            <a href="<?= $base ?>/archives">Volumes & Numéros</a>
-            <a href="<?= $base ?>/actualites">Actualités</a>
+            <a href="<?= $base ?>/archives"><?= htmlspecialchars(__('nav.volumes')) ?></a>
+            <a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('nav.actualites')) ?></a>
           </div>
         </div>
-        <a href="<?= $base ?>/contact">Contact</a>
-        <a href="<?= $base ?>/faq">FAQ</a>
+        <a href="<?= $base ?>/contact"><?= htmlspecialchars(__('nav.contact')) ?></a>
+        <a href="<?= $base ?>/faq"><?= htmlspecialchars(__('nav.faq')) ?></a>
       </nav>
       <div class="header-actions">
         <span class="header-desk-actions flex items-center gap-2">
           <form action="<?= $base ?>/search" method="get" class="flex items-center gap-1" role="search">
-            <input type="search" id="header-search-input" name="q" placeholder="" class="input input-sm" style="width: 140px;" aria-label="Rechercher">
-            <button type="submit" class="btn btn-icon btn-outline" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
+            <input type="search" id="header-search-input" name="q" placeholder="" class="input input-sm" style="width: 140px;" aria-label="<?= htmlspecialchars(__('nav.search')) ?>">
+            <button type="submit" class="btn btn-icon btn-outline" aria-label="<?= htmlspecialchars(__('nav.search')) ?>"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
           </form>
           <?php
           $notificationCount = 0;
@@ -96,48 +106,54 @@ $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
               <?php if ($notificationCount > 0): ?><span class="badge" style="position:absolute;top:-4px;right:-4px;min-width:1.1em;font-size:0.7rem;"><?= $notificationCount > 99 ? '99+' : $notificationCount ?></span><?php endif; ?>
             </a>
           <?php endif; ?>
-          <a href="<?= $base ?>/soumettre" class="btn btn-sm btn-accent">Soumettre un article</a>
+          <a href="<?= $base ?>/soumettre" class="btn btn-sm btn-accent"><?= htmlspecialchars(__('nav.submit')) ?></a>
         </span>
         <button type="button" id="menu-toggle" class="menu-toggle" aria-label="Menu" aria-expanded="false"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#menu"/></svg></button>
       </div>
     </div>
     <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
       <div class="container flex flex-col gap-1">
-        <a href="<?= $base ?>/">Accueil</a>
-        <a href="<?= $base ?>/presentation">À propos</a>
+        <a href="<?= $base ?>/"><?= htmlspecialchars(__('nav.home')) ?></a>
+        <a href="<?= $base ?>/presentation"><?= htmlspecialchars(__('nav.about')) ?></a>
         <div class="sub">
-          <a href="<?= $base ?>/presentation">Présentation</a>
-          <a href="<?= $base ?>/comite">Comité éditorial</a>
-          <a href="<?= $base ?>/politique-editoriale">Politique éditoriale</a>
+          <a href="<?= $base ?>/presentation"><?= htmlspecialchars(__('nav.presentation')) ?></a>
+          <a href="<?= $base ?>/comite"><?= htmlspecialchars(__('nav.comite')) ?></a>
+          <a href="<?= $base ?>/politique-editoriale"><?= htmlspecialchars(__('nav.politique')) ?></a>
         </div>
-        <a href="<?= $base ?>/publications">Articles</a>
+        <a href="<?= $base ?>/publications"><?= htmlspecialchars(__('nav.articles')) ?></a>
         <div class="sub">
-          <a href="<?= $base ?>/publications">Publications</a>
-          <a href="<?= $base ?>/instructions-auteurs">Instructions aux auteurs</a>
+          <a href="<?= $base ?>/publications"><?= htmlspecialchars(__('nav.publications')) ?></a>
+          <a href="<?= $base ?>/instructions-auteurs"><?= htmlspecialchars(__('nav.instructions')) ?></a>
         </div>
-        <a href="<?= $base ?>/archives">Archives</a>
+        <a href="<?= $base ?>/archives"><?= htmlspecialchars(__('nav.archives')) ?></a>
         <div class="sub">
-          <a href="<?= $base ?>/archives">Volumes & Numéros</a>
-          <a href="<?= $base ?>/actualites">Actualités</a>
+          <a href="<?= $base ?>/archives"><?= htmlspecialchars(__('nav.volumes')) ?></a>
+          <a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('nav.actualites')) ?></a>
         </div>
-        <a href="<?= $base ?>/contact">Contact</a>
-        <a href="<?= $base ?>/faq">FAQ</a>
+        <a href="<?= $base ?>/contact"><?= htmlspecialchars(__('nav.contact')) ?></a>
+        <a href="<?= $base ?>/faq"><?= htmlspecialchars(__('nav.faq')) ?></a>
+        <div class="lang-mobile flex items-center gap-2" style="padding: 0.5rem 0;">
+          <span class="text-sm"><?= htmlspecialchars(__('lang.' . $currentLang)) ?></span>
+          <a href="<?= $base ?>/lang?l=fr"><?= htmlspecialchars(__('lang.fr')) ?></a>
+          <a href="<?= $base ?>/lang?l=en"><?= htmlspecialchars(__('lang.en')) ?></a>
+          <a href="<?= $base ?>/lang?l=ln"><?= htmlspecialchars(__('lang.ln')) ?></a>
+        </div>
         <div class="actions">
           <?php if ($isLoggedIn): ?>
             <?php
             $role = $currentUser['role'] ?? '';
             $dashboardUrl = $base . '/';
-            $dashboardLabel = 'Mon espace';
-            if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = 'Administration'; }
-            elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = 'Espace évaluateur'; }
-            elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = 'Mon espace'; }
+            $dashboardLabel = __('nav.my_space');
+            if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = __('nav.admin'); }
+            elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = __('nav.reviewer'); }
+            elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = __('nav.my_space'); }
             ?>
             <a href="<?= $dashboardUrl ?>" class="btn btn-outline-primary"><?= htmlspecialchars($dashboardLabel) ?></a>
-            <a href="<?= $base ?>/logout" class="btn btn-outline">Déconnexion</a>
+            <a href="<?= $base ?>/logout" class="btn btn-outline"><?= htmlspecialchars(__('nav.logout')) ?></a>
           <?php else: ?>
-            <a href="<?= $base ?>/login" class="btn btn-outline-primary">Connexion</a>
+            <a href="<?= $base ?>/login" class="btn btn-outline-primary"><?= htmlspecialchars(__('nav.login')) ?></a>
           <?php endif; ?>
-          <a href="<?= $base ?>/soumettre" class="btn btn-accent">Soumettre un article</a>
+          <a href="<?= $base ?>/soumettre" class="btn btn-accent"><?= htmlspecialchars(__('nav.submit')) ?></a>
         </div>
       </div>
     </div>

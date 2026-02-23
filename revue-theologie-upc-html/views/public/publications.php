@@ -8,13 +8,13 @@ $extrait = function ($html, $len = 220) {
 ?>
 <div class="banner">
   <div class="container">
-    <h1 class="font-serif text-3xl md:text-4xl font-bold text-balance">Publications</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold text-balance"><?= htmlspecialchars(__('publications.title')) ?></h1>
     <div class="divider"></div>
-    <p>Parcourez l'ensemble des articles publiés dans la Revue de la Faculté de Théologie.</p>
+    <p><?= htmlspecialchars(__('publications.intro')) ?></p>
   </div>
 </div>
 <div class="container section">
-  <p class="text-sm text-muted mb-6"><?= count($articles) ?> article(s) trouvé(s)</p>
+  <p class="text-sm text-muted mb-6"><?= count($articles) ?> <?= htmlspecialchars(__('publications.found')) ?></p>
   <div id="articles-list" class="flex flex-col gap-6">
     <?php foreach ($articles as $a):
       $auteur = trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''));
@@ -25,7 +25,7 @@ $extrait = function ($html, $len = 220) {
       <div class="flex flex-col lg:flex-row gap-4">
         <div class="flex-1">
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="badge badge-primary">Article</span>
+            <span class="badge badge-primary"><?= htmlspecialchars(__('common.article')) ?></span>
           </div>
           <h2 class="font-serif text-xl font-bold mb-2"><a href="<?= $base ?>/article/<?= (int)$a['id'] ?>"><?= htmlspecialchars($a['titre'] ?? '') ?></a></h2>
           <p class="text-muted text-sm leading-relaxed mb-4"><?= htmlspecialchars($resume) ?></p>
@@ -35,7 +35,7 @@ $extrait = function ($html, $len = 220) {
           </div>
         </div>
         <div class="flex gap-2 flex-shrink-0">
-          <a href="<?= $base ?>/article/<?= (int)$a['id'] ?>" class="btn btn-outline-primary btn-sm">Lire</a>
+          <a href="<?= $base ?>/article/<?= (int)$a['id'] ?>" class="btn btn-outline-primary btn-sm"><?= htmlspecialchars(__('common.read')) ?></a>
           <?php if (!empty($a['fichier_path'])): ?><a href="<?= $base ?>/download/article/<?= (int)$a['id'] ?>" class="btn btn-outline btn-sm">PDF</a><?php endif; ?>
         </div>
       </div>
@@ -43,6 +43,6 @@ $extrait = function ($html, $len = 220) {
     <?php endforeach; ?>
   </div>
   <?php if (empty($articles)): ?>
-  <p class="text-muted">Aucun article publié pour le moment.</p>
+  <p class="text-muted"><?= htmlspecialchars(__('publications.none')) ?></p>
   <?php endif; ?>
 </div>

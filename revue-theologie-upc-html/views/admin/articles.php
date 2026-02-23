@@ -4,13 +4,13 @@ $base = $base ?? '';
 
 function adminStatutBadge(string $statut): string {
     $map = [
-        'soumis' => ['label' => 'Soumis', 'class' => 'badge-primary'],
-        'en_lecture' => ['label' => 'En évaluation', 'class' => 'badge'],
-        'accepte' => ['label' => 'Accepté', 'class' => 'badge green'],
-        'rejete' => ['label' => 'Rejeté', 'class' => 'badge-accent'],
-        'revision_requise' => ['label' => 'Révision requise', 'class' => 'badge-accent'],
-        'valide' => ['label' => 'Publié', 'class' => 'badge green'],
-        'publie' => ['label' => 'Publié', 'class' => 'badge green'],
+        'soumis' => ['label' => function_exists('__') ? __('admin.article_status_soumis') : 'Soumis', 'class' => 'badge-primary'],
+        'en_lecture' => ['label' => function_exists('__') ? __('admin.article_status_en_lecture') : 'En évaluation', 'class' => 'badge'],
+        'accepte' => ['label' => function_exists('__') ? __('admin.article_status_accepte') : 'Accepté', 'class' => 'badge green'],
+        'rejete' => ['label' => function_exists('__') ? __('admin.article_status_rejete') : 'Rejeté', 'class' => 'badge-accent'],
+        'revision_requise' => ['label' => function_exists('__') ? __('admin.article_status_revision') : 'Révision requise', 'class' => 'badge-accent'],
+        'valide' => ['label' => function_exists('__') ? __('admin.article_status_publie') : 'Publié', 'class' => 'badge green'],
+        'publie' => ['label' => function_exists('__') ? __('admin.article_status_publie') : 'Publié', 'class' => 'badge green'],
     ];
     $c = $map[$statut] ?? ['label' => $statut, 'class' => 'badge'];
     return '<span class="badge ' . $c['class'] . '">' . htmlspecialchars($c['label']) . '</span>';
@@ -23,25 +23,25 @@ function adminFormatDate(?string $d): string {
 }
 ?>
 <div class="dashboard-header">
-  <h1>Articles</h1>
-  <p>Liste des articles soumis à la revue.</p>
+  <h1><?= htmlspecialchars(__('admin.articles')) ?></h1>
+  <p><?= htmlspecialchars(__('admin.articles_intro')) ?></p>
 </div>
 <div class="dashboard-card">
   <div class="overflow-auto">
     <table class="dashboard-table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Titre</th>
-          <th>Date</th>
-          <th>Statut</th>
-          <th>Auteur</th>
+          <th><?= htmlspecialchars(__('admin.th_id')) ?></th>
+          <th><?= htmlspecialchars(__('author.th_title')) ?></th>
+          <th><?= htmlspecialchars(__('author.th_date')) ?></th>
+          <th><?= htmlspecialchars(__('author.th_status')) ?></th>
+          <th><?= htmlspecialchars(__('admin.th_author')) ?></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <?php if (empty($articles)): ?>
-          <tr><td colspan="6" class="text-muted">Aucun article.</td></tr>
+          <tr><td colspan="6" class="text-muted"><?= htmlspecialchars(__('admin.no_articles')) ?></td></tr>
         <?php else: ?>
           <?php foreach ($articles as $a): ?>
             <tr>
@@ -50,7 +50,7 @@ function adminFormatDate(?string $d): string {
               <td><?= adminFormatDate($a['date_soumission'] ?? null) ?></td>
               <td><?= adminStatutBadge($a['statut'] ?? 'soumis') ?></td>
               <td><?= htmlspecialchars(trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''))) ?></td>
-              <td><a href="<?= $base ?>/admin/article/<?= (int) ($a['id'] ?? 0) ?>" class="btn btn-sm btn-outline">Voir</a></td>
+              <td><a href="<?= $base ?>/admin/article/<?= (int) ($a['id'] ?? 0) ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('common.read')) ?></a></td>
             </tr>
           <?php endforeach; ?>
         <?php endif; ?>

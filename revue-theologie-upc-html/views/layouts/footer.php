@@ -16,27 +16,27 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
           <p class="text-xs font-medium mt-3 italic" style="color: var(--upc-gold);">"Vérité, Foi, Liberté"</p>
         </div>
         <div>
-          <h3 class="footer-title">Navigation</h3>
+          <h3 class="footer-title"><?= htmlspecialchars(function_exists('__') ? __('footer.nav') : 'Navigation') ?></h3>
           <ul>
-            <li><a href="<?= $base ?>/">Accueil</a></li>
-            <li><a href="<?= $base ?>/publications">Publications</a></li>
-            <li><a href="<?= $base ?>/archives">Archives</a></li>
-            <li><a href="<?= $base ?>/comite">Comité éditorial</a></li>
-            <li><a href="<?= $base ?>/presentation">Présentation</a></li>
+            <li><a href="<?= $base ?>/"><?= htmlspecialchars(function_exists('__') ? __('nav.home') : 'Accueil') ?></a></li>
+            <li><a href="<?= $base ?>/publications"><?= htmlspecialchars(function_exists('__') ? __('nav.publications') : 'Publications') ?></a></li>
+            <li><a href="<?= $base ?>/archives"><?= htmlspecialchars(function_exists('__') ? __('nav.archives') : 'Archives') ?></a></li>
+            <li><a href="<?= $base ?>/comite"><?= htmlspecialchars(function_exists('__') ? __('nav.comite') : 'Comité éditorial') ?></a></li>
+            <li><a href="<?= $base ?>/presentation"><?= htmlspecialchars(function_exists('__') ? __('nav.presentation') : 'Présentation') ?></a></li>
           </ul>
         </div>
         <div>
-          <h3 class="footer-title">Pour les auteurs</h3>
+          <h3 class="footer-title"><?= htmlspecialchars(function_exists('__') ? __('footer.authors') : 'Pour les auteurs') ?></h3>
           <ul>
-            <li><a href="<?= $base ?>/soumettre">Soumettre un article</a></li>
-            <li><a href="<?= $base ?>/instructions-auteurs">Instructions aux auteurs</a></li>
-            <li><a href="<?= $base ?>/politique-editoriale">Processus d'évaluation</a></li>
-            <li><a href="<?= $base ?>/login">Connexion</a></li>
-            <li><a href="<?= $base ?>/faq">FAQ</a></li>
+            <li><a href="<?= $base ?>/soumettre"><?= htmlspecialchars(function_exists('__') ? __('footer.submit') : 'Soumettre un article') ?></a></li>
+            <li><a href="<?= $base ?>/instructions-auteurs"><?= htmlspecialchars(function_exists('__') ? __('footer.instructions') : 'Instructions aux auteurs') ?></a></li>
+            <li><a href="<?= $base ?>/politique-editoriale"><?= htmlspecialchars(function_exists('__') ? __('footer.evaluation') : 'Processus d\'évaluation') ?></a></li>
+            <li><a href="<?= $base ?>/login"><?= htmlspecialchars(function_exists('__') ? __('nav.login') : 'Connexion') ?></a></li>
+            <li><a href="<?= $base ?>/faq"><?= htmlspecialchars(function_exists('__') ? __('nav.faq') : 'FAQ') ?></a></li>
           </ul>
         </div>
         <div>
-          <h3 class="footer-title">Contact</h3>
+          <h3 class="footer-title"><?= htmlspecialchars(function_exists('__') ? __('footer.contact') : 'Contact') ?></h3>
           <ul>
             <li class="contact-block">
               <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#map-pin"/></svg></span>
@@ -46,14 +46,22 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
               <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg></span>
               <a href="mailto:revue.theologie@upc.ac.cd">revue.theologie@upc.ac.cd</a>
             </li>
+            <li class="contact-block">
+              <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#phone"/></svg></span>
+              <a href="tel:+243000000000">+243 000 000 000</a>
+            </li>
+            <li class="contact-block">
+              <span class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg></span>
+              <a href="https://www.upc.ac.cd" target="_blank" rel="noopener">www.upc.ac.cd</a>
+            </li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculté de Théologie - UPC. Tous droits réservés.</p>
+        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculté de Théologie - UPC. <?= htmlspecialchars(function_exists('__') ? __('footer.copyright') : 'Tous droits réservés.') ?></p>
         <div class="flex gap-4">
-          <a href="<?= $base ?>/politique-editoriale">Politique éditoriale</a>
-          <a href="<?= $base ?>/mentions-legales">Mentions légales</a>
+          <a href="<?= $base ?>/politique-editoriale"><?= htmlspecialchars(function_exists('__') ? __('footer.politique') : 'Politique éditoriale') ?></a>
+          <a href="<?= $base ?>/mentions-legales"><?= htmlspecialchars(function_exists('__') ? __('footer.mentions') : 'Mentions légales') ?></a>
         </div>
       </div>
     </div>

@@ -10,24 +10,24 @@ $extrait = function ($html, $len = 180) {
 ?>
 <div class="banner">
   <div class="container">
-    <h1 class="font-serif text-3xl md:text-4xl font-bold text-balance">Recherche</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold text-balance"><?= htmlspecialchars(__('search.title')) ?></h1>
     <div class="divider"></div>
     <form action="<?= $base ?>/search" method="get" class="flex gap-2 flex-wrap items-center max-w-2xl mt-4">
-      <label for="search-q" class="sr-only">Rechercher un article ou un numéro</label>
-      <input type="search" id="search-q" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="Mot-clé, auteur, titre..." class="input flex-1 min-w-[200px]">
-      <button type="submit" class="btn btn-primary">Rechercher</button>
+      <label for="search-q" class="sr-only"><?= htmlspecialchars(__('search.label')) ?></label>
+      <input type="search" id="search-q" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="<?= htmlspecialchars(__('search.placeholder')) ?>" class="input flex-1 min-w-[200px]">
+      <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('nav.search')) ?></button>
     </form>
   </div>
 </div>
 <div class="container section">
   <?php if ($q === ''): ?>
-    <p class="text-muted">Saisissez un mot-clé pour rechercher dans les articles et numéros.</p>
+    <p class="text-muted"><?= htmlspecialchars(__('search.hint')) ?></p>
   <?php else: ?>
     <?php if (empty($articles) && empty($numeros)): ?>
-      <p class="text-muted">Aucun résultat pour « <?= htmlspecialchars($q) ?> ».</p>
+      <p class="text-muted"><?= htmlspecialchars(__('search.no_results')) ?> « <?= htmlspecialchars($q) ?> ».</p>
     <?php else: ?>
       <?php if (!empty($articles)): ?>
-        <h2 class="font-serif text-xl font-bold mb-4">Articles (<?= count($articles) ?>)</h2>
+        <h2 class="font-serif text-xl font-bold mb-4"><?= htmlspecialchars(__('search.articles')) ?> (<?= count($articles) ?>)</h2>
         <div class="flex flex-col gap-4 mb-8">
           <?php foreach ($articles as $a):
             $auteur = trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''));
@@ -42,9 +42,9 @@ $extrait = function ($html, $len = 180) {
                 <?php if ($date): ?><span><?= $date ?></span><?php endif; ?>
               </div>
               <div class="mt-2">
-                <a href="<?= $base ?>/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline-primary">Lire</a>
+                <a href="<?= $base ?>/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline-primary"><?= htmlspecialchars(__('common.read')) ?></a>
                 <?php if (!empty($a['fichier_path'])): ?>
-                  <a href="<?= $base ?>/download/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline">Télécharger PDF</a>
+                  <a href="<?= $base ?>/download/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('article.download_pdf')) ?></a>
                 <?php endif; ?>
               </div>
             </article>
@@ -52,7 +52,7 @@ $extrait = function ($html, $len = 180) {
         </div>
       <?php endif; ?>
       <?php if (!empty($numeros)): ?>
-        <h2 class="font-serif text-xl font-bold mb-4">Numéros (<?= count($numeros) ?>)</h2>
+        <h2 class="font-serif text-xl font-bold mb-4"><?= htmlspecialchars(__('search.issues')) ?> (<?= count($numeros) ?>)</h2>
         <ul class="flex flex-col gap-3">
           <?php foreach ($numeros as $n):
             $dateNum = !empty($n['date_publication']) ? date('j F Y', strtotime($n['date_publication'])) : '';
@@ -62,7 +62,7 @@ $extrait = function ($html, $len = 180) {
                 <strong><a href="<?= $base ?>/numero/<?= (int) $n['id'] ?>" class="text-primary"><?= htmlspecialchars($n['numero'] ?? '') ?> — <?= htmlspecialchars($n['titre'] ?? '') ?></a></strong>
                 <?php if ($dateNum): ?><span class="text-muted text-sm ml-2"><?= $dateNum ?></span><?php endif; ?>
               </div>
-              <a href="<?= $base ?>/numero/<?= (int) $n['id'] ?>" class="btn btn-sm btn-outline">Voir le numéro</a>
+              <a href="<?= $base ?>/numero/<?= (int) $n['id'] ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('numero.see_issue')) ?></a>
             </li>
           <?php endforeach; ?>
         </ul>

@@ -5,6 +5,12 @@
 (function () {
   'use strict';
 
+  // Dropdown langue : empêcher navigation sur le lien #
+  var langToggle = document.getElementById('lang-toggle');
+  if (langToggle) {
+    langToggle.addEventListener('click', function (e) { e.preventDefault(); });
+  }
+
   // Menu mobile
   var menuToggle = document.getElementById('menu-toggle');
   var navMobile = document.getElementById('nav-mobile');

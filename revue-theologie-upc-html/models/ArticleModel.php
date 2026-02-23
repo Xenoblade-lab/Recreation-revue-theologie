@@ -111,35 +111,37 @@ class ArticleModel
         return (int) $stmt->fetchColumn();
     }
 
-    /** Créer un article (soumission) */
-    public static function create(int $auteurId, string $titre, string $contenu, ?string $fichierPath = null): ?int
+    /** Créer un article (soumission). $fichierNomOriginal = nom du fichier côté utilisateur (pour téléchargement). */
+    public static function create(int $auteurId, string $titre, string $contenu, ?string $fichierPath = null, ?string $fichierNomOriginal = null): ?int
     {
         $db = getDB();
         $stmt = $db->prepare("
-            INSERT INTO articles (titre, contenu, fichier_path, auteur_id, statut, date_soumission, created_at, updated_at)
-            VALUES (:titre, :contenu, :fichier_path, :auteur_id, 'soumis', NOW(), NOW(), NOW())
+            INSERT INTO articles (titre, contenu, fichier_path, fichier_nom_original, auteur_id, statut, date_soumission, created_at, updated_at)
+            VALUES (:titre, :contenu, :fichier_path, :fichier_nom_original, :auteur_id, 'soumis', NOW(), NOW(), NOW())
         ");
         $ok = $stmt->execute([
-            ':titre'        => $titre,
-            ':contenu'      => $contenu,
-            ':fichier_path' => $fichierPath,
-            ':auteur_id'    => $auteurId,
+            ':titre'                 => $titre,
+            ':contenu'               => $contenu,
+            ':fichier_path'          => $fichierPath,
+            ':fichier_nom_original'  => $fichierNomOriginal,
+            ':auteur_id'              => $auteurId,
         ]);
         return $ok ? (int) $db->lastInsertId() : null;
     }
 
-    /** Mettre à jour un article (seulement si statut = soumis et appartient à l'auteur) */
-    public static function updateByAuthor(int $id, int $authorId, string $titre, string $contenu, ?string $fichierPath = null): bool
+    /** Mettre à jour un article (seulement si statut = soumis et appartient à l'auteur). */
+    public static function updateByAuthor(int $id, int $authorId, string $titre, string $contenu, ?string $fichierPath = null, ?string $fichierNomOriginal = null): bool
     {
         $db = getDB();
+        $setFile = $fichierPath !== null ? ", fichier_path = :fichier_path, fichier_nom_original = :fichier_nom_original" : "";
         $stmt = $db->prepare("
-            UPDATE articles SET titre = :titre, contenu = :contenu, updated_at = NOW()
-            " . ($fichierPath !== null ? ", fichier_path = :fichier_path" : "") . "
+            UPDATE articles SET titre = :titre, contenu = :contenu, updated_at = NOW()" . $setFile . "
             WHERE id = :id AND auteur_id = :aid AND statut = 'soumis'
         ");
         $params = [':titre' => $titre, ':contenu' => $contenu, ':id' => $id, ':aid' => $authorId];
         if ($fichierPath !== null) {
             $params[':fichier_path'] = $fichierPath;
+            $params[':fichier_nom_original'] = $fichierNomOriginal;
         }
         return $stmt->execute($params);
     }

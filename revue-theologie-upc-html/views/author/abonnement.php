@@ -11,27 +11,27 @@ function authorFormatDate(?string $d): string {
 }
 ?>
 <div class="dashboard-header">
-  <h1>Mon abonnement</h1>
-  <p>Gérer votre abonnement auteur et consulter l'historique des paiements.</p>
+  <h1><?= htmlspecialchars(__('author.my_subscription')) ?></h1>
+  <p><?= htmlspecialchars(__('author.subscription_intro')) ?></p>
 </div>
 <div class="dashboard-card">
-  <h2>Statut actuel</h2>
+  <h2><?= htmlspecialchars(__('author.current_status')) ?></h2>
   <?php if ($abonnementActif): ?>
-    <p><strong>Abonnement actif</strong> jusqu'au <?= authorFormatDate($abonnementActif['date_fin'] ?? null) ?>.</p>
+    <p><?= __('author.subscription_active_until') ?> <?= authorFormatDate($abonnementActif['date_fin'] ?? null) ?>.</p>
   <?php else: ?>
-    <p>Vous n'avez pas d'abonnement actif.</p>
+    <p><?= htmlspecialchars(__('author.no_subscription')) ?></p>
   <?php endif; ?>
-  <p class="mt-4 mb-0"><a href="<?= $base ?>/author" class="btn btn-outline-primary">Retour au tableau de bord</a></p>
+  <p class="mt-4 mb-0"><a href="<?= $base ?>/author" class="btn btn-outline-primary"><?= htmlspecialchars(__('author.back_dashboard')) ?></a></p>
 </div>
 <div class="dashboard-card">
-  <h2>Historique des paiements</h2>
+  <h2><?= htmlspecialchars(__('author.payment_history')) ?></h2>
   <table class="dashboard-table">
     <thead>
-      <tr><th>Date</th><th>Montant</th><th>Moyen</th><th>Statut</th></tr>
+      <tr><th><?= htmlspecialchars(__('author.th_date')) ?></th><th><?= htmlspecialchars(__('author.th_amount')) ?></th><th><?= htmlspecialchars(__('author.th_method')) ?></th><th><?= htmlspecialchars(__('author.th_status')) ?></th></tr>
     </thead>
     <tbody>
       <?php if (empty($paiements)): ?>
-        <tr><td colspan="4" class="text-muted">Aucun paiement enregistré.</td></tr>
+        <tr><td colspan="4" class="text-muted"><?= htmlspecialchars(__('author.no_payments')) ?></td></tr>
       <?php else: ?>
         <?php foreach ($paiements as $p): ?>
         <tr>

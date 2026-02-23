@@ -15,18 +15,18 @@ foreach ($notifications as $n) {
 ?>
 <div class="dashboard-header flex flex-wrap items-center justify-between gap-4">
   <div>
-    <h1>Notifications</h1>
-    <p>Historique des notifications liées à vos articles.</p>
+    <h1><?= htmlspecialchars(__('author.notifications')) ?></h1>
+    <p><?= htmlspecialchars(__('author.notifications_intro')) ?></p>
   </div>
   <?php if ($hasUnread): ?>
     <form method="post" action="<?= $base ?>/author/notifications/read-all" class="mb-0">
-      <button type="submit" class="btn btn-outline btn-sm">Tout marquer comme lu</button>
+      <button type="submit" class="btn btn-outline btn-sm"><?= htmlspecialchars(__('author.mark_all_read')) ?></button>
     </form>
   <?php endif; ?>
 </div>
 <div class="dashboard-card">
   <?php if (empty($notifications)): ?>
-  <p class="text-muted">Aucune notification.</p>
+  <p class="text-muted"><?= htmlspecialchars(__('author.no_notifications')) ?></p>
   <?php else: ?>
   <ul style="list-style: none; padding: 0; margin: 0;">
     <?php foreach ($notifications as $n): ?>
@@ -36,7 +36,7 @@ foreach ($notifications as $n) {
         $decoded = json_decode($n['data'], true);
         $data = is_array($decoded) ? $decoded : [];
       }
-      $message = $data['message'] ?? $n['type'] ?? 'Notification';
+      $message = $data['message'] ?? $n['type'] ?? __('author.notifications');
       $link = $data['link'] ?? $data['url'] ?? null;
       $isUnread = empty($n['read_at']);
       $id = $n['id'] ?? '';
@@ -48,13 +48,13 @@ foreach ($notifications as $n) {
           <p class="text-muted text-sm mt-1 mb-0">
             <?= authorFormatDate($n['created_at'] ?? null) ?>
             <?php if ($link): ?>
-              · <a href="<?= $base ?>/<?= htmlspecialchars(ltrim($link, '/')) ?>" class="text-primary">Voir</a>
+              · <a href="<?= $base ?>/<?= htmlspecialchars(ltrim($link, '/')) ?>" class="text-primary"><?= htmlspecialchars(__('common.read')) ?></a>
             <?php endif; ?>
           </p>
         </div>
         <?php if ($isUnread && $id !== ''): ?>
           <form method="post" action="<?= $base ?>/author/notification/<?= htmlspecialchars($id) ?>/read" class="mb-0">
-            <button type="submit" class="btn btn-sm btn-outline">Marquer comme lu</button>
+            <button type="submit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('author.mark_read')) ?></button>
           </form>
         <?php endif; ?>
       </div>

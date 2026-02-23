@@ -45,6 +45,8 @@ spl_autoload_register(function ($class) {
 
 // Helpers d'authentification (requireAuth, requireRole, etc.)
 require_once dirname(__DIR__) . '/includes/auth.php';
+// Internationalisation (current_lang, set_lang, __)
+require_once dirname(__DIR__) . '/includes/i18n.php';
 
 // Base path pour le routeur (sous-dossier si le site n'est pas à la racine du vhost)
 $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';

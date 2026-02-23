@@ -8,10 +8,10 @@ $base = $base ?? '';
 
 function reviewerStatutBadge(string $statut): string {
     $map = [
-        'en_attente' => ['label' => 'En attente', 'class' => 'badge-primary'],
-        'en_cours'   => ['label' => 'En cours', 'class' => 'badge-gold'],
-        'termine'    => ['label' => 'Terminé', 'class' => 'badge green'],
-        'annule'     => ['label' => 'Annulé', 'class' => 'badge accent'],
+        'en_attente' => ['label' => function_exists('__') ? __('reviewer.pending') : 'En attente', 'class' => 'badge-primary'],
+        'en_cours'   => ['label' => function_exists('__') ? __('reviewer.in_progress') : 'En cours', 'class' => 'badge-gold'],
+        'termine'    => ['label' => function_exists('__') ? __('reviewer.status_termine') : 'Terminé', 'class' => 'badge green'],
+        'annule'     => ['label' => function_exists('__') ? __('reviewer.status_annule') : 'Annulé', 'class' => 'badge accent'],
     ];
     $c = $map[$statut] ?? ['label' => $statut, 'class' => 'badge'];
     return '<span class="badge ' . htmlspecialchars($c['class']) . '">' . htmlspecialchars($c['label']) . '</span>';
@@ -30,56 +30,56 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
 }
 ?>
 <div class="dashboard-header">
-  <h1>Tableau de bord évaluateur</h1>
-  <p>Articles assignés et évaluations en cours.</p>
+  <h1><?= htmlspecialchars(__('reviewer.dashboard_title')) ?></h1>
+  <p><?= htmlspecialchars(__('reviewer.dashboard_intro')) ?></p>
 </div>
 <div class="dashboard-stats">
   <div class="stat-card">
     <div class="stat-icon primary"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg></div>
     <div>
       <div class="stat-value"><?= $enAttente ?></div>
-      <div class="stat-label">En attente</div>
+      <div class="stat-label"><?= htmlspecialchars(__('reviewer.pending')) ?></div>
     </div>
   </div>
   <div class="stat-card">
     <div class="stat-icon gold"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clock"/></svg></div>
     <div>
       <div class="stat-value"><?= $enCours ?></div>
-      <div class="stat-label">En cours</div>
+      <div class="stat-label"><?= htmlspecialchars(__('reviewer.in_progress')) ?></div>
     </div>
   </div>
   <div class="stat-card">
     <div class="stat-icon green"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#check"/></svg></div>
     <div>
       <div class="stat-value"><?= $terminees ?></div>
-      <div class="stat-label">Terminées</div>
+      <div class="stat-label"><?= htmlspecialchars(__('reviewer.done')) ?></div>
     </div>
   </div>
   <div class="stat-card">
     <div class="stat-icon accent"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clipboard-check"/></svg></div>
     <div>
       <div class="stat-value"><?= $tauxCompletion ?> %</div>
-      <div class="stat-label">Taux de complétion</div>
+      <div class="stat-label"><?= htmlspecialchars(__('reviewer.completion_rate')) ?></div>
     </div>
   </div>
 </div>
 <div class="dashboard-card">
-  <h2>Articles assignés à évaluer</h2>
-  <p class="text-muted text-sm mb-4">Cliquez sur « Évaluer » pour accéder au formulaire d'évaluation.</p>
+  <h2><?= htmlspecialchars(__('reviewer.assigned_articles')) ?></h2>
+  <p class="text-muted text-sm mb-4"><?= htmlspecialchars(__('reviewer.evaluate_click')) ?></p>
   <div class="overflow-auto">
     <table class="dashboard-table">
       <thead>
         <tr>
-          <th>Titre</th>
-          <th>Date d'assignation</th>
-          <th>Délai restant</th>
-          <th>Statut</th>
+          <th><?= htmlspecialchars(__('author.th_title')) ?></th>
+          <th><?= htmlspecialchars(__('reviewer.th_assignment_date')) ?></th>
+          <th><?= htmlspecialchars(__('reviewer.th_deadline')) ?></th>
+          <th><?= htmlspecialchars(__('author.th_status')) ?></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <?php if (empty($assignations)): ?>
-          <tr><td colspan="5" class="text-muted">Aucune évaluation assignée.</td></tr>
+          <tr><td colspan="5" class="text-muted"><?= htmlspecialchars(__('reviewer.no_assignment')) ?></td></tr>
         <?php else: ?>
           <?php foreach ($assignations as $e): ?>
           <?php
@@ -90,11 +90,11 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
           <tr>
             <td><?= htmlspecialchars($e['article_titre'] ?? '') ?></td>
             <td><?= reviewerFormatDate($e['date_assignation'] ?? null) ?></td>
-            <td><?= $jours !== null ? $jours . ' jour(s)' : '—' ?></td>
+            <td><?= $jours !== null ? $jours . ' ' . __('reviewer.days_left') : '—' ?></td>
             <td><?= reviewerStatutBadge($statut) ?></td>
             <td>
               <?php if ($peutEvaluer): ?>
-                <a href="<?= $base ?>/reviewer/evaluation/<?= (int) $e['id'] ?>" class="btn btn-sm btn-accent"><?= $statut === 'en_cours' ? 'Reprendre' : 'Évaluer' ?></a>
+                <a href="<?= $base ?>/reviewer/evaluation/<?= (int) $e['id'] ?>" class="btn btn-sm btn-accent"><?= $statut === 'en_cours' ? __('reviewer.resume') : __('reviewer.evaluate') ?></a>
               <?php else: ?>
                 —
               <?php endif; ?>
@@ -105,14 +105,14 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
       </tbody>
     </table>
   </div>
-  <p class="text-sm text-muted mt-4 mb-0"><a href="<?= $base ?>/reviewer/terminees" class="text-primary">Évaluations terminées</a> · <a href="<?= $base ?>/reviewer/historique" class="text-primary">Historique complet</a></p>
+  <p class="text-sm text-muted mt-4 mb-0"><a href="<?= $base ?>/reviewer/terminees" class="text-primary"><?= htmlspecialchars(__('reviewer.done_list')) ?></a> · <a href="<?= $base ?>/reviewer/historique" class="text-primary"><?= htmlspecialchars(__('reviewer.full_history')) ?></a></p>
 </div>
 <div class="dashboard-card">
-  <h2>Rappel du processus d'évaluation</h2>
+  <h2><?= htmlspecialchars(__('reviewer.reminder_title')) ?></h2>
   <ul class="text-sm text-muted" style="margin: 0; padding-left: 1.25rem;">
-    <li>Téléchargez et lisez le manuscrit.</li>
-    <li>Remplissez le formulaire : recommandation, commentaires pour l'auteur, commentaires pour l'éditeur, notes.</li>
-    <li>Vous pouvez sauvegarder un brouillon et reprendre plus tard.</li>
-    <li>Une fois soumise, l'évaluation est définitive.</li>
+    <li><?= htmlspecialchars(__('reviewer.reminder_1')) ?></li>
+    <li><?= htmlspecialchars(__('reviewer.reminder_2')) ?></li>
+    <li><?= htmlspecialchars(__('reviewer.reminder_3')) ?></li>
+    <li><?= htmlspecialchars(__('reviewer.reminder_4')) ?></li>
   </ul>
 </div>

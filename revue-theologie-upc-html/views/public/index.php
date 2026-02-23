@@ -17,22 +17,22 @@ $firstNumero = $numeros[0] ?? null;
         <div class="hero-featured-img">
           <img src="<?= $base ?>/images/revue-cover.jpg" alt="Revue de Théologie">
           <div class="hero-featured-overlay">
-            <h2 class="font-serif">Article à la une</h2>
-            <p><?= $firstNumero ? htmlspecialchars($firstNumero['numero'] . ' - ' . ($firstNumero['date_publication'] ?? '')) : 'Volume 28 - Numéro 1, 2025' ?></p>
+            <h2 class="font-serif"><?= htmlspecialchars(__('home.featured')) ?></h2>
+            <p><?= $firstNumero ? htmlspecialchars($firstNumero['numero'] . ' - ' . ($firstNumero['date_publication'] ?? '')) : __('home.volume_num_default') ?></p>
           </div>
         </div>
         <div class="hero-featured-ribbon">
-          <span>Voir le dernier numéro</span>
+          <span><?= htmlspecialchars(__('home.see_latest_issue')) ?></span>
           <a href="<?= $firstNumero ? $base . '/numero/' . (int)$firstNumero['id'] : $base . '/archives' ?>" class="ribbon-link">→</a>
         </div>
       </div>
     </div>
     <div class="hero-welcome">
-      <p class="hero-welcome-label">Bienvenue</p>
-      <h1 class="font-serif hero-welcome-title">Nous accueillons les derniers articles de recherche en théologie</h1>
+      <p class="hero-welcome-label"><?= htmlspecialchars(__('home.welcome')) ?></p>
+      <h1 class="font-serif hero-welcome-title"><?= htmlspecialchars(__('home.welcome_title')) ?></h1>
       <div class="divider hero-welcome-line"></div>
-      <p class="hero-welcome-text">La Revue de la Faculté de Théologie de l'UPC publie des travaux scientifiques en théologie, études bibliques, éthique chrétienne et histoire de l'Église, avec un accent sur les contextes africains.</p>
-      <a href="<?= $base ?>/publications" class="link-read-more">Lire la suite →</a>
+      <p class="hero-welcome-text"><?= htmlspecialchars(__('home.welcome_text')) ?></p>
+      <a href="<?= $base ?>/publications" class="link-read-more"><?= htmlspecialchars(__('common.read_more')) ?></a>
     </div>
   </div>
 </section>
@@ -44,18 +44,18 @@ $firstNumero = $numeros[0] ?? null;
       <!-- Choix de la rédaction -->
       <section class="section-block section-editors-pick">
         <div class="section-block-head flex justify-between items-center flex-wrap gap-2">
-          <h2 class="font-serif section-block-title">Choix de la rédaction</h2>
+          <h2 class="font-serif section-block-title"><?= htmlspecialchars(__('home.editors_pick')) ?></h2>
           <div class="section-block-nav flex items-center gap-2">
-            <button type="button" class="btn-carousel btn-prev" aria-label="Précédent"><span>‹</span></button>
-            <a href="<?= $base ?>/publications" class="link-view-all">Voir tout</a>
-            <button type="button" class="btn-carousel btn-next" aria-label="Suivant"><span>›</span></button>
+            <button type="button" class="btn-carousel btn-prev" aria-label="<?= htmlspecialchars(__('common.prev')) ?>"><span>‹</span></button>
+            <a href="<?= $base ?>/publications" class="link-view-all"><?= htmlspecialchars(__('common.view_all')) ?></a>
+            <button type="button" class="btn-carousel btn-next" aria-label="<?= htmlspecialchars(__('common.next')) ?>"><span>›</span></button>
           </div>
         </div>
         <div class="search-bar-inline">
           <form action="<?= $base ?>/search" method="get" class="flex gap-2 items-center w-full" role="search">
-            <label for="home-search" class="sr-only">Rechercher un article ou un numéro</label>
-            <input type="search" id="home-search" name="q" placeholder="Rechercher un article..." class="search-input flex-1">
-            <button type="submit" class="btn btn-primary btn-search-submit" aria-label="Rechercher"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
+            <label for="home-search" class="sr-only"><?= htmlspecialchars(__('home.search_label')) ?></label>
+            <input type="search" id="home-search" name="q" placeholder="<?= htmlspecialchars(__('home.search_placeholder')) ?>" class="search-input flex-1">
+            <button type="submit" class="btn btn-primary btn-search-submit" aria-label="<?= htmlspecialchars(__('nav.search')) ?>"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
           </form>
         </div>
         <?php if ($firstArticle): ?>
@@ -67,7 +67,7 @@ $firstNumero = $numeros[0] ?? null;
             <p class="featured-article-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> <?= htmlspecialchars(trim(($firstArticle['auteur_prenom'] ?? '') . ' ' . ($firstArticle['auteur_nom'] ?? ''))) ?></p>
             <h3 class="font-serif featured-article-title"><a href="<?= $base ?>/article/<?= (int)$firstArticle['id'] ?>"><?= htmlspecialchars($firstArticle['titre']) ?></a></h3>
             <p class="featured-article-excerpt"><?= htmlspecialchars($extrait($firstArticle['contenu'] ?? '', 220)) ?></p>
-            <a href="<?= $base ?>/article/<?= (int)$firstArticle['id'] ?>" class="btn btn-outline btn-view-article">Voir l'article complet</a>
+            <a href="<?= $base ?>/article/<?= (int)$firstArticle['id'] ?>" class="btn btn-outline btn-view-article"><?= htmlspecialchars(__('common.view_article')) ?></a>
           </div>
         </div>
         <?php else: ?>
@@ -75,9 +75,9 @@ $firstNumero = $numeros[0] ?? null;
           <div class="featured-article-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
           <div class="featured-article-body">
             <p class="featured-article-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> Revue de Théologie</p>
-            <h3 class="font-serif featured-article-title"><a href="<?= $base ?>/publications">Découvrez les publications</a></h3>
-            <p class="featured-article-excerpt">Consultez les articles de la Revue de la Faculté de Théologie.</p>
-            <a href="<?= $base ?>/publications" class="btn btn-outline btn-view-article">Voir les articles</a>
+            <h3 class="font-serif featured-article-title"><a href="<?= $base ?>/publications"><?= htmlspecialchars(__('home.discover_publications')) ?></a></h3>
+            <p class="featured-article-excerpt"><?= htmlspecialchars(__('home.consult_articles')) ?></p>
+            <a href="<?= $base ?>/publications" class="btn btn-outline btn-view-article"><?= htmlspecialchars(__('common.view_articles')) ?></a>
           </div>
         </div>
         <?php endif; ?>
@@ -86,23 +86,23 @@ $firstNumero = $numeros[0] ?? null;
       <!-- Numéros précédents -->
       <section class="section-block section-previous-issues">
         <div class="section-block-head flex justify-between items-center flex-wrap gap-2">
-          <h2 class="font-serif section-block-title">Numéros précédents</h2>
+          <h2 class="font-serif section-block-title"><?= htmlspecialchars(__('home.previous_issues')) ?></h2>
           <div class="section-block-nav flex items-center gap-2">
-            <button type="button" class="btn-carousel btn-prev" aria-label="Précédent"><span>‹</span></button>
-            <a href="<?= $base ?>/archives" class="link-view-all">Voir tout</a>
-            <button type="button" class="btn-carousel btn-next" aria-label="Suivant"><span>›</span></button>
+            <button type="button" class="btn-carousel btn-prev" aria-label="<?= htmlspecialchars(__('common.prev')) ?>"><span>‹</span></button>
+            <a href="<?= $base ?>/archives" class="link-view-all"><?= htmlspecialchars(__('common.view_all')) ?></a>
+            <button type="button" class="btn-carousel btn-next" aria-label="<?= htmlspecialchars(__('common.next')) ?>"><span>›</span></button>
           </div>
         </div>
         <div class="previous-issues-layout">
           <div class="issues-years">
-            <p class="issues-years-title">Par année :</p>
+            <p class="issues-years-title"><?= htmlspecialchars(__('common.by_year')) ?></p>
             <ul>
               <li><a href="<?= $base ?>/archives?year=2025">2025</a></li>
               <li><a href="<?= $base ?>/archives?year=2024">2024</a></li>
               <li><a href="<?= $base ?>/archives?year=2023">2023</a></li>
               <li><a href="<?= $base ?>/archives?year=2022">2022</a></li>
               <li><a href="<?= $base ?>/archives?year=2021">2021</a></li>
-              <li><a href="<?= $base ?>/archives">Toutes les archives</a></li>
+              <li><a href="<?= $base ?>/archives"><?= htmlspecialchars(__('common.all_archives')) ?></a></li>
             </ul>
           </div>
           <div class="issues-carousel-wrap">
@@ -124,42 +124,42 @@ $firstNumero = $numeros[0] ?? null;
       <!-- À paraître -->
       <section class="section-block section-coming-in">
         <div class="section-block-head flex justify-between items-center flex-wrap gap-2">
-          <h2 class="font-serif section-block-title">À paraître 2026</h2>
+          <h2 class="font-serif section-block-title"><?= htmlspecialchars(__('home.coming_2026')) ?></h2>
           <div class="section-block-nav flex items-center gap-2">
-            <button type="button" class="btn-carousel btn-prev" aria-label="Précédent"><span>‹</span></button>
-            <a href="<?= $base ?>/actualites" class="link-view-all">Voir tout</a>
-            <button type="button" class="btn-carousel btn-next" aria-label="Suivant"><span>›</span></button>
+            <button type="button" class="btn-carousel btn-prev" aria-label="<?= htmlspecialchars(__('common.prev')) ?>"><span>‹</span></button>
+            <a href="<?= $base ?>/actualites" class="link-view-all"><?= htmlspecialchars(__('common.view_all')) ?></a>
+            <button type="button" class="btn-carousel btn-next" aria-label="<?= htmlspecialchars(__('common.next')) ?>"><span>›</span></button>
           </div>
         </div>
         <div class="coming-blocks">
           <a href="<?= $base ?>/soumettre" class="coming-block coming-block-1">
-            <span class="coming-block-label">Appel à articles</span>
-            <span class="coming-block-title">Volume 29 - Numéro 1</span>
+            <span class="coming-block-label"><?= htmlspecialchars(__('home.call_for_papers')) ?></span>
+            <span class="coming-block-title"><?= htmlspecialchars(__('home.vol29_num1')) ?></span>
           </a>
           <a href="<?= $base ?>/actualites" class="coming-block coming-block-2">
-            <span class="coming-block-label">Actualités</span>
-            <span class="coming-block-title">Colloque Théologie & Société</span>
+            <span class="coming-block-label"><?= htmlspecialchars(__('nav.actualites')) ?></span>
+            <span class="coming-block-title"><?= htmlspecialchars(__('home.news_colloque')) ?></span>
           </a>
           <a href="<?= $base ?>/archives" class="coming-block coming-block-3">
-            <span class="coming-block-label">Archives</span>
-            <span class="coming-block-title">Numéros disponibles</span>
+            <span class="coming-block-label"><?= htmlspecialchars(__('nav.archives')) ?></span>
+            <span class="coming-block-title"><?= htmlspecialchars(__('home.issues_available')) ?></span>
           </a>
         </div>
       </section>
 
       <!-- Grille des couvertures -->
       <section class="section-block section-covers">
-        <h2 class="font-serif section-block-title">Numéros de la revue</h2>
+        <h2 class="font-serif section-block-title"><?= htmlspecialchars(__('home.review_issues')) ?></h2>
         <div class="covers-grid">
           <?php foreach (array_slice($numeros, 0, 4) as $nr): ?>
           <a href="<?= $base ?>/numero/<?= (int)$nr['id'] ?>" class="cover-card">
             <div class="cover-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt="<?= htmlspecialchars($nr['numero'] ?? '') ?>"></div>
-            <p class="cover-card-title"><?= htmlspecialchars($nr['titre'] ?? 'Numéro ' . ($nr['numero'] ?? '')) ?></p>
+            <p class="cover-card-title"><?= htmlspecialchars($nr['titre'] ?? __('home.issue_num') . ' ' . ($nr['numero'] ?? '')) ?></p>
           </a>
           <?php endforeach; ?>
           <a href="<?= $base ?>/archives" class="cover-card">
             <div class="cover-card-img cover-placeholder"><span>+</span></div>
-            <p class="cover-card-title">Toutes les archives</p>
+            <p class="cover-card-title"><?= htmlspecialchars(__('common.all_archives')) ?></p>
           </a>
         </div>
       </section>
@@ -167,34 +167,34 @@ $firstNumero = $numeros[0] ?? null;
       <!-- Actualités & Annonces -->
       <section class="section-block section-news">
         <div class="section-block-head flex justify-between items-center flex-wrap gap-2">
-          <h2 class="font-serif section-block-title">Actualités & Annonces</h2>
+          <h2 class="font-serif section-block-title"><?= htmlspecialchars(__('home.news_announcements')) ?></h2>
           <div class="section-block-nav flex items-center gap-2">
-            <button type="button" class="btn-carousel btn-prev" aria-label="Précédent"><span>‹</span></button>
-            <a href="<?= $base ?>/actualites" class="link-view-all">Voir tout</a>
-            <button type="button" class="btn-carousel btn-next" aria-label="Suivant"><span>›</span></button>
+            <button type="button" class="btn-carousel btn-prev" aria-label="<?= htmlspecialchars(__('common.prev')) ?>"><span>‹</span></button>
+            <a href="<?= $base ?>/actualites" class="link-view-all"><?= htmlspecialchars(__('common.view_all')) ?></a>
+            <button type="button" class="btn-carousel btn-next" aria-label="<?= htmlspecialchars(__('common.next')) ?>"><span>›</span></button>
           </div>
         </div>
         <div class="news-cards">
           <article class="news-card">
             <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
             <p class="news-card-date"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> 15 janvier 2026</p>
-            <h3 class="font-serif news-card-title"><a href="<?= $base ?>/publications">Publication des derniers numéros</a></h3>
-            <p class="news-card-excerpt">Consultez les numéros de la revue en ligne.</p>
-            <a href="<?= $base ?>/archives" class="link-read-more">Lire la suite →</a>
+            <h3 class="font-serif news-card-title"><a href="<?= $base ?>/publications"><?= htmlspecialchars(__('home.pub_last_issues')) ?></a></h3>
+            <p class="news-card-excerpt"><?= htmlspecialchars(__('home.consult_issues_online')) ?></p>
+            <a href="<?= $base ?>/archives" class="link-read-more"><?= htmlspecialchars(__('common.read_more')) ?></a>
           </article>
           <article class="news-card">
             <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
             <p class="news-card-date"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> 10 décembre 2025</p>
-            <h3 class="font-serif news-card-title"><a href="<?= $base ?>/actualites">Appel à contributions pour le Volume 29</a></h3>
-            <p class="news-card-excerpt">La rédaction lance l'appel à articles pour le prochain volume.</p>
-            <a href="<?= $base ?>/soumettre" class="link-read-more">Lire la suite →</a>
+            <h3 class="font-serif news-card-title"><a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('home.call_vol29')) ?></a></h3>
+            <p class="news-card-excerpt"><?= htmlspecialchars(__('home.editorial_call')) ?></p>
+            <a href="<?= $base ?>/soumettre" class="link-read-more"><?= htmlspecialchars(__('common.read_more')) ?></a>
           </article>
           <article class="news-card">
             <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
             <p class="news-card-date"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> 1er novembre 2025</p>
-            <h3 class="font-serif news-card-title"><a href="<?= $base ?>/actualites">Colloque Théologie et société en Afrique</a></h3>
-            <p class="news-card-excerpt">La Faculté de Théologie organise un colloque international.</p>
-            <a href="<?= $base ?>/actualites" class="link-read-more">Lire la suite →</a>
+            <h3 class="font-serif news-card-title"><a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('home.colloque_africa')) ?></a></h3>
+            <p class="news-card-excerpt"><?= htmlspecialchars(__('home.faculty_colloque')) ?></p>
+            <a href="<?= $base ?>/actualites" class="link-read-more"><?= htmlspecialchars(__('common.read_more')) ?></a>
           </article>
         </div>
       </section>
@@ -203,57 +203,57 @@ $firstNumero = $numeros[0] ?? null;
     <!-- Sidebar droite -->
     <aside class="sidebar-right">
       <div class="widget widget-stats">
-        <h3 class="widget-title">La revue en chiffres</h3>
+        <h3 class="widget-title"><?= htmlspecialchars(__('home.stats_title')) ?></h3>
         <div class="widget-stats-row">
           <span class="widget-stats-value">200+</span>
-          <span class="widget-stats-label">Articles publiés</span>
+          <span class="widget-stats-label"><?= htmlspecialchars(__('home.articles_published')) ?></span>
         </div>
         <div class="widget-stats-row">
           <span class="widget-stats-value">28</span>
-          <span class="widget-stats-label">Volumes</span>
+          <span class="widget-stats-label"><?= htmlspecialchars(__('home.volumes')) ?></span>
         </div>
         <div class="widget-stats-row">
           <span class="widget-stats-value">65+</span>
-          <span class="widget-stats-label">Années de publication</span>
+          <span class="widget-stats-label"><?= htmlspecialchars(__('home.years_publication')) ?></span>
         </div>
       </div>
 
       <div class="widget widget-notice">
-        <h3 class="widget-title">Annonces</h3>
+        <h3 class="widget-title"><?= htmlspecialchars(__('home.announcements')) ?></h3>
         <ul class="notice-list">
-          <li><a href="<?= $base ?>/archives">Publications et numéros en ligne.</a></li>
-          <li><a href="<?= $base ?>/soumettre">Appel à articles pour le Volume 29.</a></li>
-          <li><a href="<?= $base ?>/actualites">Colloque Théologie et société.</a></li>
-          <li><a href="<?= $base ?>/instructions-auteurs">Instructions aux auteurs.</a></li>
+          <li><a href="<?= $base ?>/archives"><?= htmlspecialchars(__('home.notice_online')) ?></a></li>
+          <li><a href="<?= $base ?>/soumettre"><?= htmlspecialchars(__('home.notice_call_vol29')) ?></a></li>
+          <li><a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('home.notice_colloque')) ?></a></li>
+          <li><a href="<?= $base ?>/instructions-auteurs"><?= htmlspecialchars(__('nav.instructions')) ?></a></li>
         </ul>
       </div>
 
       <div class="widget widget-cta">
         <div class="widget-cta-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg></div>
-        <h3 class="widget-title">Participez à la revue</h3>
-        <p class="widget-cta-text">Soumettez vos articles et contribuez au rayonnement de la recherche théologale en Afrique.</p>
-        <a href="<?= $base ?>/soumettre" class="btn btn-primary btn-sm">Soumettre un article</a>
+        <h3 class="widget-title"><?= htmlspecialchars(__('home.participate')) ?></h3>
+        <p class="widget-cta-text"><?= htmlspecialchars(__('home.participate_text')) ?></p>
+        <a href="<?= $base ?>/soumettre" class="btn btn-primary btn-sm"><?= htmlspecialchars(__('nav.submit')) ?></a>
       </div>
 
       <div class="widget widget-question">
-        <h3 class="widget-title widget-title-bar">Question de la semaine</h3>
-        <p class="widget-question-text">Quel thème souhaiteriez-vous voir davantage traité dans la revue ?</p>
+        <h3 class="widget-title widget-title-bar"><?= htmlspecialchars(__('home.question_week')) ?></h3>
+        <p class="widget-question-text"><?= htmlspecialchars(__('home.question_week_text')) ?></p>
         <form class="widget-poll" id="widget-poll">
-          <label class="poll-option"><input type="radio" name="question_week" value="1"> Études bibliques</label>
-          <label class="poll-option"><input type="radio" name="question_week" value="2"> Théologie systématique</label>
-          <label class="poll-option"><input type="radio" name="question_week" value="3"> Éthique chrétienne</label>
-          <label class="poll-option"><input type="radio" name="question_week" value="4"> Histoire de l'Église</label>
-          <button type="submit" class="btn btn-outline btn-sm mt-4">Envoyer</button>
+          <label class="poll-option"><input type="radio" name="question_week" value="1"> <?= htmlspecialchars(__('home.poll_biblical')) ?></label>
+          <label class="poll-option"><input type="radio" name="question_week" value="2"> <?= htmlspecialchars(__('home.poll_systematic')) ?></label>
+          <label class="poll-option"><input type="radio" name="question_week" value="3"> <?= htmlspecialchars(__('home.poll_ethics')) ?></label>
+          <label class="poll-option"><input type="radio" name="question_week" value="4"> <?= htmlspecialchars(__('home.poll_history')) ?></label>
+          <button type="submit" class="btn btn-outline btn-sm mt-4"><?= htmlspecialchars(__('common.send')) ?></button>
         </form>
       </div>
 
       <div class="widget widget-newsletter">
         <div class="widget-newsletter-bg"></div>
-        <h3 class="widget-title widget-title-light">Alertes & actualités</h3>
-        <p class="widget-newsletter-text">Recevez les dernières parutions et annonces par email.</p>
+        <h3 class="widget-title widget-title-light"><?= htmlspecialchars(__('home.newsletter_title')) ?></h3>
+        <p class="widget-newsletter-text"><?= htmlspecialchars(__('home.newsletter_text')) ?></p>
         <form class="widget-newsletter-form" id="newsletter-form">
-          <input type="email" placeholder="Votre adresse email" required class="newsletter-input">
-          <button type="submit" class="btn btn-accent newsletter-btn">S'inscrire</button>
+          <input type="email" placeholder="<?= htmlspecialchars(__('home.newsletter_placeholder')) ?>" required class="newsletter-input">
+          <button type="submit" class="btn btn-accent newsletter-btn"><?= htmlspecialchars(__('home.newsletter_btn')) ?></button>
         </form>
       </div>
     </aside>
@@ -264,40 +264,40 @@ $firstNumero = $numeros[0] ?? null;
 <section class="section bg-background">
   <div class="container">
     <div class="section-title text-center mb-6">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance">Une plateforme complète pour la recherche théologale</h2>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance"><?= htmlspecialchars(__('home.platform_title')) ?></h2>
       <div class="divider center"></div>
-      <p class="text-muted text-lg" style="max-width: 42rem; margin: 0 auto;">De la soumission à la publication, notre plateforme accompagne chaque étape du processus éditorial scientifique.</p>
+      <p class="text-muted text-lg" style="max-width: 42rem; margin: 0 auto;"><?= htmlspecialchars(__('home.platform_intro')) ?></p>
     </div>
     <div class="grid-3">
       <div class="card">
         <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#upload"/></svg></div>
-        <h3 class="font-serif text-lg font-bold mb-2">Soumission en ligne</h3>
-        <p class="text-muted text-sm leading-relaxed">Soumettez vos articles directement via notre plateforme. Formats acceptés : PDF, Word, LaTeX.</p>
+        <h3 class="font-serif text-lg font-bold mb-2"><?= htmlspecialchars(__('home.submission_online')) ?></h3>
+        <p class="text-muted text-sm leading-relaxed"><?= htmlspecialchars(__('home.submission_online_text')) ?></p>
       </div>
       <div class="card">
         <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg></div>
-        <h3 class="font-serif text-lg font-bold mb-2">Évaluation par les pairs</h3>
-        <p class="text-muted text-sm leading-relaxed">Processus d'évaluation rigoureux en double aveugle par des experts en théologie.</p>
+        <h3 class="font-serif text-lg font-bold mb-2"><?= htmlspecialchars(__('home.peer_review')) ?></h3>
+        <p class="text-muted text-sm leading-relaxed"><?= htmlspecialchars(__('home.peer_review_text')) ?></p>
       </div>
       <div class="card">
         <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg></div>
-        <h3 class="font-serif text-lg font-bold mb-2">Publication & Archivage</h3>
-        <p class="text-muted text-sm leading-relaxed">Organisation en volumes et numéros avec attribution de DOI pour chaque article.</p>
+        <h3 class="font-serif text-lg font-bold mb-2"><?= htmlspecialchars(__('home.publication_archiving')) ?></h3>
+        <p class="text-muted text-sm leading-relaxed"><?= htmlspecialchars(__('home.publication_archiving_text')) ?></p>
       </div>
       <div class="card">
         <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg></div>
-        <h3 class="font-serif text-lg font-bold mb-2">Accès aux PDFs</h3>
-        <p class="text-muted text-sm leading-relaxed">Téléchargez les articles individuels ou les numéros complets au format PDF.</p>
+        <h3 class="font-serif text-lg font-bold mb-2"><?= htmlspecialchars(__('home.pdf_access')) ?></h3>
+        <p class="text-muted text-sm leading-relaxed"><?= htmlspecialchars(__('home.pdf_access_text')) ?></p>
       </div>
       <div class="card">
         <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg></div>
-        <h3 class="font-serif text-lg font-bold mb-2">Visibilité internationale</h3>
-        <p class="text-muted text-sm leading-relaxed">Indexation académique pour une diffusion maximale de la recherche théologale.</p>
+        <h3 class="font-serif text-lg font-bold mb-2"><?= htmlspecialchars(__('home.visibility')) ?></h3>
+        <p class="text-muted text-sm leading-relaxed"><?= htmlspecialchars(__('home.visibility_text')) ?></p>
       </div>
       <div class="card">
         <div class="card-icon"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></div>
-        <h3 class="font-serif text-lg font-bold mb-2">Recherche avancée</h3>
-        <p class="text-muted text-sm leading-relaxed">Retrouvez facilement les articles par auteur, mot-clé, catégorie ou année.</p>
+        <h3 class="font-serif text-lg font-bold mb-2"><?= htmlspecialchars(__('home.advanced_search')) ?></h3>
+        <p class="text-muted text-sm leading-relaxed"><?= htmlspecialchars(__('home.advanced_search_text')) ?></p>
       </div>
     </div>
   </div>
@@ -308,11 +308,11 @@ $firstNumero = $numeros[0] ?? null;
   <div class="container">
     <div class="flex flex-col gap-4 mb-8" style="flex-direction: column;">
       <div>
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance mb-0">Derniers articles publiés</h2>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance mb-0"><?= htmlspecialchars(__('home.latest_articles')) ?></h2>
         <div class="divider" style="margin-top: 1rem; margin-bottom: 1rem;"></div>
-        <p class="text-muted text-lg" style="max-width: 36rem;">Découvrez les publications les plus récentes de notre revue.</p>
+        <p class="text-muted text-lg" style="max-width: 36rem;"><?= htmlspecialchars(__('home.latest_articles_intro')) ?></p>
       </div>
-      <a href="<?= $base ?>/publications" class="btn btn-outline-primary" style="align-self: flex-start;">Voir toutes les publications →</a>
+      <a href="<?= $base ?>/publications" class="btn btn-outline-primary" style="align-self: flex-start;"><?= htmlspecialchars(__('home.view_all_publications')) ?></a>
     </div>
     <div class="grid-3">
       <?php foreach (array_slice($articles, 0, 6) as $a):
@@ -323,7 +323,7 @@ $firstNumero = $numeros[0] ?? null;
       <article class="article-card">
         <div class="bar"></div>
         <div style="padding: 1.5rem;">
-          <span class="badge badge-primary mb-4"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#tag"/></svg> Article</span>
+          <span class="badge badge-primary mb-4"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#tag"/></svg> <?= htmlspecialchars(__('common.article')) ?></span>
           <h3 class="font-serif text-lg font-bold leading-snug mb-3"><a href="<?= $base ?>/article/<?= (int)$a['id'] ?>"><?= htmlspecialchars($a['titre'] ?? '') ?></a></h3>
           <p class="text-muted text-sm leading-relaxed line-clamp-3 mb-4"><?= htmlspecialchars($resume) ?></p>
           <div class="meta">
@@ -341,40 +341,40 @@ $firstNumero = $numeros[0] ?? null;
 <section class="section bg-secondary">
   <div class="container">
     <div class="section-title">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance">Domaines de publication</h2>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance"><?= htmlspecialchars(__('home.publication_domains')) ?></h2>
       <div class="divider center"></div>
-      <p class="text-muted text-lg">La revue couvre l'ensemble des disciplines théologales, avec un accent particulier sur les perspectives africaines.</p>
+      <p class="text-muted text-lg"><?= htmlspecialchars(__('home.publication_domains_intro')) ?></p>
     </div>
     <div class="grid-5">
       <a href="<?= $base ?>/publications" class="card text-center">
         <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg></div>
-        <h3 class="font-serif font-bold text-sm mb-2">Études Bibliques</h3>
-        <p class="text-muted text-xs leading-relaxed mb-3">Exégèse, herméneutique, analyse textuelle de l'Ancien et du Nouveau Testament.</p>
-        <span class="text-xs font-medium text-primary">Voir les articles</span>
+        <h3 class="font-serif font-bold text-sm mb-2"><?= htmlspecialchars(__('home.domain_biblical')) ?></h3>
+        <p class="text-muted text-xs leading-relaxed mb-3"><?= htmlspecialchars(__('home.domain_biblical_desc')) ?></p>
+        <span class="text-xs font-medium text-primary"><?= htmlspecialchars(__('common.view_articles')) ?></span>
       </a>
       <a href="<?= $base ?>/publications" class="card text-center">
         <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg></div>
-        <h3 class="font-serif font-bold text-sm mb-2">Théologie Systématique</h3>
-        <p class="text-muted text-xs leading-relaxed mb-3">Dogmatique, christologie, pneumatologie et réflexion théologale structurée.</p>
-        <span class="text-xs font-medium text-primary">Voir les articles</span>
+        <h3 class="font-serif font-bold text-sm mb-2"><?= htmlspecialchars(__('home.domain_systematic')) ?></h3>
+        <p class="text-muted text-xs leading-relaxed mb-3"><?= htmlspecialchars(__('home.domain_systematic_desc')) ?></p>
+        <span class="text-xs font-medium text-primary"><?= htmlspecialchars(__('common.view_articles')) ?></span>
       </a>
       <a href="<?= $base ?>/publications" class="card text-center">
         <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clipboard-check"/></svg></div>
-        <h3 class="font-serif font-bold text-sm mb-2">Éthique Chrétienne</h3>
-        <p class="text-muted text-xs leading-relaxed mb-3">Bioéthique, justice sociale, éthique politique et morale chrétienne appliquée.</p>
-        <span class="text-xs font-medium text-primary">Voir les articles</span>
+        <h3 class="font-serif font-bold text-sm mb-2"><?= htmlspecialchars(__('home.domain_ethics')) ?></h3>
+        <p class="text-muted text-xs leading-relaxed mb-3"><?= htmlspecialchars(__('home.domain_ethics_desc')) ?></p>
+        <span class="text-xs font-medium text-primary"><?= htmlspecialchars(__('common.view_articles')) ?></span>
       </a>
       <a href="<?= $base ?>/publications" class="card text-center">
         <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg></div>
-        <h3 class="font-serif font-bold text-sm mb-2">Histoire de l'Église</h3>
-        <p class="text-muted text-xs leading-relaxed mb-3">Histoire du christianisme en Afrique, mouvements de réveil, missions.</p>
-        <span class="text-xs font-medium text-primary">Voir les articles</span>
+        <h3 class="font-serif font-bold text-sm mb-2"><?= htmlspecialchars(__('home.domain_history')) ?></h3>
+        <p class="text-muted text-xs leading-relaxed mb-3"><?= htmlspecialchars(__('home.domain_history_desc')) ?></p>
+        <span class="text-xs font-medium text-primary"><?= htmlspecialchars(__('common.view_articles')) ?></span>
       </a>
       <a href="<?= $base ?>/publications" class="card text-center">
         <div class="card-icon mx-auto" style="width: 3.5rem; height: 3.5rem; border-radius: 9999px;"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#graduation-cap"/></svg></div>
-        <h3 class="font-serif font-bold text-sm mb-2">Théologie Pratique</h3>
-        <p class="text-muted text-xs leading-relaxed mb-3">Pastorale, liturgie, missiologie, éducation chrétienne et formation.</p>
-        <span class="text-xs font-medium text-primary">Voir les articles</span>
+        <h3 class="font-serif font-bold text-sm mb-2"><?= htmlspecialchars(__('home.domain_practical')) ?></h3>
+        <p class="text-muted text-xs leading-relaxed mb-3"><?= htmlspecialchars(__('home.domain_practical_desc')) ?></p>
+        <span class="text-xs font-medium text-primary"><?= htmlspecialchars(__('common.view_articles')) ?></span>
       </a>
     </div>
   </div>
@@ -384,27 +384,27 @@ $firstNumero = $numeros[0] ?? null;
 <section class="section bg-background">
   <div class="container">
     <div class="section-title">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance">Volumes & Archives</h2>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance"><?= htmlspecialchars(__('home.volumes_archives')) ?></h2>
       <div class="divider center"></div>
-      <p class="text-muted text-lg">Consultez et téléchargez l'ensemble des numéros de la revue, organisés par volume.</p>
+      <p class="text-muted text-lg"><?= htmlspecialchars(__('home.volumes_archives_intro')) ?></p>
     </div>
     <div class="grid-3">
       <?php foreach (array_slice($numeros, 0, 6) as $nr): ?>
       <div class="volume-card">
         <div class="head">
-          <h3>Numéro <?= htmlspecialchars($nr['numero'] ?? '') ?></h3>
+          <h3><?= htmlspecialchars(__('common.issue')) ?> <?= htmlspecialchars($nr['numero'] ?? '') ?></h3>
           <p><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> <?= htmlspecialchars($nr['date_publication'] ?? '—') ?></p>
         </div>
         <div class="body">
           <ul>
-            <li><a href="<?= $base ?>/numero/<?= (int)$nr['id'] ?>"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg> <?= htmlspecialchars($nr['titre'] ?? 'Numéro ' . ($nr['numero'] ?? '')) ?></a></li>
+            <li><a href="<?= $base ?>/numero/<?= (int)$nr['id'] ?>"><svg class="icon-svg icon-16" style="vertical-align: middle;" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg> <?= htmlspecialchars($nr['titre'] ?? __('home.issue_num') . ' ' . ($nr['numero'] ?? '')) ?></a></li>
           </ul>
         </div>
       </div>
       <?php endforeach; ?>
     </div>
     <div class="text-center mt-6">
-      <a href="<?= $base ?>/archives" class="btn btn-outline-primary">Voir toutes les archives</a>
+      <a href="<?= $base ?>/archives" class="btn btn-outline-primary"><?= htmlspecialchars(__('home.view_all_archives')) ?></a>
     </div>
   </div>
 </section>
@@ -414,32 +414,32 @@ $firstNumero = $numeros[0] ?? null;
   <div class="bg-pattern" aria-hidden="true"></div>
   <div class="container relative" style="z-index: 1;">
     <div class="section-title">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance" style="color: var(--primary-foreground);">Comment soumettre un article ?</h2>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-balance" style="color: var(--primary-foreground);"><?= htmlspecialchars(__('home.how_submit')) ?></h2>
       <div class="divider center" style="background: var(--upc-gold);"></div>
-      <p style="color: rgba(255,255,255,0.8);">Un processus simple et transparent en trois étapes pour publier vos travaux de recherche.</p>
+      <p style="color: rgba(255,255,255,0.8);"><?= htmlspecialchars(__('home.how_submit_intro')) ?></p>
     </div>
     <div class="grid-3 mb-8">
       <div class="step">
         <div class="step-num"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#upload"/></svg></div>
         <span class="num">01</span>
-        <h3>Soumission</h3>
-        <p>Créez votre compte, abonnez-vous et soumettez votre article en ligne avec les métadonnées requises.</p>
+        <h3><?= htmlspecialchars(__('home.step_submission')) ?></h3>
+        <p><?= htmlspecialchars(__('home.step_submission_text')) ?></p>
       </div>
       <div class="step">
         <div class="step-num"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clipboard-check"/></svg></div>
         <span class="num">02</span>
-        <h3>Évaluation</h3>
-        <p>Votre article est évalué en double aveugle par des experts du domaine. Vous recevez les commentaires.</p>
+        <h3><?= htmlspecialchars(__('home.step_evaluation')) ?></h3>
+        <p><?= htmlspecialchars(__('home.step_evaluation_text')) ?></p>
       </div>
       <div class="step">
         <div class="step-num"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#check"/></svg></div>
         <span class="num">03</span>
-        <h3>Publication</h3>
-        <p>Après acceptation, votre article est publié dans un numéro de la revue avec attribution de DOI.</p>
+        <h3><?= htmlspecialchars(__('home.step_publication')) ?></h3>
+        <p><?= htmlspecialchars(__('home.step_publication_text')) ?></p>
       </div>
     </div>
     <div class="text-center">
-      <a href="<?= $base ?>/soumettre" class="btn btn-lg btn-accent">Commencer la soumission →</a>
+      <a href="<?= $base ?>/soumettre" class="btn btn-lg btn-accent"><?= htmlspecialchars(__('home.start_submission')) ?></a>
     </div>
   </div>
 </section>
