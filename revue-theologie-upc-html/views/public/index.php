@@ -17,7 +17,7 @@ $firstNumero = $numeros[0] ?? null;
         <div class="hero-book-spine"></div>
         <div class="hero-featured-card">
           <div class="hero-featured-img">
-            <img src="<?= $base ?>/images/revue-cover.jpg" alt="Revue de Théologie">
+            <img src="<?= $base ?>/images/revue-cover-upc.jpg" alt="Revue de Théologie">
             <div class="hero-featured-overlay">
               <h2 class="font-serif"><?= htmlspecialchars(__('home.featured')) ?></h2>
               <p><?= $firstNumero ? htmlspecialchars($firstNumero['numero'] . ' - ' . ($firstNumero['date_publication'] ?? '')) : __('home.volume_num_default') ?></p>
@@ -64,7 +64,7 @@ $firstNumero = $numeros[0] ?? null;
         <?php if ($firstArticle): ?>
         <div class="featured-article-card">
           <div class="featured-article-img">
-            <img src="<?= $base ?>/images/revue-cover.jpg" alt="">
+            <img src="<?= $base ?>/images/revue-cover-upc.jpg" alt="">
           </div>
           <div class="featured-article-body">
             <p class="featured-article-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> <?= htmlspecialchars(trim(($firstArticle['auteur_prenom'] ?? '') . ' ' . ($firstArticle['auteur_nom'] ?? ''))) ?></p>
@@ -75,7 +75,7 @@ $firstNumero = $numeros[0] ?? null;
         </div>
         <?php else: ?>
         <div class="featured-article-card">
-          <div class="featured-article-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
+          <div class="featured-article-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt=""></div>
           <div class="featured-article-body">
             <p class="featured-article-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> Revue de Théologie</p>
             <h3 class="font-serif featured-article-title"><a href="<?= $base ?>/publications"><?= htmlspecialchars(__('home.discover_publications')) ?></a></h3>
@@ -114,7 +114,7 @@ $firstNumero = $numeros[0] ?? null;
                 $auteur = trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''));
               ?>
               <article class="issue-card">
-                <div class="issue-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
+                <div class="issue-card-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt=""></div>
                 <p class="issue-card-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> <?= htmlspecialchars($auteur ?: 'Revue') ?></p>
                 <h4 class="font-serif issue-card-title"><a href="<?= $base ?>/article/<?= (int)$a['id'] ?>"><?= htmlspecialchars($a['titre']) ?></a></h4>
               </article>
@@ -156,7 +156,7 @@ $firstNumero = $numeros[0] ?? null;
         <div class="covers-grid">
           <?php foreach (array_slice($numeros, 0, 4) as $nr): ?>
           <a href="<?= $base ?>/numero/<?= (int)$nr['id'] ?>" class="cover-card">
-            <div class="cover-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt="<?= htmlspecialchars($nr['numero'] ?? '') ?>"></div>
+            <div class="cover-card-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt="<?= htmlspecialchars($nr['numero'] ?? '') ?>"></div>
             <p class="cover-card-title"><?= htmlspecialchars($nr['titre'] ?? __('home.issue_num') . ' ' . ($nr['numero'] ?? '')) ?></p>
           </a>
           <?php endforeach; ?>
@@ -179,21 +179,21 @@ $firstNumero = $numeros[0] ?? null;
         </div>
         <div class="news-cards">
           <article class="news-card">
-            <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
+            <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt=""></div>
             <p class="news-card-date"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> 15 janvier 2026</p>
             <h3 class="font-serif news-card-title"><a href="<?= $base ?>/publications"><?= htmlspecialchars(__('home.pub_last_issues')) ?></a></h3>
             <p class="news-card-excerpt"><?= htmlspecialchars(__('home.consult_issues_online')) ?></p>
             <a href="<?= $base ?>/archives" class="link-read-more"><?= htmlspecialchars(__('common.read_more')) ?></a>
           </article>
           <article class="news-card">
-            <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
+            <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt=""></div>
             <p class="news-card-date"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> 10 décembre 2025</p>
             <h3 class="font-serif news-card-title"><a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('home.call_vol29')) ?></a></h3>
             <p class="news-card-excerpt"><?= htmlspecialchars(__('home.editorial_call')) ?></p>
             <a href="<?= $base ?>/soumettre" class="link-read-more"><?= htmlspecialchars(__('common.read_more')) ?></a>
           </article>
           <article class="news-card">
-            <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover.jpg" alt=""></div>
+            <div class="news-card-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt=""></div>
             <p class="news-card-date"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#calendar"/></svg> 1er novembre 2025</p>
             <h3 class="font-serif news-card-title"><a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('home.colloque_africa')) ?></a></h3>
             <p class="news-card-excerpt"><?= htmlspecialchars(__('home.faculty_colloque')) ?></p>

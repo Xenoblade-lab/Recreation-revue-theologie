@@ -24,7 +24,7 @@ $domaines = $revueInfo['domaines_couverts'] ?? null;
     <p class="text-muted leading-relaxed mt-4"><?= __('presentation.motto') ?></p>
   </div>
   <div class="image-wrap">
-    <img src="<?= $base ?>/images/revue-cover.jpg" alt="Couverture Revue de Théologie" width="500" height="600">
+    <img src="<?= $base ?>/images/revue-cover-upc.jpg" alt="Couverture Revue de Théologie" width="500" height="600">
     <div class="floating-badge"><?= htmlspecialchars(__('presentation.since_1960')) ?></div>
   </div>
 </section>
