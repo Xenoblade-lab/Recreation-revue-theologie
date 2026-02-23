@@ -15,6 +15,9 @@ Ce document compare **revue_ancien** et **revue-theologie-upc-html** pour identi
 | **Espace évaluateur** | Dashboard, évaluations, terminées, historique, **profil**, **publications** | Dashboard, évaluations, terminées, historique, notifications | Profil, lien « Publications » |
 | **Administration** | Dashboard, users, articles, **détail article (assigner, numéro)**, volumes, **détail volume/numéro**, **évaluations** (liste + détail), **paiements (Valider/Refuser)**, **paramètres revue** | Dashboard, users, articles, volumes, paiements (lecture seule), paramètres | Détail article admin, actions paiements, liste évaluations |
 | **Contenu légal / pages** | **Conditions**, **Confidentialité** (Next.js) | Mentions légales, FAQ, contact | Conditions, Confidentialité (PHP) |
+| **Instructions aux auteurs** | **Télécharger les modèles** (template Word, template LaTeX) | Format + processus uniquement | Ajouter section « Télécharger les modèles » + liens Word/LaTeX |
+| **Comité éditorial** | Ancien : comités globaux + comités par année. **Choix actuel : comité permanent** pour toutes les années. | Comités globaux (rédaction, scientifique) depuis paramètres — **conforme** | ✓ Rien à ajouter (comité permanent = paramètres revue) |
+| **Abonnement auteur** | **Résilier l'abonnement** (bouton + confirmation), renouveler, télécharger reçu | Statut + historique des paiements uniquement | Ajouter bouton « Résilier l'abonnement » + route/action |
 | **UX / design** | Hero « Revue Congolaise », badges, stats (28 ans, 500+ articles), newsletter, réseaux sociaux | Design propre, barre langue, moins de blocs marketing | Garder cohérence, ajouter sections utiles |
 
 ---
@@ -42,6 +45,7 @@ Ce document compare **revue_ancien** et **revue-theologie-upc-html** pour identi
 - **Abonnement payant (s’abonner)** : l’ancien a une page **S’abonner** avec cartes tarifaires et **paiement (M-Pesa, Orange Money, etc.)**. Le nouveau a « Abonnement » + historique des paiements mais pas de tunnel de souscription/paiement. À prévoir : page « S’abonner » (choix formule, montant) + intégration moyen(s) de paiement (M-Pesa/Orange ou autre) + enregistrement en BDD et redirection après succès.
 - **Historique des révisions d’article** : l’ancien a une page **Révisions** par article (timeline : changement de statut, commentaires, etc.). À ajouter côté nouveau : modèle/vue « révisions » pour un article (lecture seule pour l’auteur), et lien depuis la fiche article auteur.
 - **Profil utilisateur** : l’ancien a une page **Profil** (auteur) pour modifier nom, prénom, email, mot de passe, etc. À ajouter sur le nouveau (une page « Mon profil » dans l’espace auteur, et éventuellement dans reviewer/admin).
+- **Résilier l’abonnement** : sur l’ancien, dans la page **Abonnement** (dashboard auteur), lorsqu’un abonnement est actif, un bouton **« Résilier l’abonnement »** est affiché (avec confirmation via `cancelSubscription(id)`). La documentation prévoit une route `POST /author/abonnement/cancel`. Le nouveau site n’a pas cette action : ajouter le bouton « Résilier l’abonnement » sur la page `views/author/abonnement.php` (si abonnement actif), une route `POST /author/abonnement/cancel` (ou `POST /author/abonnement/[id]/cancel`), et la logique côté `AuthorController` + `AbonnementModel` (mise à jour du statut de l’abonnement, ex. `annule` ou `resilie`). Optionnel : téléchargement du reçu de paiement (l’ancien a « Télécharger le reçu » par paiement si `recu_path` est renseigné).
 
 ### 2.4 Espace évaluateur
 
@@ -67,6 +71,48 @@ Ce document compare **revue_ancien** et **revue-theologie-upc-html** pour identi
 - **Articles en vedette (accueil)** : l’ancien affiche plusieurs cartes d’articles avec catégorie, auteurs, extrait, pages, DOI. Le nouveau affiche un seul article à la une. On peut ajouter 2–3 cartes « Articles en vedette » supplémentaires (données dynamiques depuis la BDD) pour rapprocher de l’ancien.
 - **Réseaux sociaux** : liens Facebook, Twitter, LinkedIn, ResearchGate dans le header ou le footer, comme sur l’ancien.
 
+### 2.8 Instructions aux auteurs — téléchargement des modèles
+
+Sur l’**ancien site** (`revue_ancien/views/instructions.php` et `instruct.html`), la page Instructions contient une section explicite **« Télécharger les modèles »** :
+
+- Titre : **Télécharger les modèles**
+- Texte : *« Utilisez impérativement l'un des modèles suivants pour préparer votre manuscrit. »*
+- **Télécharger le template Word** : lien vers `templates/template.docx` (attribut `download="template-revue-theologie-upc.docx"`).
+- **Télécharger le template LaTeX** : lien vers `templates/template.tex` (attribut `download="template-revue-theologie-upc.tex"`).
+
+Le **nouveau site** (`views/public/instructions-auteurs.php`) affiche uniquement le format des manuscrits et le processus de soumission, **sans** cette section ni les liens de téléchargement.
+
+**À faire** : Dans `views/public/instructions-auteurs.php`, ajouter une section « Télécharger les modèles » avec le même texte et deux liens (Word et LaTeX). Prévoir les fichiers dans `public/templates/` (ou un chemin cohérent) : `template.docx` et `template.tex` (fichiers réels à fournir par la rédaction, ou placeholders en attendant). Ajouter les clés de traduction dans `lang/fr.php`, `lang/en.php`, `lang/ln.php` (ex. `instructions.download_models`, `instructions.download_models_intro`, `instructions.download_word`, `instructions.download_latex`).
+
+Référence : **documentation.txt** (section 11) et **DOCUMENTATION_COMPLETE.md** — « Modèle Word / LaTeX téléchargeable ».
+
+### 2.9 Comité éditorial — comité permanent
+
+La revue a instauré un **comité éditorial permanent** pour toutes les années (un seul comité, pas de comité différent par volume/année).
+
+Le **nouveau site** (`views/public/comite.php`) affiche déjà les comités **globaux** (Comité de rédaction, Comité scientifique) depuis les paramètres de la revue (`revue_info` : `comite_redaction`, `comite_scientifique`). Cette approche correspond au choix du comité permanent.
+
+**Conclusion** : Aucune évolution à prévoir pour la page Comité éditorial. Les contenus se gèrent via **Administration → Paramètres revue** (champs Comité scientifique, Comité de rédaction). L’ancien site proposait en plus des comités par année (rédacteur en chef et membres par volume) ; ce n’est pas retenu ici.
+
+### 2.10 Récapitulatif des éléments manquants (vérification complète)
+
+D’après la comparaison **revue_ancien**, **revue-theologie-upc-html**, **DOCUMENTATION_COMPLETE.md** et **documentation.txt**, les éléments suivants ont été identifiés comme manquants ou à compléter sur le nouveau site :
+
+| Élément | Où (ancien / doc) | Statut nouveau | Action |
+|--------|-------------------|-----------------|--------|
+| Télécharger les modèles (Word, LaTeX) | Instructions | Manquant | § 2.8 |
+| Résilier l’abonnement | Abonnement auteur | Manquant | § 2.3 + Phase B |
+| Comité éditorial (permanent) | Paramètres revue | ✓ OK (comité unique, pas par année) | — |
+| Vue admin détail article | Admin | Vue absente | A1 |
+| Valider/Refuser paiement | Admin paiements | Lecture seule | A2 |
+| Conditions, Confidentialité | Pages légales | Manquantes | A3 |
+| Notifications header | Header connecté | Manquant | A4 |
+| Profil auteur/évaluateur | Espaces connectés | Manquant | B3 |
+| Page S’abonner (paiement) | Auteur | Manquant | B1 |
+| Historique révisions article | Auteur | Manquant | B2 |
+| Page Admin Évaluations | Admin | Manquant | B4 |
+| Télécharger reçu paiement | Abonnement auteur | À vérifier (champ `recu_path`) | Optionnel |
+
 ---
 
 ## 3. Plan de travail proposé (priorisé)
@@ -79,6 +125,7 @@ Ce document compare **revue_ancien** et **revue-theologie-upc-html** pour identi
 | A2 | **Actions paiements (Valider / Refuser)** | Dans `views/admin/paiements.php` : boutons par ligne. Ajouter route `POST /admin/paiement/[id]/statut` et méthode dans `AdminController` + mise à jour `PaiementModel`. |
 | A3 | **Pages Conditions et Confidentialité** | Créer `views/public/conditions.php` et `views/public/confidentialite.php`, routes dans `web.php`, contenu (statique ou BDD). Ajouter liens dans le footer et dans `PLAN_TRADUCTION` si traduction prévue. |
 | A4 | **Notifications dans le header (connecté)** | Dans `views/layouts/header.php` : afficher un bloc « Notifications » (icône + badge) pour les utilisateurs connectés, avec dropdown ou lien vers `/author/notifications` ou `/reviewer/notifications` selon le rôle. Optionnel : API/endpoint pour liste courte en AJAX. |
+| A5 | **Instructions aux auteurs — Télécharger les modèles** | Dans `views/public/instructions-auteurs.php` : ajouter une section « Télécharger les modèles » avec le texte « Utilisez impérativement l'un des modèles suivants pour préparer votre manuscrit », lien **Télécharger le template Word** (ex. `public/templates/template.docx`), lien **Télécharger le template LaTeX** (ex. `public/templates/template.tex`). Ajouter les clés i18n (`instructions.download_models`, `instructions.download_word`, `instructions.download_latex`). Créer le dossier `public/templates/` et y placer ou prévoir les fichiers (ou placeholders). |
 
 ### Phase B — Priorité moyenne (parité avec l’ancien)
 
@@ -88,7 +135,7 @@ Ce document compare **revue_ancien** et **revue-theologie-upc-html** pour identi
 | B2 | **Historique des révisions (auteur)** | Modèle/référence « révisions » par article (si pas déjà en BDD) ; page ou section « Révisions » dans l’espace auteur (timeline par article) ; lien depuis détail article auteur. |
 | B3 | **Profil utilisateur (auteur et évaluateur)** | Pages « Mon profil » : formulaire (nom, prénom, email, mot de passe). Routes ex. `/author/profil`, `/reviewer/profil` ; contrôleurs ; mise à jour `UserModel`. |
 | B4 | **Page Admin Évaluations** | Liste des évaluations (toutes ou par article) avec statuts. Vue `views/admin/evaluations.php`, route, méthode `AdminController::evaluations`. Optionnel : détail d’une évaluation en lecture seule. |
-
+| B5 | **Résilier l’abonnement (espace auteur)** | Dans `views/author/abonnement.php` : afficher un bouton « Résilier l’abonnement » lorsque l’abonnement est actif (avec confirmation). Ajouter route `POST /author/abonnement/cancel` (ou avec id), méthode `AuthorController::abonnementCancel`, mise à jour du statut dans `AbonnementModel` (ex. `annule` ou `resilie`). Clés i18n : `author.cancel_subscription`, `author.cancel_subscription_confirm`. |
 ### Phase C — Priorité plus basse (enrichissement)
 
 | # | Tâche | Fichiers / actions |
@@ -107,19 +154,21 @@ Ce document compare **revue_ancien** et **revue-theologie-upc-html** pour identi
 2. **A2** (actions paiements) — nécessaire pour valider les abonnements / paiements.
 3. **A3** (Conditions + Confidentialité) — conformité et confiance.
 4. **A4** (notifications header) — meilleure UX pour les utilisateurs connectés.
-5. **B3** (profil utilisateur) — demande courante.
-6. **B4** (page admin Évaluations) — suivi éditorial.
-7. **B2** (révisions article) — traçabilité pour l’auteur.
-8. **B1** (abonnement payant) — selon priorité métier et disponibilité des APIs paiement.
-9. **C1 à C5** — selon le temps disponible et la priorité contenu/identité.
+5. **A5** (Instructions — télécharger les modèles Word/LaTeX) — demandé explicitement, rapide à mettre en place.
+6. **B3** (profil utilisateur) — demande courante.
+7. **B4** (page admin Évaluations) — suivi éditorial.
+8. **B5** (résilier l’abonnement) — parité avec l’ancien, attendu côté auteur.
+9. **B2** (révisions article) — traçabilité pour l’auteur.
+10. **B1** (abonnement payant) — selon priorité métier et disponibilité des APIs paiement.
+11. **C1 à C5** — selon le temps disponible et la priorité contenu/identité.
 
 ---
 
 ## 5. Fichiers à créer ou modifier (résumé)
 
-- **À créer** : `views/admin/article-detail.php`, `views/public/conditions.php`, `views/public/confidentialite.php`, `views/admin/evaluations.php` (phase B4), vues profil auteur/reviewer (phase B3), page « S’abonner » + logique paiement (phase B1), éventuellement révisions auteur (phase B2).
-- **À modifier** : `views/layouts/header.php` (notifications), `views/admin/paiements.php` (boutons + formulaire/JS), `routes/web.php` (nouvelles routes), `controllers/AdminController.php` (paiement statut, evaluations), `views/public/index.php` et/ou layout accueil (sections C1–C2), footer (liens, réseaux, ISSN).
-- **Traduction** : ajouter les clés pour les nouvelles pages (Conditions, Confidentialité, Profil, Évaluations admin, etc.) dans `lang/fr.php`, `lang/en.php`, `lang/ln.php` selon le plan existant.
+- **À créer** : `views/admin/article-detail.php`, `views/public/conditions.php`, `views/public/confidentialite.php`, `views/admin/evaluations.php` (phase B4), vues profil auteur/reviewer (phase B3), page « S’abonner » + logique paiement (phase B1), éventuellement révisions auteur (phase B2). Dossier `public/templates/` avec `template.docx` et `template.tex` (ou placeholders) pour les modèles (phase A5).
+- **À modifier** : `views/layouts/header.php` (notifications), `views/admin/paiements.php` (boutons + formulaire/JS), `views/public/instructions-auteurs.php` (section « Télécharger les modèles » + liens Word/LaTeX), `views/author/abonnement.php` (bouton « Résilier l’abonnement » + confirmation), `routes/web.php` (nouvelles routes dont `POST /author/abonnement/cancel`), `controllers/AuthorController.php` (abonnementCancel), `controllers/AdminController.php` (paiement statut, evaluations), `models/AbonnementModel.php` (méthode annuler/résilier), `views/public/index.php` et/ou layout accueil (sections C1–C2), footer (liens, réseaux, ISSN).
+- **Traduction** : ajouter les clés pour les nouvelles pages et libellés (Conditions, Confidentialité, Profil, Évaluations admin, **instructions.download_models**, **instructions.download_word**, **instructions.download_latex**, **author.cancel_subscription**, **author.cancel_subscription_confirm**, etc.) dans `lang/fr.php`, `lang/en.php`, `lang/ln.php` selon le plan existant.
 
 ---
 

@@ -5,10 +5,24 @@
 (function () {
   'use strict';
 
-  // Dropdown langue : empêcher navigation sur le lien #
+  // Dropdown langue : empêcher navigation sur le lien # + garder le menu ouvert au survol (délai pour atteindre le menu)
   var langToggle = document.getElementById('lang-toggle');
-  if (langToggle) {
-    langToggle.addEventListener('click', function (e) { e.preventDefault(); });
+  var langDropdown = langToggle ? langToggle.closest('.lang-dropdown') : null;
+  var langMenu = langDropdown ? langDropdown.querySelector('.dropdown-menu') : null;
+  if (langToggle) langToggle.addEventListener('click', function (e) { e.preventDefault(); });
+  if (langDropdown && langMenu) {
+    var langCloseTimer = null;
+    function openLang() {
+      if (langCloseTimer) { clearTimeout(langCloseTimer); langCloseTimer = null; }
+      langDropdown.classList.add('open');
+    }
+    function scheduleCloseLang() {
+      langCloseTimer = setTimeout(function () { langDropdown.classList.remove('open'); langCloseTimer = null; }, 180);
+    }
+    langDropdown.addEventListener('mouseenter', openLang);
+    langDropdown.addEventListener('mouseleave', scheduleCloseLang);
+    langMenu.addEventListener('mouseenter', openLang);
+    langMenu.addEventListener('mouseleave', scheduleCloseLang);
   }
 
   // Menu mobile

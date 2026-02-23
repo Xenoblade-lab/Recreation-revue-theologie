@@ -9,21 +9,24 @@ $extrait = function ($html, $len = 180) {
 $firstArticle = $articles[0] ?? null;
 $firstNumero = $numeros[0] ?? null;
 ?>
-<!-- Hero type template : 2 colonnes (index.html) -->
+<!-- Hero type template : 2 colonnes, image en forme de livre -->
 <section class="hero-template">
   <div class="container hero-template-inner">
     <div class="hero-featured">
-      <div class="hero-featured-card">
-        <div class="hero-featured-img">
-          <img src="<?= $base ?>/images/revue-cover.jpg" alt="Revue de Théologie">
-          <div class="hero-featured-overlay">
-            <h2 class="font-serif"><?= htmlspecialchars(__('home.featured')) ?></h2>
-            <p><?= $firstNumero ? htmlspecialchars($firstNumero['numero'] . ' - ' . ($firstNumero['date_publication'] ?? '')) : __('home.volume_num_default') ?></p>
+      <div class="hero-book-wrap" aria-hidden="true">
+        <div class="hero-book-spine"></div>
+        <div class="hero-featured-card">
+          <div class="hero-featured-img">
+            <img src="<?= $base ?>/images/revue-cover.jpg" alt="Revue de Théologie">
+            <div class="hero-featured-overlay">
+              <h2 class="font-serif"><?= htmlspecialchars(__('home.featured')) ?></h2>
+              <p><?= $firstNumero ? htmlspecialchars($firstNumero['numero'] . ' - ' . ($firstNumero['date_publication'] ?? '')) : __('home.volume_num_default') ?></p>
+            </div>
           </div>
-        </div>
-        <div class="hero-featured-ribbon">
-          <span><?= htmlspecialchars(__('home.see_latest_issue')) ?></span>
-          <a href="<?= $firstNumero ? $base . '/numero/' . (int)$firstNumero['id'] : $base . '/archives' ?>" class="ribbon-link">→</a>
+          <div class="hero-featured-ribbon">
+            <span><?= htmlspecialchars(__('home.see_latest_issue')) ?></span>
+            <a href="<?= $firstNumero ? $base . '/numero/' . (int)$firstNumero['id'] : $base . '/archives' ?>" class="ribbon-link">→</a>
+          </div>
         </div>
       </div>
     </div>

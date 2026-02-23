@@ -429,26 +429,37 @@ textarea { resize: vertical; min-height: 120px; }
   padding: 0.5rem 0;
   font-size: 0.8125rem;
   color: var(--muted-foreground);
+  overflow: visible;
 }
 .topbar-utility a { color: var(--muted-foreground); }
 .topbar-utility a:hover { color: var(--primary); }
 .topbar-social { display: flex; align-items: center; gap: 1rem; }
 .topbar-links { display: flex; align-items: center; }
-.topbar-links .dropdown { position: relative; }
+.topbar-links .dropdown { position: relative; z-index: 100; }
 .topbar-links .dropdown-menu {
   display: none;
   position: absolute;
   right: 0;
   top: 100%;
   min-width: 10rem;
-  margin-top: 0.25rem;
+  margin-top: 0;
+  padding-top: 0.25rem;
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: 0.375rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 50;
+  z-index: 100;
 }
 .topbar-links .dropdown:hover .dropdown-menu { display: block; }
+.topbar-links .lang-dropdown.open .dropdown-menu { display: block; }
+.topbar-links .dropdown-menu::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.25rem;
+  height: 0.25rem;
+}
 .topbar-links .dropdown-menu a { display: block; padding: 0.5rem 1rem; white-space: nowrap; }
 .topbar-links .dropdown-menu a:hover { background: var(--muted); color: var(--primary); }
 .lang-select { cursor: pointer; }
@@ -481,37 +492,93 @@ textarea { resize: vertical; min-height: 120px; }
   .hero-template-inner { grid-template-columns: 1fr 1fr; }
   .hero-template { padding: 3.5rem 0; }
 }
+/* Bloc « livre » : perspective 3D + tranche + scale pour réduire la bande blanche perçue */
+.hero-book-wrap {
+  position: relative;
+  perspective: 1200px;
+  padding-left: 0;
+  transform: scale(0.82);
+  transform-origin: left center;
+}
+.hero-book-spine {
+  position: absolute;
+  left: 0;
+  top: 4%;
+  bottom: 4%;
+  width: 20px;
+  background: linear-gradient(90deg, #0a1929 0%, #0f2847 50%, #142850 100%);
+  border-radius: 2px 0 0 2px;
+  z-index: 2;
+  box-shadow: inset -2px 0 8px rgba(0,0,0,0.3);
+}
+@media (min-width: 768px) {
+  .hero-book-spine { width: 24px; top: 3%; bottom: 3%; }
+}
 .hero-featured-card {
   position: relative;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+  border-radius: 0 0.5rem 0.5rem 0;
+  overflow: visible;
+  box-shadow:
+    2px 0 0 rgba(0,0,0,0.05),
+    4px 0 0 rgba(0,0,0,0.03),
+    8px 4px 20px -4px rgba(0,0,0,0.2),
+    16px 8px 30px -8px rgba(0,0,0,0.15);
+  transform: translateX(0) rotateY(-6deg);
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  margin-left: 18px;
+}
+/* Bande droite « dos » du livre : masque le blanc pour ne laisser qu’une fine tranche */
+.hero-featured-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(100% - 13px);
+  width: 15px;
+  background: linear-gradient(90deg, #0f2847 0%, #0e2644 50%, #0a1929 100%);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+/* Desktop : bande blanche et dos plus fins pour ne pas couvrir le texte */
+@media (min-width: 768px) {
+  .hero-featured-card { margin-left: 22px; transform: translateX(0) rotateY(-8deg); }
+  .hero-featured-card::after { left: calc(100% - 30px); width: 32px; background: linear-gradient(90deg, #0f2847 0%, #0e2644 50%, #0a1929 100%); }
 }
 .hero-featured-img {
   position: relative;
-  aspect-ratio: 4/3;
+  aspect-ratio: 3/4;
+  min-width: 260px;
+  max-height: 420px;
   background: var(--upc-blue-dark);
+  border-radius: 0 0.5rem 0.5rem 0;
+  overflow: hidden;
 }
-.hero-featured-img img { width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 768px) {
+  .hero-featured-img { min-width: 320px; aspect-ratio: 3/4; max-height: 520px; }
+}
+.hero-featured-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-featured-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(15,40,71,0.9) 100%);
+  background: linear-gradient(180deg, transparent 35%, rgba(15,40,71,0.92) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 1.5rem;
   color: var(--primary-foreground);
 }
-.hero-featured-overlay h2 { margin: 0 0 0.25rem 0; font-size: 1.5rem; color: var(--primary-foreground); }
-.hero-featured-overlay p { margin: 0; font-size: 0.875rem; color: rgba(255,255,255,0.8); }
+.hero-featured-overlay h2 { margin: 0 0 0.25rem 0; font-size: 1.35rem; color: var(--primary-foreground); }
+.hero-featured-overlay p { margin: 0; font-size: 0.8125rem; color: rgba(255,255,255,0.85); }
 .hero-featured-ribbon {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 28px;
-  background: var(--primary);
+  width: 32px;
+  background: linear-gradient(180deg, var(--primary) 0%, #0f2847 100%);
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
@@ -522,8 +589,11 @@ textarea { resize: vertical; min-height: 120px; }
   font-size: 0.7rem;
   font-weight: 600;
   color: var(--upc-gold);
+  letter-spacing: 0.02em;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
 }
 .ribbon-link { color: var(--upc-gold); }
+.ribbon-link:hover { text-decoration: underline; }
 .hero-welcome-label { font-size: 0.875rem; color: var(--muted-foreground); margin: 0 0 0.5rem 0; }
 .hero-welcome-title { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.75rem 0; line-height: 1.25; }
 @media (min-width: 768px) { .hero-welcome-title { font-size: 2rem; } }
