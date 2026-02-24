@@ -24,22 +24,9 @@ $contenu = $article['contenu'] ?? '';
         <div class="article-content text-muted leading-relaxed"><?= $contenu ?></div>
       </section>
       <?php endif; ?>
-      <?php if (!empty($article['fichier_path'])): ?>
-      <div class="card p-6 text-center mt-8">
-        <p class="text-sm text-muted mb-4"><?= htmlspecialchars(__('article.read_pdf_intro')) ?></p>
-        <a href="<?= $base ?>/download/article/<?= (int) ($article['id'] ?? 0) ?>?inline=1" class="btn btn-accent" target="_blank" rel="noopener"><?= htmlspecialchars(__('article.read_pdf')) ?></a>
-      </div>
-      <?php endif; ?>
     </div>
     <aside class="lg:w-80 flex-shrink-0">
       <div class="sticky-top flex flex-col gap-6">
-        <?php if (!empty($article['fichier_path'])): ?>
-        <div class="card p-6 text-center" style="background: var(--primary); color: var(--primary-foreground);">
-          <h3 class="font-serif font-bold mb-2"><?= htmlspecialchars(__('article.download')) ?></h3>
-          <p class="text-sm mb-4" style="color: rgba(255,255,255,0.7);"><?= htmlspecialchars(__('article.download_pdf_intro')) ?></p>
-          <a href="<?= $base ?>/download/article/<?= (int) ($article['id'] ?? 0) ?>" class="btn btn-accent w-full" download><?= htmlspecialchars(__('article.download_pdf')) ?></a>
-        </div>
-        <?php endif; ?>
         <div class="card p-6">
           <h3 class="font-serif font-bold mb-4"><?= htmlspecialchars(__('article.info')) ?></h3>
           <ul class="flex flex-col gap-3 text-sm" style="list-style: none; padding: 0;">
@@ -66,4 +53,17 @@ $contenu = $article['contenu'] ?? '';
       </div>
     </aside>
   </div>
+  <?php if (!empty($article['fichier_path'])): ?>
+  <div class="article-pdf-blocks-row grid-2 mt-8">
+    <div class="card p-6 text-center">
+      <p class="text-sm text-muted mb-4"><?= htmlspecialchars(__('article.read_pdf_intro')) ?></p>
+      <a href="<?= $base ?>/download/article/<?= (int) ($article['id'] ?? 0) ?>?inline=1" class="btn btn-accent" target="_blank" rel="noopener"><?= htmlspecialchars(__('article.read_pdf')) ?></a>
+    </div>
+    <div class="card p-6 text-center" style="background: var(--primary); color: var(--primary-foreground);">
+      <h3 class="font-serif font-bold mb-2"><?= htmlspecialchars(__('article.download')) ?></h3>
+      <p class="text-sm mb-4" style="color: rgba(255,255,255,0.7);"><?= htmlspecialchars(__('article.download_pdf_intro')) ?></p>
+      <a href="<?= $base ?>/download/article/<?= (int) ($article['id'] ?? 0) ?>" class="btn btn-accent" download><?= htmlspecialchars(__('article.download_pdf')) ?></a>
+    </div>
+  </div>
+  <?php endif; ?>
 </div>

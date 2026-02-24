@@ -1,6 +1,6 @@
 <?php
 /**
- * Routes API — Revue de Théologie UPC
+ * Routes API — Revue Congolaise de Théologie Protestante
  * Phase 1 : vide.
  */
 

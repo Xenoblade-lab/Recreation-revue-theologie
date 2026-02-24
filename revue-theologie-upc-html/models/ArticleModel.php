@@ -194,22 +194,33 @@ class ArticleModel
         }
         $db = getDB();
         $term = '%' . trim($query) . '%';
+        $limit = (int) $limit;
+        $offset = (int) $offset;
+        // LIMIT/OFFSET en littéraux pour éviter le bug PDO/MySQL avec les requêtes préparées
+        // Recherche aussi sur le nom complet (CONCAT) pour "Prénom Nom" ou "Nom Prénom"
         $stmt = $db->prepare("
             SELECT a.id, a.titre, a.contenu, a.fichier_path, a.date_soumission,
                    u.nom AS auteur_nom, u.prenom AS auteur_prenom
             FROM articles a
             LEFT JOIN users u ON u.id = a.auteur_id
             WHERE a.statut = 'valide'
-              AND (a.titre LIKE :q1 OR a.contenu LIKE :q2 OR u.nom LIKE :q3 OR u.prenom LIKE :q4)
+              AND (
+                a.titre LIKE :q1
+                OR a.contenu LIKE :q2
+                OR u.nom LIKE :q3
+                OR u.prenom LIKE :q4
+                OR CONCAT(IFNULL(u.prenom,''), ' ', IFNULL(u.nom,'')) LIKE :q5
+                OR CONCAT(IFNULL(u.nom,''), ' ', IFNULL(u.prenom,'')) LIKE :q6
+              )
             ORDER BY a.date_soumission DESC
-            LIMIT :lim OFFSET :off
+            LIMIT " . $limit . " OFFSET " . $offset . "
         ");
         $stmt->bindValue(':q1', $term, \PDO::PARAM_STR);
         $stmt->bindValue(':q2', $term, \PDO::PARAM_STR);
         $stmt->bindValue(':q3', $term, \PDO::PARAM_STR);
         $stmt->bindValue(':q4', $term, \PDO::PARAM_STR);
-        $stmt->bindValue(':lim', $limit, \PDO::PARAM_INT);
-        $stmt->bindValue(':off', $offset, \PDO::PARAM_INT);
+        $stmt->bindValue(':q5', $term, \PDO::PARAM_STR);
+        $stmt->bindValue(':q6', $term, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

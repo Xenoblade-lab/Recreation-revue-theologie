@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuration — Revue de Théologie UPC
+ * Configuration — Revue Congolaise de Théologie Protestante
  * Projet : revue-theologie-upc-html (refactorisation)
  *
  * Base de données : utiliser la base dans laquelle vous avez importé

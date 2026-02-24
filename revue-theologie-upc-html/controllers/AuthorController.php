@@ -29,7 +29,7 @@ class AuthorController
         ob_start();
         require BASE_PATH . '/views/author/' . $viewName . '.php';
         $viewContent = ob_get_clean();
-        $pageTitle = $pageTitle ?? 'Espace auteur | Revue UPC';
+        $pageTitle = $pageTitle ?? 'Espace auteur | Revue Congolaise de Théologie Protestante';
         require BASE_PATH . '/views/layouts/author-dashboard.php';
     }
 
@@ -49,7 +49,7 @@ class AuthorController
             'articles'   => $articles,
             'abonnement' => $abonnement,
             'stats'      => $stats,
-        ], 'Tableau de bord auteur | Revue UPC', 'index');
+        ], 'Tableau de bord auteur | Revue Congolaise de Théologie Protestante', 'index');
     }
 
     public function abonnement(array $params = []): void
@@ -63,7 +63,7 @@ class AuthorController
             'abonnements'     => $abonnements,
             'paiements'       => $paiements,
             'abonnementActif' => $abonnementActif,
-        ], 'Mon abonnement | Espace auteur - Revue UPC', 'abonnement');
+        ], 'Mon abonnement | Espace auteur - Revue Congolaise de Théologie Protestante', 'abonnement');
     }
 
     public function showSoumettre(array $params = []): void
@@ -75,7 +75,7 @@ class AuthorController
             'abonnementActif' => $abonnementActif,
             'error'           => $_SESSION['author_error'] ?? null,
             'old'             => $_SESSION['author_old'] ?? [],
-        ], 'Soumettre un article | Revue UPC', 'soumettre');
+        ], 'Soumettre un article | Revue Congolaise de Théologie Protestante', 'soumettre');
         unset($_SESSION['author_error'], $_SESSION['author_old']);
     }
 
@@ -138,7 +138,7 @@ class AuthorController
         if (!$article) {
             http_response_code(404);
             $viewContent = '<div class="container section"><h1>Article introuvable</h1><p><a href="' . $this->base() . '/author">Retour au tableau de bord</a></p></div>';
-            $pageTitle = 'Article | Revue UPC';
+            $pageTitle = 'Article | Revue Congolaise de Théologie Protestante';
             require BASE_PATH . '/views/layouts/author-dashboard.php';
             return;
         }
@@ -161,7 +161,7 @@ class AuthorController
         $this->render('article-edit', [
             'article' => $article,
             'error'   => $error,
-        ], 'Modifier l\'article | Revue UPC', '');
+        ], 'Modifier l\'article | Revue Congolaise de Théologie Protestante', '');
     }
 
     public function articleUpdate(array $params = []): void
@@ -214,7 +214,7 @@ class AuthorController
         $notifications = NotificationModel::getByUserId($userId);
         $this->render('notifications', [
             'notifications' => $notifications,
-        ], 'Notifications | Espace auteur - Revue UPC', 'notifications');
+        ], 'Notifications | Espace auteur - Revue Congolaise de Théologie Protestante', 'notifications');
     }
 
     /** Marquer une notification comme lue (POST) */

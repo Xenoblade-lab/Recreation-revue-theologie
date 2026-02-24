@@ -15,6 +15,12 @@
       <li class="flex mb-2" style="align-items: flex-start; gap: 0.5rem;"><span class="text-primary font-bold">–</span> <?= htmlspecialchars(__('instructions.format3')) ?></li>
       <li class="flex mb-2" style="align-items: flex-start; gap: 0.5rem;"><span class="text-primary font-bold">–</span> <?= htmlspecialchars(__('instructions.format4')) ?></li>
     </ul>
+    <h2 class="font-serif text-xl font-bold mb-4"><?= htmlspecialchars(__('instructions.download_models')) ?></h2>
+    <p class="text-muted text-sm leading-relaxed mb-4"><?= htmlspecialchars(__('instructions.download_models_intro')) ?></p>
+    <ul class="text-muted text-sm leading-relaxed mb-6" style="list-style: none; padding: 0;">
+      <li class="mb-2"><a href="<?= $base ?>/templates/template.docx" class="btn btn-outline" download="template-revue-theologie-upc.docx"><?= htmlspecialchars(__('instructions.download_word')) ?></a></li>
+      <li><a href="<?= $base ?>/templates/template.tex" class="btn btn-outline" download="template-revue-theologie-upc.tex"><?= htmlspecialchars(__('instructions.download_latex')) ?></a></li>
+    </ul>
     <h2 class="font-serif text-xl font-bold mb-4"><?= htmlspecialchars(__('instructions.process')) ?></h2>
     <p class="text-muted text-sm leading-relaxed mb-0"><?= htmlspecialchars(__('instructions.process_text')) ?></p>
     <p class="mt-6"><a href="<?= $base ?>/soumettre" class="btn btn-primary"><?= htmlspecialchars(__('nav.submit')) ?></a> <a href="<?= $base ?>/politique-editoriale" class="btn btn-outline-primary"><?= htmlspecialchars(__('nav.politique')) ?></a></p>

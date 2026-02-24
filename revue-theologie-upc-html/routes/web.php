@@ -1,6 +1,6 @@
 <?php
 /**
- * Routes web — Revue de Théologie UPC
+ * Routes web — Revue Congolaise de Théologie Protestante
  */
 use Router\Router;
 use Controllers\RevueController;
@@ -73,6 +73,7 @@ Router::post('/admin/article/[i:id]/statut', [AdminController::class, 'articleUp
 Router::post('/admin/article/[i:id]/assign', [AdminController::class, 'articleAssign']);
 Router::post('/admin/article/[i:id]/issue', [AdminController::class, 'articleSetIssue']);
 Router::get('/admin/paiements', [AdminController::class, 'paiements']);
+Router::post('/admin/paiement/[i:id]/statut', [AdminController::class, 'paiementStatut']);
 Router::get('/admin/volumes', [AdminController::class, 'volumes']);
 Router::get('/admin/parametres', [AdminController::class, 'parametres']);
 Router::post('/admin/parametres', [AdminController::class, 'parametresUpdate']);
@@ -92,3 +93,5 @@ Router::get('/politique-editoriale', [RevueController::class, 'politiqueEditoria
 Router::get('/instructions-auteurs', [RevueController::class, 'instructionsAuteurs']);
 Router::get('/actualites', [RevueController::class, 'actualites']);
 Router::get('/mentions-legales', [RevueController::class, 'mentionsLegales']);
+Router::get('/conditions-utilisation', [RevueController::class, 'conditionsUtilisation']);
+Router::get('/confidentialite', [RevueController::class, 'confidentialite']);

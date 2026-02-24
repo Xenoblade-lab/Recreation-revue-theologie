@@ -53,17 +53,17 @@ class RevueModel
         }
         $db = getDB();
         $term = '%' . trim($query) . '%';
+        $limit = (int) $limit;
         $stmt = $db->prepare("
             SELECT id, numero, titre, description, date_publication, volume_id
             FROM revues
             WHERE titre LIKE :q1 OR numero LIKE :q2 OR (description IS NOT NULL AND description LIKE :q3)
             ORDER BY date_publication DESC, id DESC
-            LIMIT :lim
+            LIMIT " . $limit . "
         ");
         $stmt->bindValue(':q1', $term, \PDO::PARAM_STR);
         $stmt->bindValue(':q2', $term, \PDO::PARAM_STR);
         $stmt->bindValue(':q3', $term, \PDO::PARAM_STR);
-        $stmt->bindValue(':lim', $limit, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

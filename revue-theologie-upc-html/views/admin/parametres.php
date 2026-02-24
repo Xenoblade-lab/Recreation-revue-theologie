@@ -3,7 +3,7 @@ $info = $info ?? null;
 $success = !empty($success);
 $base = $base ?? '';
 
-$nom = $info['nom_officiel'] ?? 'Revue de Théologie de l\'UPC';
+$nom = $info['nom_officiel'] ?? 'Revue Congolaise de Théologie Protestante';
 $description = $info['description'] ?? '';
 $ligne_editoriale = $info['ligne_editoriale'] ?? '';
 $objectifs = $info['objectifs'] ?? '';

@@ -1,6 +1,6 @@
 <?php
 /**
- * Point d'entrée — Revue de Théologie UPC
+ * Point d'entrée — Revue Congolaise de Théologie Protestante
  * Toutes les requêtes sont redirigées ici via .htaccess.
  */
 

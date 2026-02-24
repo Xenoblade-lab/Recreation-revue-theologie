@@ -38,6 +38,17 @@ class PaiementModel
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /** Mettre à jour le statut d'un paiement (admin) */
+    public static function updateStatut(int $id, string $statut): bool
+    {
+        if (!in_array($statut, ['en_attente', 'valide', 'refuse'], true)) {
+            return false;
+        }
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE paiements SET statut = :statut, updated_at = NOW() WHERE id = :id");
+        return $stmt->execute([':id' => $id, ':statut' => $statut]);
+    }
+
     /** Revenus du mois en cours (paiements validés) */
     public static function getMonthlyTotal(): float
     {

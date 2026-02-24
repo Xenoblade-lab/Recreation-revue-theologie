@@ -4,7 +4,7 @@
  * Variables : $viewContent, $pageTitle, $base.
  */
 $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
-$pageTitle = $pageTitle ?? 'Connexion | Revue UPC';
+$pageTitle = $pageTitle ?? 'Connexion | Revue Congolaise de Théologie Protestante';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,7 +21,7 @@ $pageTitle = $pageTitle ?? 'Connexion | Revue UPC';
       <a href="<?= $base ?>/" class="logo flex items-center gap-3">
         <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC">
         <div>
-          <p class="font-serif font-bold text-sm">Revue de Théologie</p>
+          <p class="font-serif font-bold text-sm">Revue Congolaise de Théologie Protestante</p>
           <p class="text-xs" style="color: rgba(255,255,255,0.6);">Université Protestante au Congo</p>
         </div>
       </a>

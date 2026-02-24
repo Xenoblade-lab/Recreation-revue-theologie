@@ -21,11 +21,25 @@ $extrait = function ($html, $len = 180) {
 </div>
 <div class="container section">
   <?php if ($q === ''): ?>
-    <p class="text-muted"><?= htmlspecialchars(__('search.hint')) ?></p>
-  <?php else: ?>
-    <?php if (empty($articles) && empty($numeros)): ?>
-      <p class="text-muted"><?= htmlspecialchars(__('search.no_results')) ?> « <?= htmlspecialchars($q) ?> ».</p>
-    <?php else: ?>
+    <p class="text-muted"><?= htmlspecialchars(function_exists('__') ? __('search.hint') : 'Saisissez un mot-clé pour rechercher dans les articles et numéros.') ?></p>
+  <?php else:
+    $nbArticles = count($articles);
+    $nbNumeros = count($numeros);
+    $hasResults = $nbArticles > 0 || $nbNumeros > 0;
+  ?>
+    <div class="search-results-intro mb-6">
+      <?php if ($hasResults): ?>
+        <p class="text-base font-medium">
+          <?= htmlspecialchars(function_exists('__') ? sprintf(__('search.results_for'), $q) : 'Résultats pour « ' . $q . ' »') ?> :
+          <?= htmlspecialchars(function_exists('__') ? sprintf(__('search.results_summary'), $nbArticles, $nbNumeros) : sprintf('%d article(s), %d numéro(s)', $nbArticles, $nbNumeros)) ?>.
+        </p>
+      <?php else: ?>
+        <p class="text-base font-medium text-foreground">
+          <?= htmlspecialchars(function_exists('__') ? sprintf(__('search.no_results_full'), $q) : 'Aucun résultat trouvé pour « ' . $q . ' ». Essayez d\'autres mots-clés, un titre ou un nom d\'auteur.') ?>
+        </p>
+      <?php endif; ?>
+    </div>
+    <?php if ($hasResults): ?>
       <?php if (!empty($articles)): ?>
         <h2 class="font-serif text-xl font-bold mb-4"><?= htmlspecialchars(__('search.articles')) ?> (<?= count($articles) ?>)</h2>
         <div class="flex flex-col gap-4 mb-8">

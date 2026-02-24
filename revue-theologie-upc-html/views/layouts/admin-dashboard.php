@@ -4,7 +4,7 @@
  * Variables : $viewContent, $pageTitle, $base.
  */
 $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
-$pageTitle = $pageTitle ?? 'Administration | Revue UPC';
+$pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Protestante';
 ?>
 <!DOCTYPE html>
 <html lang="<?= function_exists('current_lang') ? htmlspecialchars(current_lang()) : 'fr' ?>">
@@ -20,7 +20,7 @@ $pageTitle = $pageTitle ?? 'Administration | Revue UPC';
     <div class="flex items-center gap-4">
       <a href="<?= $base ?>/" class="flex items-center gap-2">
         <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC" width="36" height="36">
-        <span class="font-serif font-bold text-primary">Revue de Théologie</span>
+        <span class="font-serif font-bold text-primary">Revue Congolaise de Théologie Protestante</span>
       </a>
       <span class="text-muted">|</span>
       <span class="text-sm font-medium"><?= htmlspecialchars(function_exists('__') ? __('dash.admin_space') : 'Administration') ?></span>
@@ -74,7 +74,7 @@ $pageTitle = $pageTitle ?? 'Administration | Revue UPC';
   <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
     <div class="container">
       <div class="footer-bottom">
-        <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculté de Théologie - UPC. <?= htmlspecialchars(function_exists('__') ? __('dash.footer_admin') : 'Espace administrateur') ?>.</p>
+        <p class="mb-0">&copy; <span id="year"></span> Revue Congolaise de Théologie Protestante - UPC. <?= htmlspecialchars(function_exists('__') ? __('dash.footer_admin') : 'Espace administrateur') ?>.</p>
         <a href="<?= $base ?>/logout"><?= htmlspecialchars(function_exists('__') ? __('dash.logout') : 'Déconnexion') ?></a>
       </div>
     </div>

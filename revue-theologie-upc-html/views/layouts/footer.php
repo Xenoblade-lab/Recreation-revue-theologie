@@ -8,11 +8,11 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
           <div class="logo-block">
             <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC">
             <div>
-              <p class="font-serif font-bold text-sm mb-0" style="color: var(--primary-foreground);">Revue de Théologie</p>
+              <p class="font-serif font-bold text-sm mb-0" style="color: var(--primary-foreground);">Revue Congolaise de Théologie Protestante</p>
               <p class="text-xs mb-0" style="color: rgba(255,255,255,0.6);">UPC - Kinshasa</p>
             </div>
           </div>
-          <p class="text-sm leading-relaxed mb-3" style="color: rgba(255,255,255,0.7);">Revue scientifique de la Faculté de Théologie de l'Université Protestante au Congo.</p>
+          <p class="text-sm leading-relaxed mb-3" style="color: rgba(255,255,255,0.7);">Publication annuelle de l'Université Protestante au Congo.</p>
           <p class="text-xs font-medium mt-3 italic" style="color: var(--upc-gold);">"Vérité, Foi, Liberté"</p>
         </div>
         <div>
@@ -59,9 +59,11 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
       </div>
       <div class="footer-bottom">
         <p class="mb-0">&copy; <span id="year"></span> Revue de la Faculté de Théologie - UPC. <?= htmlspecialchars(function_exists('__') ? __('footer.copyright') : 'Tous droits réservés.') ?></p>
-        <div class="flex gap-4">
+        <div class="flex gap-4 flex-wrap">
           <a href="<?= $base ?>/politique-editoriale"><?= htmlspecialchars(function_exists('__') ? __('footer.politique') : 'Politique éditoriale') ?></a>
           <a href="<?= $base ?>/mentions-legales"><?= htmlspecialchars(function_exists('__') ? __('footer.mentions') : 'Mentions légales') ?></a>
+          <a href="<?= $base ?>/conditions-utilisation"><?= htmlspecialchars(function_exists('__') ? __('footer.conditions') : 'Conditions d\'utilisation') ?></a>
+          <a href="<?= $base ?>/confidentialite"><?= htmlspecialchars(function_exists('__') ? __('footer.confidentiality') : 'Politique de confidentialité') ?></a>
         </div>
       </div>
     </div>

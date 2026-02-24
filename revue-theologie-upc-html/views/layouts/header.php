@@ -8,6 +8,7 @@ $isLoggedIn = class_exists('Service\AuthService') && \Service\AuthService::isLog
 $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
 $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
 ?>
+  <div class="site-header-sticky-wrap">
   <!-- Barre utilitaire -->
   <div class="topbar-utility">
     <div class="container flex justify-between items-center">
@@ -53,7 +54,7 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
       <a href="<?= $base ?>/" class="logo">
         <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC">
         <div class="logo-text">
-          <p class="title">Revue de Théologie</p>
+          <p class="title">Revue Congolaise de Théologie Protestante</p>
           <p class="sub">Université Protestante au Congo</p>
         </div>
       </a>
@@ -88,7 +89,7 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
       <div class="header-actions">
         <span class="header-desk-actions flex items-center gap-2">
           <form action="<?= $base ?>/search" method="get" class="flex items-center gap-1" role="search">
-            <input type="search" id="header-search-input" name="q" placeholder="" class="input input-sm" style="width: 140px;" aria-label="<?= htmlspecialchars(__('nav.search')) ?>">
+            <input type="search" id="header-search-input" name="q" placeholder="<?= htmlspecialchars(function_exists('__') ? __('search.placeholder') : 'Mot-clé, auteur, titre...') ?>" class="input input-sm" style="width: 180px;" aria-label="<?= htmlspecialchars(__('nav.search')) ?>">
             <button type="submit" class="btn btn-icon btn-outline" aria-label="<?= htmlspecialchars(__('nav.search')) ?>"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#search"/></svg></button>
           </form>
           <?php
@@ -98,10 +99,17 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
           }
           ?>
           <?php
-          $isReviewer = in_array($currentUser['role'] ?? '', ['redacteur', 'redacteur en chef'], true);
-          $notifUrl = $isReviewer ? $base . '/reviewer/notifications' : $base . '/author/notifications';
-          if ($isLoggedIn && ($notificationCount > 0 || in_array($currentUser['role'] ?? '', ['auteur', 'admin'], true) || $isReviewer)): ?>
-            <a href="<?= $notifUrl ?>" class="btn btn-icon btn-outline position-relative" aria-label="Notifications">
+          $role = $currentUser['role'] ?? '';
+          $isReviewer = in_array($role, ['redacteur', 'redacteur en chef'], true);
+          if ($role === 'admin') {
+              $notifUrl = $base . '/admin';
+          } elseif ($isReviewer) {
+              $notifUrl = $base . '/reviewer/notifications';
+          } else {
+              $notifUrl = $base . '/author/notifications';
+          }
+          if ($isLoggedIn && ($notificationCount > 0 || in_array($role, ['auteur', 'admin'], true) || $isReviewer)): ?>
+            <a href="<?= $notifUrl ?>" class="btn btn-icon btn-outline position-relative" aria-label="<?= htmlspecialchars(function_exists('__') ? __('nav.notifications') : 'Notifications') ?>">
               <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
               <?php if ($notificationCount > 0): ?><span class="badge" style="position:absolute;top:-4px;right:-4px;min-width:1.1em;font-size:0.7rem;"><?= $notificationCount > 99 ? '99+' : $notificationCount ?></span><?php endif; ?>
             </a>
@@ -158,3 +166,4 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
       </div>
     </div>
   </header>
+  </div>

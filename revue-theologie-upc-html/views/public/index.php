@@ -17,7 +17,7 @@ $firstNumero = $numeros[0] ?? null;
         <div class="hero-book-spine"></div>
         <div class="hero-featured-card">
           <div class="hero-featured-img">
-            <img src="<?= $base ?>/images/revue-cover-upc.jpg" alt="Revue de Théologie">
+            <img src="<?= $base ?>/images/revue-cover-upc.jpg" alt="Revue Congolaise de Théologie Protestante">
             <div class="hero-featured-overlay">
               <h2 class="font-serif"><?= htmlspecialchars(__('home.featured')) ?></h2>
               <p><?= $firstNumero ? htmlspecialchars($firstNumero['numero'] . ' - ' . ($firstNumero['date_publication'] ?? '')) : __('home.volume_num_default') ?></p>
@@ -77,7 +77,7 @@ $firstNumero = $numeros[0] ?? null;
         <div class="featured-article-card">
           <div class="featured-article-img"><img src="<?= $base ?>/images/revue-cover-upc.jpg" alt=""></div>
           <div class="featured-article-body">
-            <p class="featured-article-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> Revue de Théologie</p>
+            <p class="featured-article-author"><svg class="icon-svg icon-16" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg> Revue Congolaise de Théologie Protestante</p>
             <h3 class="font-serif featured-article-title"><a href="<?= $base ?>/publications"><?= htmlspecialchars(__('home.discover_publications')) ?></a></h3>
             <p class="featured-article-excerpt"><?= htmlspecialchars(__('home.consult_articles')) ?></p>
             <a href="<?= $base ?>/publications" class="btn btn-outline btn-view-article"><?= htmlspecialchars(__('common.view_articles')) ?></a>

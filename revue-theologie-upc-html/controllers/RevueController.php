@@ -33,7 +33,7 @@ class RevueController
             'articles' => $articles,
             'numeros'  => $numeros,
             'base'     => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], 'Revue de la Faculté de Théologie | UPC');
+        ], 'Revue Congolaise de Théologie Protestante | UPC');
     }
 
     public function publications(array $params = []): void
@@ -42,7 +42,7 @@ class RevueController
         $this->render('publications', [
             'articles' => $articles,
             'base'     => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], 'Publications | Revue de la Faculté de Théologie - UPC');
+        ], 'Publications | Revue Congolaise de Théologie Protestante - UPC');
     }
 
     public function archives(array $params = []): void
@@ -56,7 +56,7 @@ class RevueController
             'volumes'         => $volumes,
             'revuesByVolume'  => $revuesByVolume,
             'base'            => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], 'Archives | Revue de la Faculté de Théologie - UPC');
+        ], 'Archives | Revue Congolaise de Théologie Protestante - UPC');
     }
 
     public function articleDetails(array $params = []): void
@@ -72,7 +72,7 @@ class RevueController
         $this->render('article-details', [
             'article' => $article,
             'base'    => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], htmlspecialchars($article['titre']) . ' | Revue UPC');
+        ], htmlspecialchars($article['titre']) . ' | Revue Congolaise de Théologie Protestante');
     }
 
     public function numeroDetails(array $params = []): void
@@ -94,7 +94,7 @@ class RevueController
             'volume'          => $volume,
             'articlesNumero'  => $articlesNumero,
             'base'            => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], 'Numéro ' . htmlspecialchars($revue['numero']) . ' | Revue UPC');
+        ], 'Numéro ' . htmlspecialchars($revue['numero']) . ' | Revue Congolaise de Théologie Protestante');
     }
 
     public function presentation(array $params = []): void
@@ -103,7 +103,7 @@ class RevueController
         $this->render('presentation', [
             'revueInfo' => $revueInfo,
             'base'      => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], 'Présentation | Revue de la Faculté de Théologie - UPC');
+        ], 'Présentation | Revue Congolaise de Théologie Protestante - UPC');
     }
 
     public function comite(array $params = []): void
@@ -112,43 +112,55 @@ class RevueController
         $this->render('comite', [
             'revueInfo' => $revueInfo,
             'base'      => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
-        ], 'Comité éditorial | Revue de la Faculté de Théologie - UPC');
+        ], 'Comité éditorial | Revue Congolaise de Théologie Protestante - UPC');
     }
 
     public function contact(array $params = []): void
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
-        $this->render('contact', ['base' => $base], 'Contact | Revue de la Faculté de Théologie - UPC');
+        $this->render('contact', ['base' => $base], 'Contact | Revue Congolaise de Théologie Protestante - UPC');
     }
 
     public function faq(array $params = []): void
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
-        $this->render('faq', ['base' => $base], 'FAQ | Revue de la Faculté de Théologie - UPC');
+        $this->render('faq', ['base' => $base], 'FAQ | Revue Congolaise de Théologie Protestante - UPC');
     }
 
     public function politiqueEditoriale(array $params = []): void
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
-        $this->render('politique-editoriale', ['base' => $base], 'Politique éditoriale | Revue UPC');
+        $this->render('politique-editoriale', ['base' => $base], 'Politique éditoriale | Revue Congolaise de Théologie Protestante');
     }
 
     public function instructionsAuteurs(array $params = []): void
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
-        $this->render('instructions-auteurs', ['base' => $base], 'Instructions aux auteurs | Revue UPC');
+        $this->render('instructions-auteurs', ['base' => $base], 'Instructions aux auteurs | Revue Congolaise de Théologie Protestante');
     }
 
     public function actualites(array $params = []): void
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
-        $this->render('actualites', ['base' => $base], 'Actualités | Revue UPC');
+        $this->render('actualites', ['base' => $base], 'Actualités | Revue Congolaise de Théologie Protestante');
     }
 
     public function mentionsLegales(array $params = []): void
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
-        $this->render('mentions-legales', ['base' => $base], 'Mentions légales | Revue UPC');
+        $this->render('mentions-legales', ['base' => $base], 'Mentions légales | Revue Congolaise de Théologie Protestante');
+    }
+
+    public function conditionsUtilisation(array $params = []): void
+    {
+        $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+        $this->render('conditions', ['base' => $base], (function_exists('__') ? __('legal.conditions_title') : 'Conditions d\'utilisation') . ' | Revue Congolaise de Théologie Protestante');
+    }
+
+    public function confidentialite(array $params = []): void
+    {
+        $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+        $this->render('confidentialite', ['base' => $base], (function_exists('__') ? __('legal.confidentiality_title') : 'Politique de confidentialité') . ' | Revue Congolaise de Théologie Protestante');
     }
 
     /** Recherche : articles et numéros par mot-clé (GET /search?q=...) */
@@ -167,7 +179,7 @@ class RevueController
             'articles' => $articles,
             'numeros'   => $numeros,
             'base'      => $base,
-        ], 'Recherche' . ($q !== '' ? ' : ' . $q : '') . ' | Revue UPC');
+        ], 'Recherche' . ($q !== '' ? ' : ' . $q : '') . ' | Revue Congolaise de Théologie Protestante');
     }
 
     /** Téléchargement PDF d'un article (contrôle d'accès : publié ou auteur/admin) */

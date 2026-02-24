@@ -33,7 +33,7 @@ class AdminController
         ob_start();
         require BASE_PATH . '/views/admin/' . $viewName . '.php';
         $viewContent = ob_get_clean();
-        $pageTitle = $pageTitle ?? 'Administration | Revue UPC';
+        $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Protestante';
         require BASE_PATH . '/views/layouts/admin-dashboard.php';
     }
 
@@ -50,7 +50,7 @@ class AdminController
             'reviewersCount' => $reviewersCount,
             'monthlyRevenue' => $monthlyRevenue,
             'lastSubmissions' => $lastSubmissions,
-        ], 'Tableau de bord | Administration - Revue UPC', 'index');
+        ], 'Tableau de bord | Administration - Revue Congolaise de Théologie Protestante', 'index');
     }
 
     public function users(array $params = []): void
@@ -256,6 +256,24 @@ class AdminController
         $this->render('paiements', ['paiements' => $paiements], 'Paiements | Administration', 'paiements');
     }
 
+    public function paiementStatut(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $statut = trim($_POST['statut'] ?? '');
+        if (!$id || !in_array($statut, ['valide', 'refuse'], true)) {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        PaiementModel::updateStatut($id, $statut);
+        header('Location: ' . $this->base() . '/admin/paiements');
+        exit;
+    }
+
     public function volumes(array $params = []): void
     {
         $volumes = VolumeModel::getAll();
@@ -282,7 +300,7 @@ class AdminController
             exit;
         }
         $nom = trim($_POST['nom_officiel'] ?? '');
-        if ($nom === '') $nom = 'Revue de Théologie de l\'UPC';
+        if ($nom === '') $nom = 'Revue Congolaise de Théologie Protestante';
         RevueInfoModel::update(
             $nom,
             trim($_POST['description'] ?? '') ?: null,

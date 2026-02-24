@@ -27,7 +27,7 @@ class ReviewerController
         ob_start();
         require BASE_PATH . '/views/reviewer/' . $viewName . '.php';
         $viewContent = ob_get_clean();
-        $pageTitle = $pageTitle ?? 'Espace évaluateur | Revue UPC';
+        $pageTitle = $pageTitle ?? 'Espace évaluateur | Revue Congolaise de Théologie Protestante';
         require BASE_PATH . '/views/layouts/reviewer-dashboard.php';
     }
 
@@ -47,7 +47,7 @@ class ReviewerController
             'enCours'        => $enCours,
             'terminees'      => $terminees,
             'tauxCompletion' => $tauxCompletion,
-        ], 'Tableau de bord évaluateur | Revue UPC', 'index');
+        ], 'Tableau de bord évaluateur | Revue Congolaise de Théologie Protestante', 'index');
     }
 
     public function evaluation(array $params = []): void
@@ -62,7 +62,7 @@ class ReviewerController
             $_SESSION['reviewer_page'] = '';
             http_response_code(404);
             $viewContent = '<div class="container section"><h1>Évaluation introuvable</h1><p><a href="' . $base . '/reviewer">Retour au tableau de bord</a></p></div>';
-            $pageTitle = 'Évaluation | Revue UPC';
+            $pageTitle = 'Évaluation | Revue Congolaise de Théologie Protestante';
             require BASE_PATH . '/views/layouts/reviewer-dashboard.php';
             return;
         }
@@ -71,7 +71,7 @@ class ReviewerController
         $this->render('evaluation', [
             'evaluation' => $evaluation,
             'error'      => $error,
-        ], 'Évaluation | Revue UPC', '');
+        ], 'Évaluation | Revue Congolaise de Théologie Protestante', '');
     }
 
     /**
@@ -164,7 +164,7 @@ class ReviewerController
         $user = AuthService::getUser();
         $evaluateurId = (int) $user['id'];
         $list = EvaluationModel::getByEvaluateurId($evaluateurId, 'termine', 50);
-        $this->render('terminees', ['evaluations' => $list], 'Évaluations terminées | Revue UPC', 'terminees');
+        $this->render('terminees', ['evaluations' => $list], 'Évaluations terminées | Revue Congolaise de Théologie Protestante', 'terminees');
     }
 
     public function historique(array $params = []): void
@@ -172,14 +172,14 @@ class ReviewerController
         $user = AuthService::getUser();
         $evaluateurId = (int) $user['id'];
         $list = EvaluationModel::getByEvaluateurId($evaluateurId, null, 100);
-        $this->render('historique', ['evaluations' => $list], 'Historique des évaluations | Revue UPC', 'historique');
+        $this->render('historique', ['evaluations' => $list], 'Historique des évaluations | Revue Congolaise de Théologie Protestante', 'historique');
     }
 
     public function notifications(array $params = []): void
     {
         $user = AuthService::getUser();
         $notifications = NotificationModel::getByUserId((int) $user['id']);
-        $this->render('notifications', ['notifications' => $notifications], 'Notifications | Espace évaluateur - Revue UPC', 'notifications');
+        $this->render('notifications', ['notifications' => $notifications], 'Notifications | Espace évaluateur - Revue Congolaise de Théologie Protestante', 'notifications');
     }
 
     public function notificationMarkRead(array $params = []): void

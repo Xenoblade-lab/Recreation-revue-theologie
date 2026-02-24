@@ -126,7 +126,7 @@ class AuthController
         $error = $_SESSION['auth_error'] ?? null;
         unset($_SESSION['forgot_success'], $_SESSION['auth_error']);
         $base = $this->base();
-        $pageTitle = 'Mot de passe oublié | Revue UPC';
+        $pageTitle = 'Mot de passe oublié | Revue Congolaise de Théologie Protestante';
         ob_start();
         require BASE_PATH . '/views/auth/forgot-password.php';
         $viewContent = ob_get_clean();

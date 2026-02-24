@@ -6,7 +6,7 @@ $success = $success ?? false;
 <div class="mobile-logo">
   <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC">
   <div>
-    <p class="font-serif font-bold text-sm text-primary">Revue de Théologie</p>
+    <p class="font-serif font-bold text-sm text-primary">Revue Congolaise de Théologie Protestante</p>
     <p class="text-muted text-xs">UPC - Kinshasa</p>
   </div>
 </div>
