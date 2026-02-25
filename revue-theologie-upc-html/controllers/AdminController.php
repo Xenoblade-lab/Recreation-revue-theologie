@@ -25,6 +25,7 @@ class AdminController
     {
         requireAdmin();
         $_SESSION['admin_page'] = $adminPage;
+        release_session();
         $base = $this->base();
         $user = AuthService::getUser();
         $data['base'] = $base;

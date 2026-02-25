@@ -12,6 +12,7 @@ class AuthController
     private function redirectIfLoggedIn(): void
     {
         if (AuthService::isLoggedIn()) {
+            release_session();
             header('Location: ' . AuthService::getRedirectAfterLogin());
             exit;
         }
@@ -27,6 +28,7 @@ class AuthController
         $this->redirectIfLoggedIn();
         $error = $_SESSION['auth_error'] ?? null;
         unset($_SESSION['auth_error']);
+        release_session();
         $base = $this->base();
         $pageTitle = 'Connexion | Revue de la Faculté de Théologie - UPC';
         ob_start();
@@ -45,14 +47,17 @@ class AuthController
         $password = $_POST['password'] ?? '';
         if (!$email || !$password) {
             $_SESSION['auth_error'] = 'Veuillez remplir l’email et le mot de passe.';
+            release_session();
             header('Location: ' . $this->base() . '/login');
             exit;
         }
         if (AuthService::login($email, $password)) {
+            release_session();
             header('Location: ' . AuthService::getRedirectAfterLogin());
             exit;
         }
         $_SESSION['auth_error'] = 'Email ou mot de passe incorrect.';
+        release_session();
         header('Location: ' . $this->base() . '/login');
         exit;
     }
@@ -63,6 +68,7 @@ class AuthController
         $error = $_SESSION['auth_error'] ?? null;
         $old = $_SESSION['auth_old'] ?? [];
         unset($_SESSION['auth_error'], $_SESSION['auth_old']);
+        release_session();
         $base = $this->base();
         $pageTitle = 'Créer un compte | Revue de la Faculté de Théologie - UPC';
         ob_start();
@@ -74,6 +80,7 @@ class AuthController
     public function register(array $params = []): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
         }
@@ -85,16 +92,19 @@ class AuthController
 
         if (!$prenom || !$nom || !$email || !$password) {
             $_SESSION['auth_error'] = 'Tous les champs obligatoires doivent être remplis.';
+            release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
         }
         if (mb_strlen($password) < 8) {
             $_SESSION['auth_error'] = 'Le mot de passe doit contenir au moins 8 caractères.';
+            release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
         }
         if (UserModel::emailExists($email)) {
             $_SESSION['auth_error'] = 'Cette adresse email est déjà utilisée.';
+            release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
         }
@@ -103,11 +113,13 @@ class AuthController
         $userId = UserModel::create($nom, $prenom, $email, $hash, 'user');
         if (!$userId) {
             $_SESSION['auth_error'] = 'Une erreur est survenue. Veuillez réessayer.';
+            release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
         }
         unset($_SESSION['auth_old']);
         AuthService::login($email, $password);
+        release_session();
         header('Location: ' . $this->base() . '/');
         exit;
     }
@@ -115,6 +127,7 @@ class AuthController
     public function logout(array $params = []): void
     {
         AuthService::logout();
+        release_session();
         $base = $this->base();
         header('Location: ' . ($base !== '' ? $base . '/' : '/'));
         exit;
@@ -125,6 +138,7 @@ class AuthController
         $success = !empty($_SESSION['forgot_success']);
         $error = $_SESSION['auth_error'] ?? null;
         unset($_SESSION['forgot_success'], $_SESSION['auth_error']);
+        release_session();
         $base = $this->base();
         $pageTitle = 'Mot de passe oublié | Revue Congolaise de Théologie Protestante';
         ob_start();
@@ -136,12 +150,14 @@ class AuthController
     public function forgotPassword(array $params = []): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            release_session();
             header('Location: ' . $this->base() . '/forgot-password');
             exit;
         }
         $email = trim($_POST['email'] ?? '');
         if (!$email) {
             $_SESSION['auth_error'] = 'Veuillez indiquer votre adresse email.';
+            release_session();
             header('Location: ' . $this->base() . '/forgot-password');
             exit;
         }
@@ -154,6 +170,7 @@ class AuthController
             // TODO: envoyer email avec lien de réinitialisation (BASE_URL/reset-password?token=...)
         }
         $_SESSION['forgot_success'] = true;
+        release_session();
         header('Location: ' . $this->base() . '/forgot-password');
         exit;
     }

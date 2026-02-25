@@ -40,52 +40,52 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 
 ---
 
-### Page 1 — Publications (liste des articles)
+### Page 1 — Publications (liste des articles) ✅
 
 - **URL** : `/publications`
 - **Vue** : `views/public/publications.php`
 - **À faire** :
-  - [ ] Appliquer la classe de contexte compact (ex. sur le `main` ou le conteneur de la page).
-  - [ ] Réduire espacement entre la bannière et le contenu.
-  - [ ] Réduire padding des cartes d’articles et gap entre les cartes.
-  - [ ] Ajuster si besoin la taille des titres (h1 / h2).
+  - [x] Appliquer la classe de contexte compact (ex. sur le `main` ou le conteneur de la page).
+  - [x] Réduire espacement entre la bannière et le contenu.
+  - [x] Réduire padding des cartes d’articles et gap entre les cartes.
+  - [x] Ajuster si besoin la taille des titres (h1 / h2).
 - **Fichiers** : `publications.php`, `public/css/styles.css` (règles sous `.page-content-compact` ou équivalent).
 
 ---
 
-### Page 2 — Détail d’un article
+### Page 2 — Détail d’un article ✅
 
 - **URL** : `/article/[id]`
 - **Vue** : `views/public/article-details.php`
 - **À faire** :
-  - [ ] Contexte compact sur la page.
-  - [ ] Réduire hauteur/espaces de la bannière article.
-  - [ ] Réduire padding section + cartes (blocs Lire PDF / Télécharger, encadré Infos).
-  - [ ] Espacement entre contenu et sidebar.
+  - [x] Contexte compact sur la page.
+  - [x] Réduire hauteur/espaces de la bannière article.
+  - [x] Réduire padding section + cartes (blocs Lire PDF / Télécharger, encadré Infos).
+  - [x] Espacement entre contenu et sidebar.
 - **Fichiers** : `article-details.php`, `styles.css`.
 
 ---
 
-### Page 3 — Archives (volumes et numéros)
+### Page 3 — Archives (volumes et numéros) ✅
 
 - **URL** : `/archives`
 - **Vue** : `views/public/archives.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Réduire espacements bannière + entre blocs volumes/numéros.
-  - [ ] Réduire padding des cartes et gap des grilles.
+  - [x] Contexte compact.
+  - [x] Réduire espacements bannière + entre blocs volumes/numéros.
+  - [x] Réduire padding des cartes et gap des grilles.
 - **Fichiers** : `archives.php`, `styles.css`.
 
 ---
 
-### Page 4 — Détail d’un numéro
+### Page 4 — Détail d’un numéro ✅
 
 - **URL** : `/numero/[id]`
 - **Vue** : `views/public/numero-details.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + espacements sections.
-  - [ ] Cartes (numéro, liste d’articles) plus compactes.
+  - [x] Contexte compact.
+  - [x] Bannière + espacements sections.
+  - [x] Cartes (numéro, liste d’articles) plus compactes.
 - **Fichiers** : `numero-details.php`, `styles.css`.
 
 ---
@@ -95,9 +95,9 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/presentation`
 - **Vue** : `views/public/presentation.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + marges entre blocs de texte / image.
-  - [ ] Réduire padding si cartes ou blocs présents.
+  - [x] Contexte compact.
+  - [x] Bannière + marges entre blocs de texte / image.
+  - [x] Réduire padding si cartes ou blocs présents.
 - **Fichiers** : `presentation.php`, `styles.css`.
 
 ---
@@ -107,9 +107,9 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/comite`
 - **Vue** : `views/public/comite.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + espacements.
-  - [ ] Cartes / listes comités plus compactes.
+  - [x] Contexte compact.
+  - [x] Bannière + espacements.
+  - [x] Cartes / listes comités plus compactes.
 - **Fichiers** : `comite.php`, `styles.css`.
 
 ---
@@ -119,8 +119,8 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/politique-editoriale`
 - **Vue** : `views/public/politique-editoriale.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + marges entre paragraphes / sections.
+  - [x] Contexte compact.
+  - [x] Bannière + marges entre paragraphes / sections.
 - **Fichiers** : `politique-editoriale.php`, `styles.css`.
 
 ---
@@ -130,9 +130,9 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/instructions-auteurs`
 - **Vue** : `views/public/instructions-auteurs.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + espacements.
-  - [ ] Blocs « Télécharger les modèles » et listes plus compacts.
+  - [x] Contexte compact.
+  - [x] Bannière + espacements.
+  - [x] Blocs « Télécharger les modèles » et listes plus compacts.
 - **Fichiers** : `instructions-auteurs.php`, `styles.css`.
 
 ---
@@ -142,9 +142,9 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/contact`
 - **Vue** : `views/public/contact.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + formulaire et éventuelles cartes.
-  - [ ] Réduire padding / gaps.
+  - [x] Contexte compact.
+  - [x] Bannière + formulaire et éventuelles cartes.
+  - [x] Réduire padding / gaps.
 - **Fichiers** : `contact.php`, `styles.css`.
 
 ---
@@ -154,8 +154,8 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/faq`
 - **Vue** : `views/public/faq.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + espacement entre questions/réponses.
+  - [x] Contexte compact.
+  - [x] Bannière + espacement entre questions/réponses.
 - **Fichiers** : `faq.php`, `styles.css`.
 
 ---
@@ -165,8 +165,8 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/actualites`
 - **Vue** : `views/public/actualites.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + listes/cartes d’actualités.
+  - [x] Contexte compact.
+  - [x] Bannière + listes/cartes d’actualités.
 - **Fichiers** : `actualites.php`, `styles.css`.
 
 ---
@@ -176,9 +176,9 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/search?q=...`
 - **Vue** : `views/public/search.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + espacements.
-  - [ ] Cartes articles/numéros et gaps réduits.
+  - [x] Contexte compact.
+  - [x] Bannière + espacements.
+  - [x] Cartes articles/numéros et gaps réduits.
 - **Fichiers** : `search.php`, `styles.css`.
 
 ---
@@ -188,8 +188,8 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/mentions-legales`
 - **Vue** : `views/public/mentions-legales.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + marges entre sections.
+  - [x] Contexte compact.
+  - [x] Bannière + marges entre sections.
 - **Fichiers** : `mentions-legales.php`, `styles.css`.
 
 ---
@@ -199,8 +199,8 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/conditions-utilisation`
 - **Vue** : `views/public/conditions.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + marges entre sections.
+  - [x] Contexte compact.
+  - [x] Bannière + marges entre sections.
 - **Fichiers** : `conditions.php`, `styles.css`.
 
 ---
@@ -210,8 +210,8 @@ Chaque page est traitée **séparément**. On peut en faire une à la fois et va
 - **URL** : `/confidentialite`
 - **Vue** : `views/public/confidentialite.php`
 - **À faire** :
-  - [ ] Contexte compact.
-  - [ ] Bannière + marges entre sections.
+  - [x] Contexte compact.
+  - [x] Bannière + marges entre sections.
 - **Fichiers** : `confidentialite.php`, `styles.css`.
 
 ---

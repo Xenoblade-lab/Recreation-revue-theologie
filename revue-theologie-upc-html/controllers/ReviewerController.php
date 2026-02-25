@@ -19,6 +19,7 @@ class ReviewerController
     {
         requireReviewer();
         $_SESSION['reviewer_page'] = $reviewerPage;
+        release_session();
         $base = $this->base();
         $user = AuthService::getUser();
         $data['base'] = $base;
@@ -60,6 +61,7 @@ class ReviewerController
             $base = $this->base();
             requireReviewer();
             $_SESSION['reviewer_page'] = '';
+            release_session();
             http_response_code(404);
             $viewContent = '<div class="container section"><h1>Évaluation introuvable</h1><p><a href="' . $base . '/reviewer">Retour au tableau de bord</a></p></div>';
             $pageTitle = 'Évaluation | Revue Congolaise de Théologie Protestante';

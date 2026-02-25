@@ -21,6 +21,7 @@ class AuthorController
     {
         requireAuthor();
         $_SESSION['author_page'] = $authorPage;
+        release_session();
         $base = $this->base();
         $user = AuthService::getUser();
         $data['base'] = $base;
@@ -226,6 +227,7 @@ class AuthorController
         if ($id !== '') {
             NotificationModel::markAsRead($id, (int) $user['id']);
         }
+        release_session();
         header('Location: ' . $this->base() . '/author/notifications');
         exit;
     }
@@ -236,6 +238,7 @@ class AuthorController
         requireAuth();
         $user = AuthService::getUser();
         NotificationModel::markAllAsRead((int) $user['id']);
+        release_session();
         header('Location: ' . $this->base() . '/author/notifications');
         exit;
     }

@@ -7,12 +7,24 @@
 use Service\AuthService;
 
 /**
+ * Libère le verrou de session pour éviter de bloquer les autres requêtes (ex. refresh).
+ * À appeler dès qu'on n'a plus besoin d'écrire en session (après lecture des flash, avant rendu).
+ */
+function release_session(): void
+{
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        session_write_close();
+    }
+}
+
+/**
  * Redirige vers la page de connexion si non connecté.
  * À appeler en début d'action pour les zones protégées.
  */
 function requireAuth(): void
 {
     if (!AuthService::isLoggedIn()) {
+        release_session();
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
         header('Location: ' . $base . '/login');
         exit;
@@ -27,6 +39,7 @@ function requireRole(string ...$roles): void
 {
     requireAuth();
     if (!AuthService::hasRole(...$roles)) {
+        release_session();
         http_response_code(403);
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
         header('Location: ' . $base . '/');

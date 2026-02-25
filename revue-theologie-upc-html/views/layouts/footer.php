@@ -23,6 +23,9 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
             <li><a href="<?= $base ?>/archives"><?= htmlspecialchars(function_exists('__') ? __('nav.archives') : 'Archives') ?></a></li>
             <li><a href="<?= $base ?>/comite"><?= htmlspecialchars(function_exists('__') ? __('nav.comite') : 'Comité éditorial') ?></a></li>
             <li><a href="<?= $base ?>/presentation"><?= htmlspecialchars(function_exists('__') ? __('nav.presentation') : 'Présentation') ?></a></li>
+            <li><a href="<?= $base ?>/mentions-legales"><?= htmlspecialchars(function_exists('__') ? __('footer.mentions') : 'Mentions légales') ?></a></li>
+            <li><a href="<?= $base ?>/conditions-utilisation"><?= htmlspecialchars(function_exists('__') ? __('footer.conditions') : 'Conditions d\'utilisation') ?></a></li>
+            <li><a href="<?= $base ?>/confidentialite"><?= htmlspecialchars(function_exists('__') ? __('footer.confidentiality') : 'Politique de confidentialité') ?></a></li>
           </ul>
         </div>
         <div>

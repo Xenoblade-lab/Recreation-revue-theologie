@@ -14,6 +14,7 @@ class RevueController
 {
     private function render(string $viewName, array $data = [], ?string $title = null): void
     {
+        release_session();
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
         extract($data);
         ob_start();
@@ -64,6 +65,7 @@ class RevueController
         $id = (int) ($params['id'] ?? 0);
         $article = $id ? ArticleModel::getById($id) : null;
         if (!$article) {
+            release_session();
             http_response_code(404);
             $viewContent = '<div class="container section"><h1>Article introuvable</h1></div>';
             require BASE_PATH . '/views/layouts/main.php';
@@ -80,6 +82,7 @@ class RevueController
         $id = (int) ($params['id'] ?? 0);
         $revue = $id ? RevueModel::getById($id) : null;
         if (!$revue) {
+            release_session();
             http_response_code(404);
             $viewContent = '<div class="container section"><h1>Numéro introuvable</h1></div>';
             require BASE_PATH . '/views/layouts/main.php';
@@ -137,6 +140,36 @@ class RevueController
     {
         $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
         $this->render('instructions-auteurs', ['base' => $base], 'Instructions aux auteurs | Revue Congolaise de Théologie Protestante');
+    }
+
+    /**
+     * Téléchargement des modèles (Word / LaTeX). Fichiers servis depuis public/templates/.
+     */
+    public function downloadTemplate(array $params = []): void
+    {
+        release_session();
+        $allowed = ['template.docx', 'template.tex'];
+        $file = isset($params['file']) ? basename($params['file']) : '';
+        if (!in_array($file, $allowed, true)) {
+            http_response_code(404);
+            echo '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Fichier non disponible</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem;"><h1>Fichier non disponible</h1><p>Ce modèle n’existe pas.</p></body></html>';
+            return;
+        }
+        $path = BASE_PATH . '/public/templates/' . $file;
+        if (!is_file($path)) {
+            http_response_code(404);
+            echo '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Fichier non disponible</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem;"><h1>Fichier non disponible</h1><p>Le fichier ' . htmlspecialchars($file) . ' n’est pas encore disponible sur le site.</p></body></html>';
+            return;
+        }
+        $mimes = [
+            'template.docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'template.tex'  => 'application/x-tex',
+        ];
+        header('Content-Type: ' . ($mimes[$file] ?? 'application/octet-stream'));
+        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Length: ' . filesize($path));
+        readfile($path);
+        exit;
     }
 
     public function actualites(array $params = []): void

@@ -91,6 +91,7 @@ Router::get('/contact', [RevueController::class, 'contact']);
 Router::get('/faq', [RevueController::class, 'faq']);
 Router::get('/politique-editoriale', [RevueController::class, 'politiqueEditoriale']);
 Router::get('/instructions-auteurs', [RevueController::class, 'instructionsAuteurs']);
+Router::get('/templates/[s:file]', [RevueController::class, 'downloadTemplate']);
 Router::get('/actualites', [RevueController::class, 'actualites']);
 Router::get('/mentions-legales', [RevueController::class, 'mentionsLegales']);
 Router::get('/conditions-utilisation', [RevueController::class, 'conditionsUtilisation']);

@@ -1,5 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    # Adapter RewriteBase au chemin réel du site (ex. /revue-theologie-upc-html/public ou /)
     RewriteBase /Recreation-revu-theologie/revue-theologie-upc-html/public/
     # Rediriger tout vers index.php sauf les fichiers et dossiers existants
     RewriteCond %{REQUEST_FILENAME} !-f

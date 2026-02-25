@@ -1,15 +1,16 @@
 <?php $base = $base ?? ''; ?>
+<div class="page-content-compact page-contact">
 <div class="banner">
   <div class="container">
-    <h1 class="font-serif text-3xl md:text-4xl font-bold text-balance"><?= htmlspecialchars(__('contact.title')) ?></h1>
+    <h1 class="font-serif text-xl md:text-2xl font-bold text-balance"><?= htmlspecialchars(__('contact.title')) ?></h1>
     <div class="divider"></div>
-    <p><?= htmlspecialchars(__('contact.intro')) ?></p>
+    <p class="text-sm" style="color: rgba(255,255,255,0.9);"><?= htmlspecialchars(__('contact.intro')) ?></p>
   </div>
 </div>
 <div class="container section">
-  <div class="grid-2" style="grid-template-columns: 1fr 1.5fr; gap: 3rem;">
+  <div class="grid-2 contact-grid" style="grid-template-columns: 1fr 1.5fr; gap: 1.5rem;">
     <div>
-      <h2 class="font-serif text-xl font-bold mb-6"><?= htmlspecialchars(__('contact.info_title')) ?></h2>
+      <h2 class="font-serif text-base font-bold mb-3"><?= htmlspecialchars(__('contact.info_title')) ?></h2>
       <div class="contact-block">
         <div class="icon"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#map-pin"/></svg></div>
         <div>
@@ -39,10 +40,11 @@
         </div>
       </div>
     </div>
-    <div class="card p-8">
-      <h2 class="font-serif text-xl font-bold mb-6"><?= htmlspecialchars(__('contact.send_message')) ?></h2>
-      <p class="text-muted text-sm mb-4"><?= htmlspecialchars(__('contact.send_intro')) ?> <a href="mailto:revue.theologie@upc.ac.cd">revue.theologie@upc.ac.cd</a>.</p>
-      <a href="mailto:revue.theologie@upc.ac.cd?subject=Contact%20Revue%20Th%C3%A9ologie" class="btn btn-primary"><?= htmlspecialchars(__('contact.open_mail')) ?></a>
+    <div class="card p-4 contact-form-card">
+      <h2 class="font-serif text-base font-bold mb-3"><?= htmlspecialchars(__('contact.send_message')) ?></h2>
+      <p class="text-muted text-sm mb-3"><?= htmlspecialchars(__('contact.send_intro')) ?> <a href="mailto:revue.theologie@upc.ac.cd">revue.theologie@upc.ac.cd</a>.</p>
+      <a href="mailto:revue.theologie@upc.ac.cd?subject=Contact%20Revue%20Th%C3%A9ologie" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('contact.open_mail')) ?></a>
     </div>
   </div>
+</div>
 </div>
