@@ -28,18 +28,24 @@ class AuthController
         $this->redirectIfLoggedIn();
         $error = $_SESSION['auth_error'] ?? null;
         unset($_SESSION['auth_error']);
-        release_session();
         $base = $this->base();
         $pageTitle = 'Connexion | Revue de la Faculté de Théologie - UPC';
         ob_start();
         require BASE_PATH . '/views/auth/login.php';
         $viewContent = ob_get_clean();
+        release_session(); // après rendu de la vue pour que le jeton CSRF soit bien enregistré en session
         require BASE_PATH . '/views/layouts/auth.php';
     }
 
     public function login(array $params = []): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/login');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['auth_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
             header('Location: ' . $this->base() . '/login');
             exit;
         }
@@ -68,18 +74,24 @@ class AuthController
         $error = $_SESSION['auth_error'] ?? null;
         $old = $_SESSION['auth_old'] ?? [];
         unset($_SESSION['auth_error'], $_SESSION['auth_old']);
-        release_session();
         $base = $this->base();
         $pageTitle = 'Créer un compte | Revue de la Faculté de Théologie - UPC';
         ob_start();
         require BASE_PATH . '/views/auth/register.php';
         $viewContent = ob_get_clean();
+        release_session(); // après rendu de la vue pour que le jeton CSRF soit bien enregistré en session
         require BASE_PATH . '/views/layouts/auth.php';
     }
 
     public function register(array $params = []): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            release_session();
+            header('Location: ' . $this->base() . '/register');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['auth_error'] = 'Requête invalide. Veuillez réessayer.';
             release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
@@ -138,18 +150,24 @@ class AuthController
         $success = !empty($_SESSION['forgot_success']);
         $error = $_SESSION['auth_error'] ?? null;
         unset($_SESSION['forgot_success'], $_SESSION['auth_error']);
-        release_session();
         $base = $this->base();
         $pageTitle = 'Mot de passe oublié | Revue Congolaise de Théologie Protestante';
         ob_start();
         require BASE_PATH . '/views/auth/forgot-password.php';
         $viewContent = ob_get_clean();
+        release_session(); // après rendu de la vue pour que le jeton CSRF soit bien enregistré en session
         require BASE_PATH . '/views/layouts/auth.php';
     }
 
     public function forgotPassword(array $params = []): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            release_session();
+            header('Location: ' . $this->base() . '/forgot-password');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['auth_error'] = 'Requête invalide. Veuillez réessayer.';
             release_session();
             header('Location: ' . $this->base() . '/forgot-password');
             exit;

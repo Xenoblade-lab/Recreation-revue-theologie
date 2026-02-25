@@ -87,6 +87,11 @@ class AuthorController
             header('Location: ' . $this->base() . '/author/soumettre');
             exit;
         }
+        if (!validate_csrf()) {
+            $_SESSION['author_error'] = 'Requête invalide. Veuillez réessayer.';
+            header('Location: ' . $this->base() . '/author/soumettre');
+            exit;
+        }
         $user = AuthService::getUser();
         $userId = (int) $user['id'];
         $titre = trim($_POST['titre'] ?? '');
@@ -172,6 +177,12 @@ class AuthorController
             header('Location: ' . $this->base() . '/author');
             exit;
         }
+        if (!validate_csrf()) {
+            $_SESSION['author_error'] = 'Requête invalide. Veuillez réessayer.';
+            $id = (int) ($params['id'] ?? 0);
+            header('Location: ' . $this->base() . '/author/article/' . $id . '/edit');
+            exit;
+        }
         $user = AuthService::getUser();
         $userId = (int) $user['id'];
         $id = (int) ($params['id'] ?? 0);
@@ -213,8 +224,11 @@ class AuthorController
         $user = AuthService::getUser();
         $userId = (int) $user['id'];
         $notifications = NotificationModel::getByUserId($userId);
+        $error = $_SESSION['author_error'] ?? null;
+        unset($_SESSION['author_error']);
         $this->render('notifications', [
             'notifications' => $notifications,
+            'error'          => $error,
         ], 'Notifications | Espace auteur - Revue Congolaise de Théologie Protestante', 'notifications');
     }
 
@@ -222,6 +236,12 @@ class AuthorController
     public function notificationMarkRead(array $params = []): void
     {
         requireAuth();
+        if (!validate_csrf()) {
+            $_SESSION['author_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/author/notifications');
+            exit;
+        }
         $id = $params['id'] ?? '';
         $user = AuthService::getUser();
         if ($id !== '') {
@@ -236,6 +256,12 @@ class AuthorController
     public function notificationsMarkAllRead(array $params = []): void
     {
         requireAuth();
+        if (!validate_csrf()) {
+            $_SESSION['author_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/author/notifications');
+            exit;
+        }
         $user = AuthService::getUser();
         NotificationModel::markAllAsRead((int) $user['id']);
         release_session();

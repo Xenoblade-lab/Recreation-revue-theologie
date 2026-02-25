@@ -20,6 +20,7 @@ $statut = $isEdit ? ($user['statut'] ?? 'actif') : 'actif';
     <div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
   <?php endif; ?>
   <form method="post" action="<?= $isEdit ? $base . '/admin/users/' . (int) $user['id'] . '/edit' : $base . '/admin/users/create' ?>" class="space-y-4">
+    <?= csrf_field() ?>
     <div>
       <label for="nom" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('admin.label_nom')) ?></label>
       <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($nom) ?>" required class="input w-full">

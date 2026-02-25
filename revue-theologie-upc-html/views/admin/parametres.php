@@ -19,8 +19,12 @@ $comite_redaction = $info['comite_redaction'] ?? '';
 <?php if ($success): ?>
   <div class="alert green mb-4"><?= htmlspecialchars(__('admin.params_saved')) ?></div>
 <?php endif; ?>
+<?php if (!empty($error)): ?>
+  <div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
 <div class="dashboard-card">
   <form method="post" action="<?= $base ?>/admin/parametres" class="space-y-4">
+    <?= csrf_field() ?>
     <div>
       <label for="nom_officiel" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('admin.official_name')) ?></label>
       <input type="text" id="nom_officiel" name="nom_officiel" value="<?= htmlspecialchars($nom) ?>" class="input w-full">

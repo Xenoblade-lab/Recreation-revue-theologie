@@ -16,6 +16,7 @@ $old = $old ?? [];
 <p class="text-sm mb-4" style="color: var(--destructive);"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
 <form method="post" action="<?= $base ?>/register" class="flex flex-col gap-5">
+  <?= csrf_field() ?>
   <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
     <div class="form-group">
       <label for="prenom"><?= htmlspecialchars(__('auth.firstname')) ?></label>

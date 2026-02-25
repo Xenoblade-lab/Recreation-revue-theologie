@@ -15,6 +15,7 @@ $error = $error ?? null;
 <p class="text-sm mb-4" style="color: var(--destructive);"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
 <form method="post" action="<?= $base ?>/login" class="flex flex-col gap-5">
+  <?= csrf_field() ?>
   <div class="form-group">
     <label for="email"><?= htmlspecialchars(__('auth.email')) ?></label>
     <input type="email" id="email" name="email" placeholder="<?= htmlspecialchars(__('auth.email_placeholder')) ?>" required class="h-11" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">

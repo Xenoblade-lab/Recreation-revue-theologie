@@ -1,5 +1,6 @@
 <?php
 $paiements = $paiements ?? [];
+$error = $error ?? null;
 $base = $base ?? '';
 
 function adminPaymentStatusLabel(string $statut): string {
@@ -21,6 +22,9 @@ function adminFormatDate(?string $d): string {
   <h1><?= htmlspecialchars(__('admin.paiements')) ?></h1>
   <p><?= htmlspecialchars(__('admin.paiements_intro')) ?></p>
 </div>
+<?php if ($error): ?>
+<div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
 <div class="dashboard-card">
   <div class="overflow-auto">
     <table class="dashboard-table">
@@ -51,10 +55,12 @@ function adminFormatDate(?string $d): string {
               <td>
                 <?php if ($st === 'en_attente'): ?>
                   <form method="post" action="<?= $base ?>/admin/paiement/<?= $pid ?>/statut" class="inline">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="statut" value="valide">
                     <button type="submit" class="btn btn-sm btn-outline" style="margin-right: 0.25rem;"><?= htmlspecialchars(__('admin.validate')) ?></button>
                   </form>
                   <form method="post" action="<?= $base ?>/admin/paiement/<?= $pid ?>/statut" class="inline">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="statut" value="refuse">
                     <button type="submit" class="btn btn-sm btn-outline btn-accent"><?= htmlspecialchars(__('admin.refuse')) ?></button>
                   </form>

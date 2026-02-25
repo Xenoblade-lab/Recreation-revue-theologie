@@ -45,6 +45,8 @@ spl_autoload_register(function ($class) {
 
 // Helpers d'authentification (requireAuth, requireRole, etc.)
 require_once dirname(__DIR__) . '/includes/auth.php';
+// Helpers CSRF (csrf_token, csrf_field, validate_csrf)
+require_once dirname(__DIR__) . '/includes/csrf.php';
 // Internationalisation (current_lang, set_lang, __)
 require_once dirname(__DIR__) . '/includes/i18n.php';
 

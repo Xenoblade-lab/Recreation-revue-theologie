@@ -13,6 +13,7 @@ if (!$article) return;
   <p class="text-accent mb-4"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
   <form action="<?= $base ?>/author/article/<?= (int) $article['id'] ?>/edit" method="post" enctype="multipart/form-data" class="flex flex-col gap-4">
+    <?= csrf_field() ?>
     <div class="form-group">
       <label for="titre"><?= htmlspecialchars(__('author.article_title_label')) ?> *</label>
       <input type="text" id="titre" name="titre" value="<?= htmlspecialchars($article['titre']) ?>" required class="h-11">

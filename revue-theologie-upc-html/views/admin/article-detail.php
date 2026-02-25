@@ -4,6 +4,7 @@ $evaluations = $evaluations ?? [];
 $reviewers = $reviewers ?? [];
 $volumes = $volumes ?? [];
 $revues = $revues ?? [];
+$error = $error ?? null;
 $base = $base ?? '';
 if (!$article) return;
 
@@ -44,7 +45,9 @@ $articleId = (int) $article['id'];
   </div>
   <a href="<?= $base ?>/admin/articles" class="btn btn-outline"><?= htmlspecialchars(__('admin.back_list')) ?></a>
 </div>
-
+<?php if ($error): ?>
+<div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('author.content_summary')) ?></h2>
   <div class="prose"><?= nl2br(htmlspecialchars($article['contenu'] ?? '')) ?></div>
@@ -60,6 +63,7 @@ $articleId = (int) $article['id'];
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.change_status')) ?></h2>
   <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/statut" class="flex items-center gap-2 flex-wrap">
+    <?= csrf_field() ?>
     <select name="statut" class="input" style="width: auto;">
       <option value="soumis" <?= $statut === 'soumis' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.article_status_soumis')) ?></option>
       <option value="valide" <?= $statut === 'valide' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.article_status_publie')) ?></option>
@@ -72,6 +76,7 @@ $articleId = (int) $article['id'];
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.assign_reviewer')) ?></h2>
   <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/assign" class="flex items-center gap-2 flex-wrap">
+    <?= csrf_field() ?>
     <select name="evaluateur_id" class="input" style="width: auto; min-width: 200px;" required>
       <option value="">— <?= htmlspecialchars(__('admin.choose_reviewer')) ?> —</option>
       <?php foreach ($reviewers as $r): ?>
@@ -85,6 +90,7 @@ $articleId = (int) $article['id'];
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.assign_issue')) ?></h2>
   <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/issue" class="flex items-center gap-2 flex-wrap">
+    <?= csrf_field() ?>
     <select name="issue_id" class="input" style="width: auto; min-width: 220px;">
       <option value="">— <?= htmlspecialchars(__('admin.no_issue')) ?> —</option>
       <?php foreach ($revues as $rev): ?>

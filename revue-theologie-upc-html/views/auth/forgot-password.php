@@ -20,6 +20,7 @@ $success = $success ?? false;
 <p class="text-sm mb-4" style="color: var(--destructive);"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
 <form method="post" action="<?= $base ?>/forgot-password" class="flex flex-col gap-5">
+  <?= csrf_field() ?>
   <div class="form-group">
     <label for="email"><?= htmlspecialchars(__('auth.email_short')) ?></label>
     <input type="email" id="email" name="email" placeholder="<?= htmlspecialchars(__('auth.email_placeholder')) ?>" required class="h-11">

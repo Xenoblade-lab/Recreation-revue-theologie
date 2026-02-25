@@ -90,6 +90,40 @@ Protéger tous les formulaires qui envoient des données en POST contre les atta
 - [ ] Déconnexion → redirection, plus d’accès aux zones protégées.
 - [ ] Mot de passe oublié : envoi du formulaire (email valide) → pas d’erreur fatale ; email envoyé ou message affiché selon implémentation.
 
+**Procédure pour 2.1 (à exécuter en local)**
+
+1. **Connexion — identifiants valides**  
+   - Aller sur `/login` (ex. `http://localhost/.../public/login`).  
+   - Saisir un email et mot de passe d’un utilisateur existant en base (auteur, évaluateur ou admin).  
+   - Soumettre le formulaire.  
+   - **Attendu :** redirection vers le tableau de bord correspondant (`/author`, `/reviewer` ou `/admin`), pas de message « Requête invalide ».
+
+2. **Connexion — identifiants invalides**  
+   - Sur `/login`, saisir un email inexistant ou un mauvais mot de passe.  
+   - Soumettre.  
+   - **Attendu :** message d’erreur (ex. « Email ou mot de passe incorrect »), rester sur la page de connexion.
+
+3. **Inscription**  
+   - Aller sur `/register`.  
+   - Remplir prénom, nom, email (non utilisé), mot de passe (≥ 8 caractères).  
+   - Soumettre.  
+   - **Attendu :** redirection (ex. accueil ou dashboard), pas d’erreur.  
+   - Se déconnecter puis se reconnecter avec le nouvel email/mot de passe → **attendu :** connexion OK.
+
+4. **Déconnexion**  
+   - Une fois connecté, cliquer sur le lien de déconnexion (ou aller sur `/logout`).  
+   - **Attendu :** redirection vers l’accueil.  
+   - Tester l’accès direct à `/author`, `/reviewer` ou `/admin` → **attendu :** redirection vers `/login` ou accueil.
+
+5. **Mot de passe oublié**  
+   - Aller sur `/forgot-password`.  
+   - Saisir un email valide (existant ou non en base).  
+   - Soumettre.  
+   - **Attendu :** message de succès ou confirmation (pas d’erreur fatale).  
+   - (L’envoi d’email de réinitialisation peut être non implémenté ; le formulaire doit au moins répondre correctement.)
+
+Une fois chaque point validé, cocher la case correspondante dans la liste 2.1 ci-dessus.
+
 ### 2.2 Espace public (sans être connecté)
 
 - [ ] Accueil : affichage correct, liens principaux.

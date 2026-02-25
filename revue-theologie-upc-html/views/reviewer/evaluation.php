@@ -46,6 +46,7 @@ if ($recommendation === 'accepte_avec_modifications') {
   <p class="text-accent mb-4"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
   <form action="<?= $base ?>/reviewer/evaluation/<?= (int) $evaluation['id'] ?>" method="post" class="flex flex-col gap-4">
+    <?= csrf_field() ?>
     <div class="form-group">
       <label for="recommendation"><?= htmlspecialchars(__('reviewer.recommendation_label')) ?></label>
       <select id="recommendation" name="recommendation" class="h-11" style="width:100%;max-width:20rem;padding:0.5rem 0.75rem;border:1px solid var(--input);border-radius:var(--radius);background:var(--background);font-size:0.875rem;">

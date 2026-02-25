@@ -86,6 +86,12 @@ class ReviewerController
             header('Location: ' . $this->base() . '/reviewer');
             exit;
         }
+        if (!validate_csrf()) {
+            $_SESSION['reviewer_error'] = 'Requête invalide. Veuillez réessayer.';
+            $id = (int) ($params['id'] ?? 0);
+            header('Location: ' . $this->base() . '/reviewer/evaluation/' . $id);
+            exit;
+        }
         $user = AuthService::getUser();
         $evaluateurId = (int) $user['id'];
         $id = (int) ($params['id'] ?? 0);
@@ -181,12 +187,23 @@ class ReviewerController
     {
         $user = AuthService::getUser();
         $notifications = NotificationModel::getByUserId((int) $user['id']);
-        $this->render('notifications', ['notifications' => $notifications], 'Notifications | Espace évaluateur - Revue Congolaise de Théologie Protestante', 'notifications');
+        $error = $_SESSION['reviewer_error'] ?? null;
+        unset($_SESSION['reviewer_error']);
+        $this->render('notifications', [
+            'notifications' => $notifications,
+            'error'          => $error,
+        ], 'Notifications | Espace évaluateur - Revue Congolaise de Théologie Protestante', 'notifications');
     }
 
     public function notificationMarkRead(array $params = []): void
     {
         requireReviewer();
+        if (!validate_csrf()) {
+            $_SESSION['reviewer_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/reviewer/notifications');
+            exit;
+        }
         $id = $params['id'] ?? '';
         $user = AuthService::getUser();
         if ($id !== '') {
@@ -199,6 +216,12 @@ class ReviewerController
     public function notificationsMarkAllRead(array $params = []): void
     {
         requireReviewer();
+        if (!validate_csrf()) {
+            $_SESSION['reviewer_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/reviewer/notifications');
+            exit;
+        }
         $user = AuthService::getUser();
         NotificationModel::markAllAsRead((int) $user['id']);
         header('Location: ' . $this->base() . '/reviewer/notifications');

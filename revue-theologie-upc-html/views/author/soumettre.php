@@ -18,6 +18,7 @@ $contenu = $old['contenu'] ?? '';
   <p class="text-accent mb-4"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
   <form action="<?= $base ?>/author/soumettre" method="post" enctype="multipart/form-data" class="flex flex-col gap-4">
+    <?= csrf_field() ?>
     <div class="form-group">
       <label for="titre"><?= htmlspecialchars(__('author.article_title_label')) ?> *</label>
       <input type="text" id="titre" name="titre" value="<?= htmlspecialchars($titre) ?>" placeholder="<?= htmlspecialchars(__('author.article_title_placeholder')) ?>" required class="h-11">

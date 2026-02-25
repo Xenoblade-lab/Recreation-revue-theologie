@@ -75,6 +75,12 @@ class AdminController
             header('Location: ' . $this->base() . '/admin/users');
             exit;
         }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/users/create');
+            exit;
+        }
         $nom = trim($_POST['nom'] ?? '');
         $prenom = trim($_POST['prenom'] ?? '');
         $email = trim($_POST['email'] ?? '');
@@ -121,6 +127,13 @@ class AdminController
         requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $id = (int) ($params['id'] ?? 0);
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/users/' . $id . '/edit');
             exit;
         }
         $id = (int) ($params['id'] ?? 0);
@@ -172,12 +185,15 @@ class AdminController
         });
         $volumes = VolumeModel::getAll();
         $revues = RevueModel::getAll(null, 200);
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
         $this->render('article-detail', [
             'article' => $article,
             'evaluations' => $evaluations,
             'reviewers' => $reviewers,
             'volumes' => $volumes,
             'revues' => $revues,
+            'error' => $error,
         ], 'Article #' . $id . ' | Administration', 'articles');
     }
 
@@ -186,6 +202,13 @@ class AdminController
         requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . $this->base() . '/admin/articles');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $id = (int) ($params['id'] ?? 0);
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/article/' . $id);
             exit;
         }
         $id = (int) ($params['id'] ?? 0);
@@ -216,6 +239,13 @@ class AdminController
             header('Location: ' . $this->base() . '/admin/articles');
             exit;
         }
+        if (!validate_csrf()) {
+            $id = (int) ($params['id'] ?? 0);
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/article/' . $id);
+            exit;
+        }
         $id = (int) ($params['id'] ?? 0);
         $evaluateurId = (int) ($_POST['evaluateur_id'] ?? 0);
         if (!$id || !$evaluateurId) {
@@ -242,6 +272,13 @@ class AdminController
             header('Location: ' . $this->base() . '/admin/articles');
             exit;
         }
+        if (!validate_csrf()) {
+            $id = (int) ($params['id'] ?? 0);
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/article/' . $id);
+            exit;
+        }
         $id = (int) ($params['id'] ?? 0);
         $issueId = isset($_POST['issue_id']) && $_POST['issue_id'] !== '' ? (int) $_POST['issue_id'] : null;
         if ($id) {
@@ -254,13 +291,21 @@ class AdminController
     public function paiements(array $params = []): void
     {
         $paiements = PaiementModel::getAll(50);
-        $this->render('paiements', ['paiements' => $paiements], 'Paiements | Administration', 'paiements');
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
+        $this->render('paiements', ['paiements' => $paiements, 'error' => $error], 'Paiements | Administration', 'paiements');
     }
 
     public function paiementStatut(array $params = []): void
     {
         requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
             header('Location: ' . $this->base() . '/admin/paiements');
             exit;
         }
@@ -289,14 +334,21 @@ class AdminController
     {
         $info = RevueInfoModel::get();
         $success = !empty($_SESSION['admin_success']);
-        unset($_SESSION['admin_success']);
-        $this->render('parametres', ['info' => $info, 'success' => $success], 'Paramètres de la revue | Administration', 'parametres');
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_success'], $_SESSION['admin_error']);
+        $this->render('parametres', ['info' => $info, 'success' => $success, 'error' => $error], 'Paramètres de la revue | Administration', 'parametres');
     }
 
     public function parametresUpdate(array $params = []): void
     {
         requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/parametres');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
             header('Location: ' . $this->base() . '/admin/parametres');
             exit;
         }

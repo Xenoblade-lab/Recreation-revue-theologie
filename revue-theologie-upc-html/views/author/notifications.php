@@ -1,5 +1,6 @@
 <?php
 $notifications = $notifications ?? [];
+$error = $error ?? null;
 $base = $base ?? '';
 
 function authorFormatDate(?string $d): string {
@@ -20,10 +21,14 @@ foreach ($notifications as $n) {
   </div>
   <?php if ($hasUnread): ?>
     <form method="post" action="<?= $base ?>/author/notifications/read-all" class="mb-0">
+      <?= csrf_field() ?>
       <button type="submit" class="btn btn-outline btn-sm"><?= htmlspecialchars(__('author.mark_all_read')) ?></button>
     </form>
   <?php endif; ?>
 </div>
+<?php if ($error): ?>
+<p class="text-accent mb-4"><?= htmlspecialchars($error) ?></p>
+<?php endif; ?>
 <div class="dashboard-card">
   <?php if (empty($notifications)): ?>
   <p class="text-muted"><?= htmlspecialchars(__('author.no_notifications')) ?></p>
@@ -54,6 +59,7 @@ foreach ($notifications as $n) {
         </div>
         <?php if ($isUnread && $id !== ''): ?>
           <form method="post" action="<?= $base ?>/author/notification/<?= htmlspecialchars($id) ?>/read" class="mb-0">
+            <?= csrf_field() ?>
             <button type="submit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('author.mark_read')) ?></button>
           </form>
         <?php endif; ?>
