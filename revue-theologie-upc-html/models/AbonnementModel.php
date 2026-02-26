@@ -41,4 +41,29 @@ class AbonnementModel
     {
         return self::getActiveByUserId($userId) !== null;
     }
+
+    /** Créer un abonnement (1 an à partir de aujourd'hui, statut actif). */
+    public static function create(int $utilisateurId): ?int
+    {
+        $db = getDB();
+        $stmt = $db->prepare("
+            INSERT INTO abonnements (utilisateur_id, date_debut, date_fin, statut, created_at, updated_at)
+            VALUES (:uid, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'actif', NOW(), NOW())
+        ");
+        $ok = $stmt->execute([':uid' => $utilisateurId]);
+        return $ok ? (int) $db->lastInsertId() : null;
+    }
+
+    /** Résilier un abonnement (passer le statut à 'expire'). L'abonnement doit appartenir à l'utilisateur et être actif. */
+    public static function cancel(int $abonnementId, int $userId): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("
+            UPDATE abonnements
+            SET statut = 'expire'
+            WHERE id = :id AND utilisateur_id = :uid AND statut = 'actif'
+        ");
+        $stmt->execute([':id' => $abonnementId, ':uid' => $userId]);
+        return $stmt->rowCount() > 0;
+    }
 }

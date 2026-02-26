@@ -47,6 +47,25 @@ class AuthService
         return $_SESSION[self::SESSION_KEY] ?? null;
     }
 
+    /** Recharge l'utilisateur depuis la BDD et met à jour la session (ex. après mise à jour profil). */
+    public static function refreshUser(): void
+    {
+        $user = self::getUser();
+        if (!$user || empty($user['id'])) {
+            return;
+        }
+        $fresh = UserModel::getById((int) $user['id']);
+        if ($fresh) {
+            $_SESSION[self::SESSION_KEY] = [
+                'id'     => (int) $fresh['id'],
+                'email'  => $fresh['email'],
+                'nom'    => $fresh['nom'],
+                'prenom' => $fresh['prenom'],
+                'role'   => $fresh['role'],
+            ];
+        }
+    }
+
     public static function isLoggedIn(): bool
     {
         return self::getUser() !== null;

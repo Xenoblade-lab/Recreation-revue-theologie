@@ -26,8 +26,9 @@ if (!$article) return;
       <label for="fichier"><?= htmlspecialchars(__('author.new_file_optional')) ?></label>
       <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx" style="font-size:0.875rem;">
       <?php if (!empty($article['fichier_path'])): ?>
-      <p class="text-xs text-muted mt-1"><?= htmlspecialchars(__('author.current_file')) ?> : <?= htmlspecialchars(basename($article['fichier_path'])) ?>. <?= htmlspecialchars(__('author.upload_replace')) ?></p>
+      <p class="text-xs text-muted mt-1"><?= htmlspecialchars(__('author.current_file')) ?> : <?= htmlspecialchars(!empty($article['fichier_nom_original']) ? $article['fichier_nom_original'] : basename($article['fichier_path'])) ?>. <?= htmlspecialchars(__('author.upload_replace')) ?></p>
       <?php endif; ?>
+      <p class="text-xs text-muted mt-1"><?= htmlspecialchars(__('author.formats_accepted')) ?></p>
     </div>
     <div class="wrap-row">
       <button type="submit" class="btn btn-accent"><?= htmlspecialchars(__('author.save_changes')) ?></button>

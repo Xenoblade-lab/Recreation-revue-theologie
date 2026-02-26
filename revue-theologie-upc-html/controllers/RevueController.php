@@ -6,6 +6,7 @@ use Models\RevueModel;
 use Models\RevuePartModel;
 use Models\VolumeModel;
 use Models\RevueInfoModel;
+use Models\NewsletterModel;
 
 /**
  * Contrôleur des pages publiques de la revue.
@@ -30,19 +31,54 @@ class RevueController
     {
         $articles = ArticleModel::getLatest(6);
         $numeros = RevueModel::getLatest(5);
+        $totalArticles = ArticleModel::countPublished();
+        $volumes = VolumeModel::getAll();
+        $totalVolumes = count($volumes);
+        $firstYear = null;
+        foreach ($volumes as $v) {
+            $y = (int) ($v['annee'] ?? 0);
+            if ($y && ($firstYear === null || $y < $firstYear)) {
+                $firstYear = $y;
+            }
+        }
+        $yearsPublication = $firstYear ? (int) date('Y') - $firstYear + 1 : 28;
         $this->render('index', [
-            'articles' => $articles,
-            'numeros'  => $numeros,
-            'base'     => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
+            'articles'         => $articles,
+            'numeros'          => $numeros,
+            'stats'            => [
+                'totalArticles' => $totalArticles,
+                'totalVolumes'  => $totalVolumes,
+                'yearsPublication' => $yearsPublication,
+            ],
+            'base'             => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
         ], 'Revue Congolaise de Théologie Protestante | UPC');
+    }
+
+    public function newsletterSubmit(array $params = []): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '') . '/');
+            exit;
+        }
+        $email = trim($_POST['email'] ?? '');
+        $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+        if ($email !== '' && NewsletterModel::subscribe($email)) {
+            $_SESSION['newsletter_success'] = true;
+        } else {
+            $_SESSION['newsletter_error'] = true;
+        }
+        release_session();
+        header('Location: ' . $base . '/?newsletter=1');
+        exit;
     }
 
     public function publications(array $params = []): void
     {
         $articles = ArticleModel::getPublished(100);
         $this->render('publications', [
-            'articles' => $articles,
-            'base'     => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
+            'articles'             => $articles,
+            'base'                 => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
+            'canAccessFullArticle' => $this->canUserAccessFullArticle(),
         ], 'Publications | Revue Congolaise de Théologie Protestante - UPC');
     }
 
@@ -71,10 +107,26 @@ class RevueController
             require BASE_PATH . '/views/layouts/main.php';
             return;
         }
+        $canAccessFullArticle = $this->canUserAccessFullArticle();
         $this->render('article-details', [
-            'article' => $article,
-            'base'    => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
+            'article'              => $article,
+            'base'                 => defined('BASE_URL') ? rtrim(BASE_URL, '/') : '',
+            'canAccessFullArticle' => $canAccessFullArticle,
         ], htmlspecialchars($article['titre']) . ' | Revue Congolaise de Théologie Protestante');
+    }
+
+    /** Utilisateur connecté avec droit de lire l'article en entier et de télécharger le PDF (auteur ou admin ou abonnement actif). */
+    private function canUserAccessFullArticle(): bool
+    {
+        if (!class_exists('Service\AuthService') || !\Service\AuthService::isLoggedIn()) {
+            return false;
+        }
+        $user = \Service\AuthService::getUser();
+        $userId = (int) ($user['id'] ?? 0);
+        if (\Service\AuthService::hasRole('admin') || \Service\AuthService::hasRole('auteur')) {
+            return true;
+        }
+        return $userId && class_exists('Models\AbonnementModel') && \Models\AbonnementModel::hasActiveSubscription($userId);
     }
 
     public function numeroDetails(array $params = []): void
@@ -208,10 +260,11 @@ class RevueController
             $numeros = RevueModel::search($q, 20);
         }
         $this->render('search', [
-            'q'         => $q,
-            'articles' => $articles,
-            'numeros'   => $numeros,
-            'base'      => $base,
+            'q'                    => $q,
+            'articles'             => $articles,
+            'numeros'               => $numeros,
+            'base'                  => $base,
+            'canAccessFullArticle'  => $this->canUserAccessFullArticle(),
         ], 'Recherche' . ($q !== '' ? ' : ' . $q : '') . ' | Revue Congolaise de Théologie Protestante');
     }
 
@@ -260,12 +313,22 @@ class RevueController
             return;
         }
         $statut = $article['statut'] ?? '';
-        $allowed = ($statut === 'valide');
-        if (!$allowed && class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn()) {
-            $user = \Service\AuthService::getUser();
-            $userId = (int) ($user['id'] ?? 0);
-            $allowed = ($userId === (int) ($article['auteur_id'] ?? 0))
-                || \Service\AuthService::hasRole('admin');
+        $allowed = false;
+        if ($statut === 'valide') {
+            if (class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn()) {
+                $user = \Service\AuthService::getUser();
+                $userId = (int) ($user['id'] ?? 0);
+                $allowed = \Service\AuthService::hasRole('admin')
+                    || \Service\AuthService::hasRole('auteur')
+                    || $userId === (int) ($article['auteur_id'] ?? 0)
+                    || (class_exists('Models\AbonnementModel') && \Models\AbonnementModel::hasActiveSubscription($userId));
+            }
+        } else {
+            if (class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn()) {
+                $user = \Service\AuthService::getUser();
+                $userId = (int) ($user['id'] ?? 0);
+                $allowed = ($userId === (int) ($article['auteur_id'] ?? 0)) || \Service\AuthService::hasRole('admin');
+            }
         }
         if (!$allowed) {
             http_response_code(403);

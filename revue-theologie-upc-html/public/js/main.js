@@ -62,18 +62,7 @@
     });
   });
 
-  // Newsletter (index_2)
-  var newsletterForm = document.getElementById('newsletter-form');
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var input = newsletterForm.querySelector('.newsletter-input');
-      if (input && input.value.trim()) {
-        alert('Merci ! Vous recevrez nos actualites a l\'adresse : ' + input.value.trim());
-        input.value = '';
-      }
-    });
-  }
+  // Newsletter : soumission POST vers /newsletter (pas de preventDefault)
 
   // Sondage "Question de la semaine"
   var pollForm = document.getElementById('widget-poll');
@@ -210,4 +199,5 @@
       }
     });
   });
+
 })();

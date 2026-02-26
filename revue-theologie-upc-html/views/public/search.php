@@ -3,6 +3,7 @@ $q = $q ?? '';
 $articles = $articles ?? [];
 $numeros = $numeros ?? [];
 $base = $base ?? '';
+$canAccessFullArticle = $canAccessFullArticle ?? false;
 $extrait = function ($html, $len = 80) {
     $t = strip_tags($html);
     return mb_strlen($t) > $len ? mb_substr($t, 0, $len) . '...' : $t;
@@ -58,7 +59,7 @@ $extrait = function ($html, $len = 80) {
               </div>
               <div class="search-article-actions">
                 <a href="<?= $base ?>/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline-primary"><?= htmlspecialchars(__('common.read')) ?></a>
-                <?php if (!empty($a['fichier_path'])): ?>
+                <?php if ($canAccessFullArticle && !empty($a['fichier_path'])): ?>
                   <a href="<?= $base ?>/download/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('article.download_pdf')) ?></a>
                 <?php endif; ?>
               </div>

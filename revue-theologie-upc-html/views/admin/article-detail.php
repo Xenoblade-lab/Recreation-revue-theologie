@@ -54,9 +54,11 @@ $articleId = (int) $article['id'];
 </div>
 
 <?php if (!empty($article['fichier_path'])): ?>
+<?php $displayFileName = !empty($article['fichier_nom_original']) ? $article['fichier_nom_original'] : basename($article['fichier_path']); ?>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('author.attached_file')) ?></h2>
-  <p><a href="<?= $base ?>/<?= htmlspecialchars($article['fichier_path']) ?>" class="btn btn-outline" target="_blank" rel="noopener"><?= htmlspecialchars(__('author.download_file')) ?></a></p>
+  <p class="text-sm text-muted mb-2"><?= htmlspecialchars($displayFileName) ?></p>
+  <p><a href="<?= $base ?>/download/article/<?= (int) $article['id'] ?>" class="btn btn-outline" target="_blank" rel="noopener" download="<?= htmlspecialchars($displayFileName) ?>"><?= htmlspecialchars(__('author.download_file')) ?></a></p>
 </div>
 <?php endif; ?>
 

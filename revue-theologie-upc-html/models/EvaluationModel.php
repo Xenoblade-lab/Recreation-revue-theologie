@@ -217,4 +217,56 @@ class EvaluationModel
         $stmt->execute([':aid' => $articleId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    /** Évaluations d’un article pour l’auteur (timeline révisions : dates, recommandation, commentaires publics uniquement, sans nom évaluateur). */
+    public static function getByArticleIdForAuthor(int $articleId): array
+    {
+        $db = getDB();
+        $stmt = $db->prepare("
+            SELECT e.id, e.statut, e.date_assignation, e.date_echeance, e.date_soumission, e.recommendation, e.commentaires_public
+            FROM evaluations e
+            WHERE e.article_id = :aid ORDER BY e.date_assignation ASC
+        ");
+        $stmt->execute([':aid' => $articleId]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /** Liste globale des évaluations pour l’admin (avec titre article et nom évaluateur). */
+    public static function getAllForAdmin(?string $statut = null, int $limit = 100, int $offset = 0): array
+    {
+        $db = getDB();
+        $sql = "
+            SELECT e.id, e.article_id, e.evaluateur_id, e.statut, e.date_assignation, e.date_echeance, e.date_soumission, e.recommendation,
+                   a.titre AS article_titre, a.statut AS article_statut,
+                   u.nom AS evaluateur_nom, u.prenom AS evaluateur_prenom, u.email AS evaluateur_email
+            FROM evaluations e
+            INNER JOIN articles a ON a.id = e.article_id
+            LEFT JOIN users u ON u.id = e.evaluateur_id
+        ";
+        if ($statut !== null && $statut !== '') {
+            $sql .= " WHERE e.statut = :statut";
+        }
+        $sql .= " ORDER BY e.date_assignation DESC LIMIT :limit OFFSET :offset";
+        $stmt = $db->prepare($sql);
+        if ($statut !== null && $statut !== '') {
+            $stmt->bindValue(':statut', $statut, \PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /** Nombre total d’évaluations (admin), optionnellement filtré par statut. */
+    public static function countAllForAdmin(?string $statut = null): int
+    {
+        $db = getDB();
+        if ($statut !== null && $statut !== '') {
+            $stmt = $db->prepare("SELECT COUNT(*) FROM evaluations WHERE statut = :statut");
+            $stmt->execute([':statut' => $statut]);
+        } else {
+            $stmt = $db->query("SELECT COUNT(*) FROM evaluations");
+        }
+        return (int) $stmt->fetchColumn();
+    }
 }

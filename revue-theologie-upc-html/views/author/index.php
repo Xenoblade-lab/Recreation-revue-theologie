@@ -3,9 +3,11 @@ $articles = $articles ?? [];
 $abonnement = $abonnement ?? null;
 $stats = $stats ?? ['total' => 0, 'soumis' => 0, 'valide' => 0, 'rejete' => 0];
 $base = $base ?? '';
+$isAuthor = $isAuthor ?? false;
 
 function authorStatutBadge(string $statut): string {
     $map = [
+        'brouillon' => ['label' => function_exists('__') ? __('author.status_brouillon') : 'Brouillon', 'class' => 'badge gold'],
         'soumis' => ['label' => function_exists('__') ? __('author.status_soumis') : 'Soumis', 'class' => 'badge-primary'],
         'valide'  => ['label' => function_exists('__') ? __('author.status_valide') : 'Publié', 'class' => 'badge green'],
         'rejete'  => ['label' => function_exists('__') ? __('author.status_rejete') : 'Rejeté', 'class' => 'badge accent'],
@@ -19,6 +21,19 @@ function authorFormatDate(?string $d): string {
     return $t ? date('j M. Y', $t) : $d;
 }
 ?>
+<?php if (!$isAuthor): ?>
+<div class="dashboard-header">
+  <h1><?= htmlspecialchars(__('author.my_dashboard')) ?></h1>
+  <p class="text-muted"><?= htmlspecialchars(__('author.dashboard_subscribe_cta')) ?></p>
+</div>
+<div class="dashboard-card">
+  <p><?= htmlspecialchars(__('author.dashboard_subscribe_intro')) ?></p>
+  <p class="mt-4 mb-0">
+    <a href="<?= $base ?>/author/s-abonner" class="btn btn-accent"><?= htmlspecialchars(__('author.subscribe_btn')) ?></a>
+    <a href="<?= $base ?>/author/abonnement" class="btn btn-outline-primary"><?= htmlspecialchars(__('author.manage_subscription')) ?></a>
+  </p>
+</div>
+<?php else: ?>
 <div class="dashboard-header">
   <h1><?= htmlspecialchars(__('author.my_dashboard')) ?></h1>
   <p><?= htmlspecialchars(__('author.manage_submissions')) ?></p>
@@ -81,8 +96,11 @@ function authorFormatDate(?string $d): string {
             <td><?= authorStatutBadge($a['statut'] ?? 'soumis') ?></td>
             <td class="wrap-row">
               <a href="<?= $base ?>/author/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('common.read')) ?></a>
-              <?php if (($a['statut'] ?? '') === 'soumis'): ?>
+              <?php if (in_array($a['statut'] ?? '', ['soumis', 'brouillon'], true)): ?>
                 <a href="<?= $base ?>/author/article/<?= (int) $a['id'] ?>/edit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('author.edit_article')) ?></a>
+              <?php endif; ?>
+              <?php if (($a['statut'] ?? '') === 'brouillon'): ?>
+                <form method="post" action="<?= $base ?>/author/article/<?= (int) $a['id'] ?>/submit" class="inline-form"><?= csrf_field() ?><button type="submit" class="btn btn-sm btn-accent"><?= htmlspecialchars(__('author.submit_article_btn')) ?></button></form>
               <?php endif; ?>
             </td>
           </tr>
@@ -101,3 +119,4 @@ function authorFormatDate(?string $d): string {
   <?php endif; ?>
   <p class="text-sm mb-0"><a href="<?= $base ?>/author/abonnement" class="btn btn-sm btn-outline-primary"><?= htmlspecialchars(__('author.manage_subscription')) ?></a></p>
 </div>
+<?php endif; ?>

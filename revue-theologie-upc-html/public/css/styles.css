@@ -271,7 +271,7 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
 input:focus, textarea:focus { outline: 2px solid var(--ring); outline-offset: 2px; }
 textarea { resize: vertical; min-height: 120px; }
 
-/* Page specific */
+/* Page specific */’/* Page specific */
 .section-title { text-align: center; margin-bottom: 4rem; }
 .section-title h2 { margin: 0 0 0.5rem 0; }
 .section-title .divider { margin-left: auto; margin-right: auto; margin-bottom: 1.5rem; }

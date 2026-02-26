@@ -2,6 +2,7 @@
 $base = $base ?? '';
 $article = $article ?? null;
 if (!$article) return;
+$canAccessFullArticle = $canAccessFullArticle ?? false;
 $auteur = trim(($article['auteur_prenom'] ?? '') . ' ' . ($article['auteur_nom'] ?? ''));
 $date = !empty($article['date_soumission']) ? date('j F Y', strtotime($article['date_soumission'])) : '';
 $contenu = $article['contenu'] ?? '';
@@ -21,8 +22,21 @@ $contenu = $article['contenu'] ?? '';
       <div class="flex-1 article-content">
         <?php if ($contenu): ?>
         <section class="mb-3 prose article-prose-compact">
-          <h2 class="font-serif text-base font-bold mb-1">Contenu</h2>
+          <h2 class="font-serif text-base font-bold mb-1"><?= $canAccessFullArticle ? htmlspecialchars(__('article.content')) : htmlspecialchars(__('article.resume')); ?></h2>
+          <?php if ($canAccessFullArticle): ?>
           <div class="article-content text-muted leading-relaxed"><?= $contenu ?></div>
+          <?php else: ?>
+          <div class="article-content text-muted leading-relaxed"><?= $contenu ?></div>
+          <div class="card p-3 mt-3" style="background: var(--primary); color: var(--primary-foreground);">
+            <p class="text-sm mb-2"><?= htmlspecialchars(__('article.become_author_cta')) ?></p>
+            <?php
+            $loginUrl = $base . '/login?redirect=' . rawurlencode($base . '/article/' . (int)$article['id']);
+            $subscribeUrl = $base . '/author/s-abonner';
+            $ctaUrl = (class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn()) ? $subscribeUrl : $loginUrl;
+            ?>
+            <a href="<?= htmlspecialchars($ctaUrl) ?>" class="btn btn-accent btn-sm"><?= htmlspecialchars(__('article.become_author_btn')) ?></a>
+          </div>
+          <?php endif; ?>
         </section>
         <?php endif; ?>
       </div>
@@ -54,7 +68,7 @@ $contenu = $article['contenu'] ?? '';
         </div>
       </aside>
     </div>
-    <?php if (!empty($article['fichier_path'])): ?>
+    <?php if ($canAccessFullArticle && !empty($article['fichier_path'])): ?>
     <div class="article-pdf-blocks-row grid-2 mt-3">
       <div class="card p-3 text-center">
         <p class="text-xs text-muted mb-1"><?= htmlspecialchars(__('article.read_pdf_intro')) ?></p>

@@ -1,5 +1,7 @@
 <?php
 $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
+$revueInfo = class_exists('Models\RevueInfoModel') ? \Models\RevueInfoModel::get() : null;
+$issn = $revueInfo['issn'] ?? '';
 ?>
   <footer class="site-footer">
     <div class="container">
@@ -13,6 +15,9 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
             </div>
           </div>
           <p class="text-sm leading-relaxed mb-3" style="color: rgba(255,255,255,0.7);">Publication annuelle de l'Université Protestante au Congo.</p>
+          <?php if ($issn !== ''): ?>
+          <p class="text-xs mb-2" style="color: rgba(255,255,255,0.7);"><?= htmlspecialchars(function_exists('__') ? __('footer.issn') : 'ISSN') ?> : <?= htmlspecialchars($issn) ?></p>
+          <?php endif; ?>
           <p class="text-xs font-medium mt-3 italic" style="color: var(--upc-gold);">"Vérité, Foi, Liberté"</p>
         </div>
         <div>
@@ -36,6 +41,15 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
             <li><a href="<?= $base ?>/politique-editoriale"><?= htmlspecialchars(function_exists('__') ? __('footer.evaluation') : 'Processus d\'évaluation') ?></a></li>
             <li><a href="<?= $base ?>/login"><?= htmlspecialchars(function_exists('__') ? __('nav.login') : 'Connexion') ?></a></li>
             <li><a href="<?= $base ?>/faq"><?= htmlspecialchars(function_exists('__') ? __('nav.faq') : 'FAQ') ?></a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title"><?= htmlspecialchars(function_exists('__') ? __('footer.follow') : 'Suivez-nous') ?></h3>
+          <ul class="footer-social flex gap-3 flex-wrap" style="list-style: none; padding: 0;">
+            <li><a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg></a></li>
+            <li><a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg></a></li>
+            <li><a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg></a></li>
+            <li><a href="https://www.researchgate.net" target="_blank" rel="noopener" aria-label="ResearchGate"><svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg></a></li>
           </ul>
         </div>
         <div>

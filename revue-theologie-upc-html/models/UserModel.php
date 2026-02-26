@@ -84,6 +84,41 @@ class UserModel
         return (int) $stmt->fetchColumn();
     }
 
+    /** Ids des utilisateurs ayant un des rôles donnés (ex. pour notifier les admins). */
+    public static function getIdsByRole(string ...$roles): array
+    {
+        if (empty($roles)) {
+            return [];
+        }
+        $db = getDB();
+        $placeholders = implode(',', array_fill(0, count($roles), '?'));
+        $stmt = $db->prepare("SELECT id FROM users WHERE statut = 'actif' AND role IN ($placeholders)");
+        $stmt->execute($roles);
+        return array_column($stmt->fetchAll(\PDO::FETCH_ASSOC), 'id');
+    }
+
+    /** Mise à jour du profil par l'utilisateur lui-même (nom, prénom, email, mot de passe optionnel). */
+    public static function updateProfile(int $id, string $nom, string $prenom, string $email, ?string $passwordHash = null): bool
+    {
+        $db = getDB();
+        if ($passwordHash !== null) {
+            $stmt = $db->prepare("UPDATE users SET nom = :nom, prenom = :prenom, email = :email, password = :password, updated_at = NOW() WHERE id = :id");
+            return $stmt->execute([
+                ':id' => $id, ':nom' => $nom, ':prenom' => $prenom, ':email' => $email, ':password' => $passwordHash,
+            ]);
+        }
+        $stmt = $db->prepare("UPDATE users SET nom = :nom, prenom = :prenom, email = :email, updated_at = NOW() WHERE id = :id");
+        return $stmt->execute([':id' => $id, ':nom' => $nom, ':prenom' => $prenom, ':email' => $email]);
+    }
+
+    /** Mettre à jour uniquement le rôle (ex. user → auteur après abonnement). */
+    public static function updateRole(int $id, string $role): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE users SET role = :role, updated_at = NOW() WHERE id = :id");
+        return $stmt->execute([':id' => $id, ':role' => $role]);
+    }
+
     /** Mise à jour par l'admin (sans mot de passe si null) */
     public static function update(int $id, string $nom, string $prenom, string $email, string $role, string $statut, ?string $passwordHash = null): bool
     {

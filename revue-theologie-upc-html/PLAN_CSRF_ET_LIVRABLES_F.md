@@ -135,6 +135,45 @@ Une fois chaque point validé, cocher la case correspondante dans la liste 2.1 c
 - [ ] Pages : Présentation, Comité, Contact, FAQ, Politique éditoriale, Instructions aux auteurs, Actualités, Mentions légales, Conditions, Confidentialité.
 - [ ] Changement de langue (FR / EN / Lingala) : texte et liens cohérents.
 
+**Procédure pour 2.2 (à exécuter en local, sans être connecté)**
+
+1. **Accueil**  
+   - Aller sur `/` (page d’accueil).  
+   - **Attendu :** page s’affiche correctement, liens du menu (Publications, Archives, Présentation, Contact, etc.) visibles et cliquables.
+
+2. **Publications**  
+   - Cliquer sur le lien vers les publications (ou aller sur `/publications`).  
+   - **Attendu :** liste d’articles affichée. Cliquer sur un article → **attendu :** redirection vers la page de détail de l’article.
+
+3. **Détail d’un article**  
+   - Depuis les publications ou directement via `/article/[id]`, ouvrir un article.  
+   - **Attendu :** titre, auteur(s), résumé/contenu visibles. Si un PDF est associé : boutons « Lire le PDF » et/ou « Télécharger » présents et fonctionnels.
+
+4. **Archives**  
+   - Aller sur `/archives`.  
+   - **Attendu :** volumes et numéros listés. « Voir le volume » fait défiler ou affiche la section du volume. Cliquer sur un numéro → **attendu :** page du numéro ou liste des articles du numéro.
+
+5. **Détail d’un numéro**  
+   - Depuis les archives, ouvrir un numéro (URL type `/numero/[id]`).  
+   - **Attendu :** liste des articles du numéro, liens PDF si disponibles.
+
+6. **Recherche**  
+   - Aller sur `/search` ou utiliser le champ de recherche si présent.  
+   - Tester une recherche par **mot-clé** (ex. un terme du titre d’un article).  
+   - Tester une recherche par **auteur** (nom ou prénom d’un auteur en base).  
+   - **Attendu :** résultats cohérents (articles et/ou numéros selon l’implémentation), pas d’erreur.
+
+7. **Pages institutionnelles et légales**  
+   - Ouvrir chaque page une fois (sans être connecté) :  
+     `/presentation`, `/comite`, `/contact`, `/faq`, `/politique-editoriale`, `/instructions-auteurs`, `/actualites`, `/mentions-legales`, `/conditions-utilisation`, `/confidentialite`.  
+   - **Attendu :** chaque URL affiche le contenu attendu, sans erreur 404 ni page blanche.
+
+8. **Changement de langue**  
+   - Utiliser le sélecteur de langue (FR / EN / Lingala) s’il est présent (souvent via `/lang?l=fr`, `?l=en`, `?l=ln` ou lien dans le header/footer).  
+   - **Attendu :** les textes de l’interface (menus, boutons, libellés) changent selon la langue ; les liens restent fonctionnels.
+
+Une fois chaque point validé, cocher la case correspondante dans la liste 2.2 ci-dessus.
+
 ### 2.3 Espace auteur (connecté en tant qu’auteur)
 
 - [ ] Tableau de bord : résumé, liens.
@@ -145,12 +184,33 @@ Une fois chaque point validé, cocher la case correspondante dans la liste 2.1 c
 - [ ] Notifications : liste, marquer une comme lue, tout marquer comme lu.
 - [ ] Téléchargement des modèles (Word, LaTeX) depuis Instructions aux auteurs.
 
+**Procédure pour 2.3 (connecté en tant qu’auteur)**
+
+1. **Tableau de bord** — Se connecter avec un compte **auteur**. Aller sur `/author`. **Attendu :** résumé (stats, articles), liens vers Soumettre, Mes articles, Notifications, Abonnement.
+2. **Soumettre un article** — Cliquer sur Soumettre (ou `/author/soumettre`). Remplir titre, contenu (résumé), optionnellement joindre un fichier (PDF/DOC/DOCX). Soumettre. **Attendu :** redirection vers le détail de l’article créé ; l’article apparaît dans « Mes articles ».
+3. **Mes articles** — Depuis le dashboard, ouvrir la liste des articles. **Attendu :** liste affichée. Cliquer sur un article → détail ; accès au lien « Modifier » si le statut le permet (ex. soumis).
+4. **Édition d’un article** — Depuis le détail d’un article modifiable, cliquer sur Modifier (ou `/author/article/[id]/edit`). Modifier titre ou contenu, sauvegarder. **Attendu :** enregistrement OK, redirection vers le détail de l’article.
+5. **Abonnement** — Aller sur `/author/abonnement`. **Attendu :** page s’affiche (historique des abonnements, paiements, statut actif si applicable).
+6. **Notifications** — Aller sur `/author/notifications`. **Attendu :** liste des notifications. Tester « Marquer comme lu » sur une notification, puis « Tout marquer comme lu » si affiché.
+7. **Téléchargement des modèles** — Aller sur la page publique `/instructions-auteurs`, trouver la section des modèles. Cliquer sur les liens de téléchargement Word et LaTeX. **Attendu :** téléchargement du fichier (ou message clair si fichier absent).
+
+Cocher chaque case de la liste 2.3 une fois validé.
+
 ### 2.4 Espace évaluateur (connecté en tant qu’évaluateur)
 
 - [ ] Tableau de bord : évaluations à faire, terminées, historique.
 - [ ] Ouvrir une évaluation : formulaire (recommandation, notes, commentaires).
 - [ ] Sauvegarder brouillon puis soumettre l’évaluation → statut mis à jour.
 - [ ] Notifications : liste, marquer comme lu.
+
+**Procédure pour 2.4 (connecté en tant qu’évaluateur)**
+
+1. **Tableau de bord** — Se connecter avec un compte **évaluateur** (rédacteur ou rédacteur en chef). Aller sur `/reviewer`. **Attendu :** résumé (évaluations en attente, en cours, terminées), liens vers les évaluations, Terminées, Historique, Notifications.
+2. **Ouvrir une évaluation** — Cliquer sur une évaluation à faire (ou `/reviewer/evaluation/[id]`). **Attendu :** formulaire avec recommandation, notes (qualité, originalité, etc.), commentaires public/privé, suggestions. Liens vers l’article et le manuscrit si disponible.
+3. **Brouillon puis soumission** — Remplir une partie du formulaire, cliquer sur « Sauvegarder le brouillon ». **Attendu :** redirection ou message de succès, données conservées. Puis remplir la recommandation (obligatoire pour soumettre), cliquer sur « Soumettre l’évaluation ». **Attendu :** redirection (ex. vers Terminées), statut de l’évaluation mis à jour.
+4. **Notifications** — Aller sur `/reviewer/notifications`. **Attendu :** liste des notifications. Tester « Marquer comme lu » et « Tout marquer comme lu » si affiché.
+
+Cocher chaque case de la liste 2.4 une fois validé.
 
 ### 2.5 Espace admin
 
@@ -160,11 +220,29 @@ Une fois chaque point validé, cocher la case correspondante dans la liste 2.1 c
 - [ ] Volumes / numéros : consultation.
 - [ ] Paramètres revue : enregistrement des modifications.
 
+**Procédure pour 2.5 (connecté en tant qu’admin)**
+
+1. **Utilisateurs** — Aller sur `/admin/users`. **Attendu :** liste des utilisateurs. Créer un utilisateur (`/admin/users/create`) : remplir nom, prénom, email, mot de passe, rôle, soumettre. **Attendu :** utilisateur créé, retour à la liste. Éditer un utilisateur : modifier rôle, statut ou mot de passe, enregistrer. **Attendu :** modifications enregistrées.
+2. **Articles** — Aller sur `/admin/articles`. Ouvrir le détail d’un article (`/admin/article/[id]`). **Attendu :** infos article, auteur, contenu. Changer le statut (soumis / publié / rejeté), soumettre. **Attendu :** statut mis à jour. Affecter un évaluateur : choisir dans la liste, soumettre. **Attendu :** évaluateur assigné (notification si implémenté). Assigner au numéro : choisir un numéro (ou « aucun »), soumettre. **Attendu :** assignation enregistrée.
+3. **Paiements** — Aller sur `/admin/paiements`. **Attendu :** tableau des paiements. Pour un paiement « en attente », tester Valider et Refuser. **Attendu :** statut mis à jour, liste rafraîchie.
+4. **Volumes / numéros** — Aller sur `/admin/volumes`. **Attendu :** liste des volumes et numéros, consultation sans erreur.
+5. **Paramètres revue** — Aller sur `/admin/parametres`. Modifier un champ (ex. nom officiel, description), soumettre. **Attendu :** message de succès, données enregistrées (vérifier au rechargement).
+
+Cocher chaque case de la liste 2.5 une fois validé.
+
 ### 2.6 Sécurité et ergonomie
 
 - [ ] Accès direct par URL aux zones protégées sans être connecté → redirection vers login ou accueil.
 - [ ] Accès avec un rôle inadapté (ex. auteur qui tape une URL admin) → 403 ou redirection.
 - [ ] Après ajout CSRF : chaque formulaire sensible accepte uniquement les requêtes avec jeton valide.
+
+**Procédure pour 2.6**
+
+1. **Accès sans connexion** — Se déconnecter (ou utiliser une fenêtre privée). Taper directement dans la barre d’adresse : `/author`, `/reviewer`, `/admin`, `/admin/articles`, `/author/soumettre`, etc. **Attendu :** redirection vers `/login` ou vers l’accueil, pas d’affichage du contenu protégé.
+2. **Rôle inadapté** — Se connecter en tant qu’**auteur**. Taper dans la barre d’adresse : `/admin` ou `/admin/users`. **Attendu :** 403 ou redirection vers l’accueil (pas d’accès à l’interface admin). Idem en tant qu’évaluateur : pas d’accès à `/admin` si le rôle ne le permet pas.
+3. **CSRF** — Pour vérifier que les formulaires rejettent les requêtes sans jeton valide : ouvrir les outils développeur (F12), onglet Réseau ; sur une page avec formulaire (ex. login), supprimer ou modifier le champ caché `csrf_token` (via « Modifier et renvoyer » ou en créant une requête POST sans le champ). **Attendu :** réponse « Requête invalide » ou redirection avec message d’erreur, action non exécutée. (Test optionnel ; les cas normaux avec jeton valide doivent déjà fonctionner d’après les tests 2.1 à 2.5.)
+
+Cocher chaque case de la liste 2.6 une fois validé.
 
 ---
 

@@ -5,6 +5,7 @@
  */
 $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
 $pageTitle = $pageTitle ?? 'Espace auteur | Revue Congolaise de Théologie Protestante';
+$isAuthor = $isAuthor ?? false;
 ?>
 <!DOCTYPE html>
 <html lang="<?= function_exists('current_lang') ? htmlspecialchars(current_lang()) : 'fr' ?>">
@@ -42,10 +43,17 @@ $pageTitle = $pageTitle ?? 'Espace auteur | Revue Congolaise de Théologie Prote
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#tag"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('dash.dashboard') : 'Tableau de bord') ?>
           </a>
+          <?php if ($isAuthor): ?>
           <a href="<?= $base ?>/author#articles">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.my_articles') : 'Mes articles') ?>
           </a>
+          <?php else: ?>
+          <a href="<?= $base ?>/author/s-abonner" class="<?= ($_SESSION['author_page'] ?? '') === 's-abonner' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#award"/></svg>
+            <?= htmlspecialchars(function_exists('__') ? __('author.subscribe_btn') : 'S\'abonner') ?>
+          </a>
+          <?php endif; ?>
           <a href="<?= $base ?>/author/abonnement" class="<?= ($_SESSION['author_page'] ?? '') === 'abonnement' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#award"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.subscription') : 'Abonnement') ?>
@@ -54,10 +62,16 @@ $pageTitle = $pageTitle ?? 'Espace auteur | Revue Congolaise de Théologie Prote
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.notifications') : 'Notifications') ?>
           </a>
+          <?php if ($isAuthor): ?>
+          <a href="<?= $base ?>/author/profil" class="<?= ($_SESSION['author_page'] ?? '') === 'profil' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg>
+            <?= htmlspecialchars(function_exists('__') ? __('author.profil_menu') : 'Mon profil') ?>
+          </a>
           <a href="<?= $base ?>/author/soumettre" class="<?= ($_SESSION['author_page'] ?? '') === 'soumettre' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#upload"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('nav.submit') : 'Soumettre un article') ?>
           </a>
+          <?php endif; ?>
           <a href="<?= $base ?>/">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#globe"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('dash.view_site') : 'Voir le site') ?>

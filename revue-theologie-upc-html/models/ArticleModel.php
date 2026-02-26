@@ -111,32 +111,45 @@ class ArticleModel
         return (int) $stmt->fetchColumn();
     }
 
-    /** Créer un article (soumission). $fichierNomOriginal = nom du fichier côté utilisateur (pour téléchargement). */
-    public static function create(int $auteurId, string $titre, string $contenu, ?string $fichierPath = null, ?string $fichierNomOriginal = null): ?int
+    /** Créer un article (brouillon ou soumission). $statut = 'brouillon' ou 'soumis'. */
+    public static function create(int $auteurId, string $titre, string $contenu, ?string $fichierPath = null, ?string $fichierNomOriginal = null, string $statut = 'soumis'): ?int
     {
         $db = getDB();
+        $statut = $statut === 'brouillon' ? 'brouillon' : 'soumis';
         $stmt = $db->prepare("
             INSERT INTO articles (titre, contenu, fichier_path, fichier_nom_original, auteur_id, statut, date_soumission, created_at, updated_at)
-            VALUES (:titre, :contenu, :fichier_path, :fichier_nom_original, :auteur_id, 'soumis', NOW(), NOW(), NOW())
+            VALUES (:titre, :contenu, :fichier_path, :fichier_nom_original, :auteur_id, :statut, NOW(), NOW(), NOW())
         ");
         $ok = $stmt->execute([
             ':titre'                 => $titre,
             ':contenu'               => $contenu,
             ':fichier_path'          => $fichierPath,
             ':fichier_nom_original'  => $fichierNomOriginal,
-            ':auteur_id'              => $auteurId,
+            ':auteur_id'             => $auteurId,
+            ':statut'                => $statut,
         ]);
         return $ok ? (int) $db->lastInsertId() : null;
     }
 
-    /** Mettre à jour un article (seulement si statut = soumis et appartient à l'auteur). */
+    /** Passer un brouillon en soumis (date_soumission = NOW()). */
+    public static function submitDraft(int $id, int $authorId): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("
+            UPDATE articles SET statut = 'soumis', date_soumission = NOW(), updated_at = NOW()
+            WHERE id = :id AND auteur_id = :aid AND statut = 'brouillon'
+        ");
+        return $stmt->execute([':id' => $id, ':aid' => $authorId]);
+    }
+
+    /** Mettre à jour un article (statut = soumis ou brouillon, appartient à l'auteur). */
     public static function updateByAuthor(int $id, int $authorId, string $titre, string $contenu, ?string $fichierPath = null, ?string $fichierNomOriginal = null): bool
     {
         $db = getDB();
         $setFile = $fichierPath !== null ? ", fichier_path = :fichier_path, fichier_nom_original = :fichier_nom_original" : "";
         $stmt = $db->prepare("
             UPDATE articles SET titre = :titre, contenu = :contenu, updated_at = NOW()" . $setFile . "
-            WHERE id = :id AND auteur_id = :aid AND statut = 'soumis'
+            WHERE id = :id AND auteur_id = :aid AND statut IN ('soumis', 'brouillon')
         ");
         $params = [':titre' => $titre, ':contenu' => $contenu, ':id' => $id, ':aid' => $authorId];
         if ($fichierPath !== null) {

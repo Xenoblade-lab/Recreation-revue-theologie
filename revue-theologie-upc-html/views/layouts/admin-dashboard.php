@@ -48,6 +48,10 @@ $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Prot
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('admin.articles') : 'Articles') ?>
           </a>
+          <a href="<?= $base ?>/admin/evaluations" class="<?= ($_SESSION['admin_page'] ?? '') === 'evaluations' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clipboard-check"/></svg>
+            <?= htmlspecialchars(function_exists('__') ? __('admin.evaluations_list') : 'Évaluations') ?>
+          </a>
           <a href="<?= $base ?>/admin/volumes" class="<?= ($_SESSION['admin_page'] ?? '') === 'volumes' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('admin.volumes') : 'Volumes & Numéros') ?>
@@ -55,6 +59,10 @@ $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Prot
           <a href="<?= $base ?>/admin/paiements" class="<?= ($_SESSION['admin_page'] ?? '') === 'paiements' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#award"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('admin.paiements') : 'Paiements') ?>
+          </a>
+          <a href="<?= $base ?>/admin/notifications" class="<?= ($_SESSION['admin_page'] ?? '') === 'notifications' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
+            <?= htmlspecialchars(function_exists('__') ? __('nav.notifications') : 'Notifications') ?>
           </a>
           <a href="<?= $base ?>/admin/parametres" class="<?= ($_SESSION['admin_page'] ?? '') === 'parametres' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clipboard-check"/></svg>

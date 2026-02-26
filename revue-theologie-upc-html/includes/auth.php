@@ -48,11 +48,37 @@ function requireRole(string ...$roles): void
 }
 
 /**
- * Zone réservée aux auteurs.
+ * Zone réservée aux auteurs : utilisateur connecté + (rôle auteur OU abonnement actif).
+ * Sinon redirection vers /author/s-abonner.
  */
 function requireAuthor(): void
 {
-    requireRole('auteur');
+    requireAuth();
+    $user = AuthService::getUser();
+    if (!$user || empty($user['id'])) {
+        return;
+    }
+    if (AuthService::hasRole('auteur')) {
+        return;
+    }
+    if (AuthService::hasRole('admin')) {
+        return;
+    }
+    if (class_exists('Models\AbonnementModel') && \Models\AbonnementModel::hasActiveSubscription((int) $user['id'])) {
+        return;
+    }
+    release_session();
+    $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+    header('Location: ' . $base . '/author/s-abonner');
+    exit;
+}
+
+/**
+ * Permet l'accès à la page S'abonner pour tout utilisateur connecté (sans exiger le rôle auteur).
+ */
+function requireAuthorOrSubscribe(): void
+{
+    requireAuth();
 }
 
 /**

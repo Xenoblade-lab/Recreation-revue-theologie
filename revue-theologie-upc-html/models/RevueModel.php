@@ -67,4 +67,17 @@ class RevueModel
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public static function update(int $id, string $numero, string $titre, ?string $description, ?string $datePublication): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE revues SET numero = :numero, titre = :titre, description = :description, date_publication = :date_publication, updated_at = NOW() WHERE id = :id");
+        return $stmt->execute([
+            ':id' => $id,
+            ':numero' => $numero,
+            ':titre' => $titre,
+            ':description' => $description,
+            ':date_publication' => $datePublication ?: null,
+        ]);
+    }
 }

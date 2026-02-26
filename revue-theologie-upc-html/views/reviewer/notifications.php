@@ -55,7 +55,8 @@ foreach ($notifications as $n) {
           <p class="text-muted text-sm mt-1 mb-0">
             <?= reviewerFormatDate($n['created_at'] ?? null) ?>
             <?php if ($link): ?>
-              · <a href="<?= $base ?>/<?= htmlspecialchars(ltrim($link, '/')) ?>" class="text-primary"><?= htmlspecialchars(__('common.read')) ?></a>
+              <?php $readUrl = (strpos($link, 'http') === 0) ? $link : $base . (strpos($link, '/') === 0 ? $link : '/' . $link); ?>
+              · <a href="<?= htmlspecialchars($readUrl) ?>" class="text-primary"><?= htmlspecialchars(__('common.read')) ?></a>
             <?php endif; ?>
           </p>
         </div>

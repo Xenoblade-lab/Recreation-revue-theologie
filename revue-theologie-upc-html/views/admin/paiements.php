@@ -1,6 +1,7 @@
 <?php
 $paiements = $paiements ?? [];
 $error = $error ?? null;
+$success = $success ?? null;
 $base = $base ?? '';
 
 function adminPaymentStatusLabel(string $statut): string {
@@ -24,6 +25,9 @@ function adminFormatDate(?string $d): string {
 </div>
 <?php if ($error): ?>
 <div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
+<?php if (!empty($success) && $success === 'paiement_refuse'): ?>
+<div class="alert mb-4" style="background: #d1fae5; color: #065f46; padding: 0.75rem 1rem; border-radius: 6px;"><?= htmlspecialchars(function_exists('__') ? __('admin.payment_refused_success') : 'Paiement refusé. L\'utilisateur a été notifié.') ?></div>
 <?php endif; ?>
 <div class="dashboard-card">
   <div class="overflow-auto">
@@ -54,12 +58,19 @@ function adminFormatDate(?string $d): string {
               <td><?= adminFormatDate($p['date_paiement'] ?? $p['created_at'] ?? null) ?></td>
               <td>
                 <?php if ($st === 'en_attente'): ?>
-                  <form method="post" action="<?= $base ?>/admin/paiement/<?= $pid ?>/statut" class="inline">
+                  <?php
+                  $baseUrl = rtrim($base ?? '', '/');
+                  if ($baseUrl === '' && defined('BASE_URL')) {
+                      $baseUrl = rtrim(BASE_URL, '/');
+                  }
+                  $urlStatut = $baseUrl . '/admin/paiement/' . $pid . '/statut';
+                  ?>
+                  <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" style="display: inline; margin-right: 0.25rem;">
                     <?= csrf_field() ?>
                     <input type="hidden" name="statut" value="valide">
-                    <button type="submit" class="btn btn-sm btn-outline" style="margin-right: 0.25rem;"><?= htmlspecialchars(__('admin.validate')) ?></button>
+                    <button type="submit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('admin.validate')) ?></button>
                   </form>
-                  <form method="post" action="<?= $base ?>/admin/paiement/<?= $pid ?>/statut" class="inline">
+                  <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" style="display: inline;">
                     <?= csrf_field() ?>
                     <input type="hidden" name="statut" value="refuse">
                     <button type="submit" class="btn btn-sm btn-outline btn-accent"><?= htmlspecialchars(__('admin.refuse')) ?></button>

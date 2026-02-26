@@ -21,13 +21,23 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
         <?php if ($isLoggedIn): ?>
           <?php
           $role = $currentUser['role'] ?? '';
-          $dashboardUrl = $base . '/';
+          $dashboardUrl = $base . '/author';
           $dashboardLabel = __('nav.my_space');
+          $canSwitchRole = in_array($role, ['admin', 'redacteur en chef'], true);
           if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = __('nav.admin'); }
           elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = __('nav.reviewer'); }
-          elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = __('nav.my_space'); }
           ?>
+          <?php if ($canSwitchRole): ?>
+          <div class="dropdown">
+            <a href="<?= $dashboardUrl ?>" class="lang-select" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($dashboardLabel) ?> <span aria-hidden="true">▼</span></a>
+            <div class="dropdown-menu">
+              <a href="<?= $base ?>/admin"><?= htmlspecialchars(__('nav.admin')) ?></a>
+              <a href="<?= $base ?>/reviewer"><?= htmlspecialchars(__('nav.reviewer')) ?></a>
+            </div>
+          </div>
+          <?php else: ?>
           <a href="<?= $dashboardUrl ?>"><?= htmlspecialchars($dashboardLabel) ?></a>
+          <?php endif; ?>
           <span class="text-sm"><?= htmlspecialchars(trim(($currentUser['prenom'] ?? '') . ' ' . ($currentUser['nom'] ?? ''))) ?></span>
           <a href="<?= $base ?>/logout"><?= htmlspecialchars(__('nav.logout')) ?></a>
         <?php else: ?>
@@ -102,7 +112,7 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
           $role = $currentUser['role'] ?? '';
           $isReviewer = in_array($role, ['redacteur', 'redacteur en chef'], true);
           if ($role === 'admin') {
-              $notifUrl = $base . '/admin';
+              $notifUrl = $base . '/admin/notifications';
           } elseif ($isReviewer) {
               $notifUrl = $base . '/reviewer/notifications';
           } else {
@@ -149,12 +159,11 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
         <div class="actions">
           <?php if ($isLoggedIn): ?>
             <?php
-            $role = $currentUser['role'] ?? '';
-            $dashboardUrl = $base . '/';
-            $dashboardLabel = __('nav.my_space');
-            if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = __('nav.admin'); }
-            elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = __('nav.reviewer'); }
-            elseif (in_array($role, ['auteur'], true)) { $dashboardUrl = $base . '/author'; $dashboardLabel = __('nav.my_space'); }
+          $role = $currentUser['role'] ?? '';
+          $dashboardUrl = $base . '/author';
+          $dashboardLabel = __('nav.my_space');
+          if ($role === 'admin') { $dashboardUrl = $base . '/admin'; $dashboardLabel = __('nav.admin'); }
+          elseif (in_array($role, ['redacteur', 'redacteur en chef'], true)) { $dashboardUrl = $base . '/reviewer'; $dashboardLabel = __('nav.reviewer'); }
             ?>
             <a href="<?= $dashboardUrl ?>" class="btn btn-outline-primary"><?= htmlspecialchars($dashboardLabel) ?></a>
             <a href="<?= $base ?>/logout" class="btn btn-outline"><?= htmlspecialchars(__('nav.logout')) ?></a>

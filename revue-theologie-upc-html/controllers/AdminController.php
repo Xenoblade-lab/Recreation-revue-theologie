@@ -10,6 +10,7 @@ use Models\VolumeModel;
 use Models\RevueModel;
 use Models\RevueInfoModel;
 use Models\NotificationModel;
+use Models\AbonnementModel;
 
 /**
  * Contrôleur administration : dashboard, utilisateurs, articles, paiements, volumes, paramètres.
@@ -25,7 +26,6 @@ class AdminController
     {
         requireAdmin();
         $_SESSION['admin_page'] = $adminPage;
-        release_session();
         $base = $this->base();
         $user = AuthService::getUser();
         $data['base'] = $base;
@@ -34,6 +34,7 @@ class AdminController
         ob_start();
         require BASE_PATH . '/views/admin/' . $viewName . '.php';
         $viewContent = ob_get_clean();
+        release_session(); // après rendu de la vue pour que csrf_field() ait enregistré le jeton en session
         $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Protestante';
         require BASE_PATH . '/views/layouts/admin-dashboard.php';
     }
@@ -170,6 +171,18 @@ class AdminController
         $this->render('articles', ['articles' => $articles], 'Articles | Administration', 'articles');
     }
 
+    public function evaluations(array $params = []): void
+    {
+        $statut = isset($_GET['statut']) && $_GET['statut'] !== '' ? (string) $_GET['statut'] : null;
+        $evaluations = EvaluationModel::getAllForAdmin($statut, 100, 0);
+        $total = EvaluationModel::countAllForAdmin($statut);
+        $this->render('evaluations', [
+            'evaluations' => $evaluations,
+            'total' => $total,
+            'filterStatut' => $statut,
+        ], 'Évaluations | Administration', 'evaluations');
+    }
+
     public function articleDetail(array $params = []): void
     {
         $id = (int) ($params['id'] ?? 0);
@@ -292,8 +305,9 @@ class AdminController
     {
         $paiements = PaiementModel::getAll(50);
         $error = $_SESSION['admin_error'] ?? null;
-        unset($_SESSION['admin_error']);
-        $this->render('paiements', ['paiements' => $paiements, 'error' => $error], 'Paiements | Administration', 'paiements');
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
+        $this->render('paiements', ['paiements' => $paiements, 'error' => $error, 'success' => $success], 'Paiements | Administration', 'paiements');
     }
 
     public function paiementStatut(array $params = []): void
@@ -315,8 +329,144 @@ class AdminController
             header('Location: ' . $this->base() . '/admin/paiements');
             exit;
         }
-        PaiementModel::updateStatut($id, $statut);
+        $paiement = PaiementModel::getById($id);
+        if (!$paiement) {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        $userId = (int) ($paiement['utilisateur_id'] ?? 0);
+        $wasEnAttente = ($paiement['statut'] ?? '') === 'en_attente';
+
+        if ($statut === 'valide') {
+            PaiementModel::setValide($id);
+            if ($wasEnAttente && $userId) {
+                AbonnementModel::create($userId);
+                UserModel::updateRole($userId, 'auteur');
+                NotificationModel::create($userId, 'subscription_approved', [
+                    'message' => __('author.subscription_approved_notif') ?: 'Votre demande d\'abonnement auteur a été validée. Vous pouvez maintenant soumettre des articles.',
+                    'link' => '/author',
+                ]);
+            }
+        } else {
+            PaiementModel::updateStatut($id, 'refuse');
+            if ($wasEnAttente && $userId) {
+                NotificationModel::create($userId, 'subscription_refused', [
+                    'message' => __('author.subscription_refused_notif') ?: 'Votre demande d\'abonnement n\'a pas été retenue. Vous pouvez réessayer en vous rendant sur S\'abonner.',
+                    'link' => '/author/s-abonner',
+                ]);
+            }
+            $_SESSION['admin_success'] = 'paiement_refuse';
+        }
         header('Location: ' . $this->base() . '/admin/paiements');
+        exit;
+    }
+
+    /** Valider un paiement (route dédiée POST /admin/paiement/[id]/valider) */
+    public function paiementValider(array $params = []): void
+    {
+        $this->paiementStatutAction((int) ($params['id'] ?? 0), 'valide');
+    }
+
+    /** Refuser un paiement (route dédiée POST /admin/paiement/[id]/refuser) */
+    public function paiementRefuser(array $params = []): void
+    {
+        $this->paiementStatutAction((int) ($params['id'] ?? 0), 'refuse');
+    }
+
+    /** Traitement commun : valider ou refuser un paiement. */
+    private function paiementStatutAction(int $id, string $statut): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        if (!$id || !in_array($statut, ['valide', 'refuse'], true)) {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        $paiement = PaiementModel::getById($id);
+        if (!$paiement) {
+            header('Location: ' . $this->base() . '/admin/paiements');
+            exit;
+        }
+        $userId = (int) ($paiement['utilisateur_id'] ?? 0);
+        $wasEnAttente = ($paiement['statut'] ?? '') === 'en_attente';
+
+        if ($statut === 'valide') {
+            PaiementModel::setValide($id);
+            if ($wasEnAttente && $userId) {
+                AbonnementModel::create($userId);
+                UserModel::updateRole($userId, 'auteur');
+                NotificationModel::create($userId, 'subscription_approved', [
+                    'message' => __('author.subscription_approved_notif') ?: 'Votre demande d\'abonnement auteur a été validée. Vous pouvez maintenant soumettre des articles.',
+                    'link' => '/author',
+                ]);
+            }
+        } else {
+            PaiementModel::updateStatut($id, 'refuse');
+            if ($wasEnAttente && $userId) {
+                NotificationModel::create($userId, 'subscription_refused', [
+                    'message' => __('author.subscription_refused_notif') ?: 'Votre demande d\'abonnement n\'a pas été retenue. Vous pouvez réessayer en vous rendant sur S\'abonner.',
+                    'link' => '/author/s-abonner',
+                ]);
+            }
+            $_SESSION['admin_success'] = 'paiement_refuse';
+        }
+        header('Location: ' . $this->base() . '/admin/paiements');
+        exit;
+    }
+
+    public function notifications(array $params = []): void
+    {
+        $user = AuthService::getUser();
+        $notifications = NotificationModel::getByUserId((int) $user['id']);
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
+        $this->render('notifications', [
+            'notifications' => $notifications,
+            'error'         => $error,
+        ], 'Notifications | Administration - Revue Congolaise de Théologie Protestante', 'notifications');
+    }
+
+    public function notificationMarkRead(array $params = []): void
+    {
+        requireAdmin();
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/notifications');
+            exit;
+        }
+        $id = $params['id'] ?? '';
+        $user = AuthService::getUser();
+        if ($id !== '') {
+            NotificationModel::markAsRead($id, (int) $user['id']);
+        }
+        release_session();
+        header('Location: ' . $this->base() . '/admin/notifications');
+        exit;
+    }
+
+    public function notificationsMarkAllRead(array $params = []): void
+    {
+        requireAdmin();
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide. Veuillez réessayer.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/notifications');
+            exit;
+        }
+        $user = AuthService::getUser();
+        NotificationModel::markAllAsRead((int) $user['id']);
+        release_session();
+        header('Location: ' . $this->base() . '/admin/notifications');
         exit;
     }
 
@@ -328,6 +478,102 @@ class AdminController
             $revuesByVolume[$v['id']] = RevueModel::getAll((int) $v['id'], 50);
         }
         $this->render('volumes', ['volumes' => $volumes, 'revuesByVolume' => $revuesByVolume], 'Volumes & Numéros | Administration', 'volumes');
+    }
+
+    public function volumeDetail(array $params = []): void
+    {
+        $id = (int) ($params['id'] ?? 0);
+        $volume = $id ? VolumeModel::getById($id) : null;
+        if (!$volume) {
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        $revues = RevueModel::getAll($id, 50);
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
+        $this->render('volume-detail', ['volume' => $volume, 'revues' => $revues, 'error' => $error], 'Volume ' . $id . ' | Administration', 'volumes');
+    }
+
+    public function volumeUpdate(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide.';
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $volume = $id ? VolumeModel::getById($id) : null;
+        if (!$volume) {
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        $annee = (int) ($_POST['annee'] ?? 0);
+        $numeroVolume = trim($_POST['numero_volume'] ?? '');
+        $description = trim($_POST['description'] ?? '') ?: null;
+        $redacteurChef = trim($_POST['redacteur_chef'] ?? '') ?: null;
+        if ($annee < 1900 || $annee > 2100) {
+            $_SESSION['admin_error'] = 'Année invalide.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/volume/' . $id);
+            exit;
+        }
+        VolumeModel::update($id, $annee, $numeroVolume, $description, $redacteurChef);
+        release_session();
+        header('Location: ' . $this->base() . '/admin/volume/' . $id);
+        exit;
+    }
+
+    public function numeroDetail(array $params = []): void
+    {
+        $id = (int) ($params['id'] ?? 0);
+        $numero = $id ? RevueModel::getById($id) : null;
+        if (!$numero) {
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        $volume = !empty($numero['volume_id']) ? VolumeModel::getById((int) $numero['volume_id']) : null;
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
+        $this->render('numero-detail', ['numero' => $numero, 'volume' => $volume, 'error' => $error], 'Numéro ' . ($numero['numero'] ?? '') . ' | Administration', 'volumes');
+    }
+
+    public function numeroUpdate(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide.';
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $numero = $id ? RevueModel::getById($id) : null;
+        if (!$numero) {
+            header('Location: ' . $this->base() . '/admin/volumes');
+            exit;
+        }
+        $numeroVal = trim($_POST['numero'] ?? '');
+        $titre = trim($_POST['titre'] ?? '');
+        $description = trim($_POST['description'] ?? '') ?: null;
+        $datePublication = trim($_POST['date_publication'] ?? '') ?: null;
+        if ($numeroVal === '' || $titre === '') {
+            $_SESSION['admin_error'] = 'Numéro et titre obligatoires.';
+            release_session();
+            header('Location: ' . $this->base() . '/admin/numero/' . $id);
+            exit;
+        }
+        RevueModel::update($id, $numeroVal, $titre, $description, $datePublication);
+        release_session();
+        header('Location: ' . $this->base() . '/admin/numero/' . $id);
+        exit;
     }
 
     public function parametres(array $params = []): void

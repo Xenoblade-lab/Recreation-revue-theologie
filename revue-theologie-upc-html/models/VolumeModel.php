@@ -22,4 +22,17 @@ class VolumeModel
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $row ?: null;
     }
+
+    public static function update(int $id, int $annee, string $numeroVolume, ?string $description, ?string $redacteurChef): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE volumes SET annee = :annee, numero_volume = :numero_volume, description = :description, redacteur_chef = :redacteur_chef WHERE id = :id");
+        return $stmt->execute([
+            ':id' => $id,
+            ':annee' => $annee,
+            ':numero_volume' => $numeroVolume,
+            ':description' => $description,
+            ':redacteur_chef' => $redacteurChef,
+        ]);
+    }
 }

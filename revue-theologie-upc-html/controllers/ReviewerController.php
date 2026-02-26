@@ -4,6 +4,7 @@ namespace Controllers;
 use Service\AuthService;
 use Models\EvaluationModel;
 use Models\NotificationModel;
+use Models\UserModel;
 
 /**
  * Contrôleur espace évaluateur (reviewer) : dashboard, évaluations assignées, formulaire, terminées, historique.
@@ -225,6 +226,59 @@ class ReviewerController
         $user = AuthService::getUser();
         NotificationModel::markAllAsRead((int) $user['id']);
         header('Location: ' . $this->base() . '/reviewer/notifications');
+        exit;
+    }
+
+    public function profil(array $params = []): void
+    {
+        $user = AuthService::getUser();
+        $error = $_SESSION['reviewer_error'] ?? null;
+        $success = !empty($_SESSION['reviewer_success']);
+        unset($_SESSION['reviewer_error'], $_SESSION['reviewer_success']);
+        $this->render('profil', [
+            'user'   => $user,
+            'error'  => $error,
+            'success' => $success,
+        ], 'Mon profil | Espace évaluateur - Revue Congolaise de Théologie Protestante', 'profil');
+    }
+
+    public function profilUpdate(array $params = []): void
+    {
+        requireReviewer();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/reviewer/profil');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['reviewer_error'] = 'Requête invalide. Veuillez réessayer.';
+            header('Location: ' . $this->base() . '/reviewer/profil');
+            exit;
+        }
+        $user = AuthService::getUser();
+        $id = (int) $user['id'];
+        $nom = trim($_POST['nom'] ?? '');
+        $prenom = trim($_POST['prenom'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $newPassword = $_POST['password'] ?? '';
+        if (!$nom || !$prenom || !$email) {
+            $_SESSION['reviewer_error'] = __('reviewer.profil_error_required') ?: 'Nom, prénom et email sont obligatoires.';
+            header('Location: ' . $this->base() . '/reviewer/profil');
+            exit;
+        }
+        if (UserModel::emailExists($email, $id)) {
+            $_SESSION['reviewer_error'] = __('reviewer.profil_error_email') ?: 'Cet email est déjà utilisé.';
+            header('Location: ' . $this->base() . '/reviewer/profil');
+            exit;
+        }
+        $hash = strlen($newPassword) >= 6 ? password_hash($newPassword, PASSWORD_DEFAULT) : null;
+        if (UserModel::updateProfile($id, $nom, $prenom, $email, $hash)) {
+            $_SESSION['reviewer_success'] = true;
+            AuthService::refreshUser();
+        } else {
+            $_SESSION['reviewer_error'] = __('reviewer.profil_error_save') ?: 'Erreur lors de l\'enregistrement.';
+        }
+        release_session();
+        header('Location: ' . $this->base() . '/reviewer/profil');
         exit;
     }
 }

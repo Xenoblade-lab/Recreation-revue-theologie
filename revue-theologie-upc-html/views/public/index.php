@@ -2,12 +2,18 @@
 $base = $base ?? '';
 $articles = $articles ?? [];
 $numeros = $numeros ?? [];
+$stats = $stats ?? ['totalArticles' => 0, 'totalVolumes' => 0, 'yearsPublication' => 28];
 $extrait = function ($html, $len = 180) {
   $t = strip_tags($html);
   return mb_strlen($t) > $len ? mb_substr($t, 0, $len) . '...' : $t;
 };
 $firstArticle = $articles[0] ?? null;
 $firstNumero = $numeros[0] ?? null;
+$newsletterSuccess = !empty($_SESSION['newsletter_success']);
+$newsletterError = !empty($_SESSION['newsletter_error']);
+if ($newsletterSuccess || $newsletterError) {
+  unset($_SESSION['newsletter_success'], $_SESSION['newsletter_error']);
+}
 ?>
 <!-- Hero type template : 2 colonnes, image en forme de livre -->
 <section class="hero-template">
@@ -208,15 +214,15 @@ $firstNumero = $numeros[0] ?? null;
       <div class="widget widget-stats">
         <h3 class="widget-title"><?= htmlspecialchars(__('home.stats_title')) ?></h3>
         <div class="widget-stats-row">
-          <span class="widget-stats-value">200+</span>
+          <span class="widget-stats-value"><?= (int) $stats['totalArticles'] ?><?= (int) $stats['totalArticles'] >= 100 ? '+' : '' ?></span>
           <span class="widget-stats-label"><?= htmlspecialchars(__('home.articles_published')) ?></span>
         </div>
         <div class="widget-stats-row">
-          <span class="widget-stats-value">28</span>
+          <span class="widget-stats-value"><?= (int) $stats['totalVolumes'] ?></span>
           <span class="widget-stats-label"><?= htmlspecialchars(__('home.volumes')) ?></span>
         </div>
         <div class="widget-stats-row">
-          <span class="widget-stats-value">65+</span>
+          <span class="widget-stats-value"><?= (int) $stats['yearsPublication'] ?><?= (int) $stats['yearsPublication'] >= 25 ? '+' : '' ?></span>
           <span class="widget-stats-label"><?= htmlspecialchars(__('home.years_publication')) ?></span>
         </div>
       </div>
@@ -254,8 +260,14 @@ $firstNumero = $numeros[0] ?? null;
         <div class="widget-newsletter-bg"></div>
         <h3 class="widget-title widget-title-light"><?= htmlspecialchars(__('home.newsletter_title')) ?></h3>
         <p class="widget-newsletter-text"><?= htmlspecialchars(__('home.newsletter_text')) ?></p>
-        <form class="widget-newsletter-form" id="newsletter-form">
-          <input type="email" placeholder="<?= htmlspecialchars(__('home.newsletter_placeholder')) ?>" required class="newsletter-input">
+        <?php if ($newsletterSuccess): ?>
+        <p class="text-sm mb-2" style="color: var(--upc-gold);"><?= htmlspecialchars(__('home.newsletter_success')) ?></p>
+        <?php endif; ?>
+        <?php if ($newsletterError): ?>
+        <p class="text-sm mb-2" style="color: var(--accent);"><?= htmlspecialchars(__('home.newsletter_error')) ?></p>
+        <?php endif; ?>
+        <form class="widget-newsletter-form" id="newsletter-form" method="post" action="<?= $base ?>/newsletter">
+          <input type="email" name="email" placeholder="<?= htmlspecialchars(__('home.newsletter_placeholder')) ?>" required class="newsletter-input">
           <button type="submit" class="btn btn-accent newsletter-btn"><?= htmlspecialchars(__('home.newsletter_btn')) ?></button>
         </form>
       </div>

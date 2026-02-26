@@ -54,6 +54,10 @@ $pageTitle = $pageTitle ?? 'Espace évaluateur | Revue Congolaise de Théologie 
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.notifications') : 'Notifications') ?>
           </a>
+          <a href="<?= $base ?>/reviewer/profil" class="<?= ($_SESSION['reviewer_page'] ?? '') === 'profil' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg>
+            <?= htmlspecialchars(function_exists('__') ? __('reviewer.profil_menu') : 'Mon profil') ?>
+          </a>
           <a href="<?= $base ?>/publications">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#book"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('nav.publications') : 'Publications') ?>

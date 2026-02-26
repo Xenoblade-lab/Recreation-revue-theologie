@@ -19,7 +19,7 @@ function adminFormatDate(?string $d): string {
   <?php else: ?>
     <?php foreach ($volumes as $vol): ?>
       <div class="mb-4" style="margin-bottom: 1.5rem;">
-        <h2 class="h3 mb-2"><?= htmlspecialchars(__('common.volume')) ?> <?= (int) ($vol['id']) ?> — <?= htmlspecialchars($vol['annee'] ?? '') ?> <?= htmlspecialchars($vol['numero_volume'] ?? '') ?></h2>
+        <h2 class="h3 mb-2"><a href="<?= $base ?>/admin/volume/<?= (int) $vol['id'] ?>"><?= htmlspecialchars(__('common.volume')) ?> <?= (int) ($vol['id']) ?> — <?= htmlspecialchars($vol['annee'] ?? '') ?> <?= htmlspecialchars($vol['numero_volume'] ?? '') ?></a></h2>
         <?php if (!empty($vol['description'])): ?>
           <p class="text-sm text-muted mb-2"><?= nl2br(htmlspecialchars(mb_substr($vol['description'], 0, 300))) ?><?= mb_strlen($vol['description']) > 300 ? '…' : '' ?></p>
         <?php endif; ?>
@@ -43,7 +43,7 @@ function adminFormatDate(?string $d): string {
               <tbody>
                 <?php foreach ($revues as $r): ?>
                   <tr>
-                    <td><?= htmlspecialchars($r['numero'] ?? '') ?></td>
+                    <td><a href="<?= $base ?>/admin/numero/<?= (int) $r['id'] ?>"><?= htmlspecialchars($r['numero'] ?? '') ?></a></td>
                     <td><?= htmlspecialchars($r['titre'] ?? '') ?></td>
                     <td><?= adminFormatDate($r['date_publication'] ?? null) ?></td>
                   </tr>
