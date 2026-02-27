@@ -35,17 +35,17 @@ Ce document décrit les étapes pour remplacer les bleus actuels du site par le 
 
 ### Étape 1 — Variables CSS globales (`public/css/styles.css`)
 
-- [ ] **1.1** Dans `:root`, remplacer :
-  - `--primary: #1a3365` → `--primary: #2760A8`
-  - `--secondary-foreground: #1a3365` → `--secondary-foreground: #2760A8`
-  - `--ring: #1a3365` → `--ring: #2760A8`
-  - `--upc-blue: #1a3365` → `--upc-blue: #2760A8`
-  - `--upc-blue-dark: #0f2847` → `--upc-blue-dark: #1e4a82`
-  - `--hero-cover-blue: #2A70AF` → `--hero-cover-blue: #2760A8`
-  - `--hero-cover-blue-dark: #1e5a8e` → `--hero-cover-blue-dark: #1e4a82`
-  - `--hero-cover-blue-darker: #164670` → `--hero-cover-blue-darker: #163a6b`
+- [x] **1.1** Dans `:root`, remplacer :
+  - `--primary: #1a3365` → `--primary: #2760A8` ✓
+  - `--secondary-foreground: #1a3365` → `--secondary-foreground: #2760A8` ✓
+  - `--ring: #1a3365` → `--ring: #2760A8` ✓
+  - `--upc-blue: #1a3365` → `--upc-blue: #2760A8` ✓
+  - `--upc-blue-dark: #0f2847` → `--upc-blue-dark: #1e4a82` ✓
+  - `--hero-cover-blue: #2A70AF` → `--hero-cover-blue: #2760A8` ✓
+  - `--hero-cover-blue-dark: #1e5a8e` → `--hero-cover-blue-dark: #1e4a82` ✓
+  - `--hero-cover-blue-darker: #164670` → `--hero-cover-blue-darker: #163a6b` ✓
 
-Tous les composants qui utilisent déjà `var(--primary)`, `var(--upc-blue)`, `var(--upc-blue-dark)` ou `var(--hero-cover-*)` seront mis à jour automatiquement.
+Tous les composants qui utilisent déjà `var(--primary)`, `var(--upc-blue)`, `var(--upc-blue-dark)` ou `var(--hero-cover-*)` sont maintenant à jour.
 
 ---
 
@@ -53,8 +53,8 @@ Tous les composants qui utilisent déjà `var(--primary)`, `var(--upc-blue)`, `v
 
 Les blocs utilisant `rgba(26,51,101,…)` correspondent à l’ancien primary. Les remplacer par l’équivalent du nouveau bleu **39, 96, 168** :
 
-- [ ] **2.1** `rgba(26,51,101,0.1)` → `rgba(39,96,168,0.1)` (pills, icônes, badges)
-- [ ] **2.2** Vérifier qu’il n’y a pas d’autres `rgba(26,51,101,…)` ou `#1a3365` / `#0f2847` en dur dans les vues (PHP/HTML inline) ou autres CSS.
+- [x] **2.1** `rgba(26,51,101,0.1)` → `rgba(39,96,168,0.1)` (pills, icônes, badges)
+- [x] **2.2** Vérifier qu’il n’y a pas d’autres `rgba(26,51,101,…)` ou `#1a3365` / `#0f2847` en dur dans les vues (PHP/HTML inline) ou autres CSS.
 
 Fichier concerné : `public/css/styles.css` (recherche « 26,51,101 »).
 
@@ -62,7 +62,7 @@ Fichier concerné : `public/css/styles.css` (recherche « 26,51,101 »).
 
 ### Étape 3 — Fichier `frontend/css/styles.css` (si utilisé)
 
-- [ ] **3.1** Si le projet utilise aussi `frontend/css/styles.css`, appliquer les mêmes changements que pour **Étape 1** et **Étape 2** dans ce fichier, pour garder une cohérence (ex. maquettes ou anciennes pages).
+- [x] **3.1** Si le projet utilise aussi `frontend/css/styles.css`, appliquer les mêmes changements que pour **Étape 1** et **Étape 2** dans ce fichier, pour garder une cohérence (ex. maquettes ou anciennes pages).
 
 ---
 
@@ -70,7 +70,7 @@ Fichier concerné : `public/css/styles.css` (recherche « 26,51,101 »).
 
 - [ ] **4.1** Parcourir le site (accueil, header, footer, boutons, liens, cartes, hero, dashboards) et vérifier que le bleu affiché correspond au bleu de la couverture.
 - [ ] **4.2** Vérifier les contrastes (texte blanc sur bleu, liens sur fond clair) pour l’accessibilité.
-- [ ] **4.3** Vérifier les vues qui contiennent des styles inline avec des couleurs bleues (ex. `#2563eb`, `#1a3365`) et les remplacer par des variables ou par `#2760A8` / `#1e4a82` selon le contexte.
+- [x] **4.3** Vues avec bleu en dur : `views/author/s-abonner.php` — fallbacks `#2563eb` → `#2760A8`, `rgba(37,99,235,…)` → `rgba(39,96,168,…)`, hover bouton → `var(--upc-blue-dark, #1e4a82)`. Aucun autre fichier PHP concerné.
 
 ---
 

@@ -130,7 +130,7 @@ $tarifs = array_column($formules, 'montant', 'id');
 }
 .region-choice-hint::before {
   content: ''; display: inline-block; width: 4px; height: 4px; border-radius: 50%;
-  background: var(--primary, #2563eb);
+  background: var(--primary, #2760A8);
 }
 .region-cards-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;
@@ -144,15 +144,15 @@ $tarifs = array_column($formules, 'montant', 'id');
   display: flex; flex-direction: column; gap: 0.25rem; min-height: 120px;
 }
 .region-card:hover {
-  border-color: var(--primary, #2563eb); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+  border-color: var(--primary, #2760A8); box-shadow: 0 4px 12px rgba(39, 96, 168, 0.12);
 }
 .region-card.selected {
-  border-color: var(--primary, #2563eb); background: linear-gradient(135deg, rgba(37, 99, 235, 0.06) 0%, rgba(37, 99, 235, 0.02) 100%);
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.15);
+  border-color: var(--primary, #2760A8); background: linear-gradient(135deg, rgba(39, 96, 168, 0.06) 0%, rgba(39, 96, 168, 0.02) 100%);
+  box-shadow: 0 4px 16px rgba(39, 96, 168, 0.15);
 }
-.region-card.selected .region-card-name { color: var(--primary, #2563eb); font-weight: 700; }
-.region-card.selected .region-card-price { color: var(--primary, #2563eb); }
-.region-card:focus { outline: 2px solid var(--primary, #2563eb); outline-offset: 2px; }
+.region-card.selected .region-card-name { color: var(--primary, #2760A8); font-weight: 700; }
+.region-card.selected .region-card-price { color: var(--primary, #2760A8); }
+.region-card:focus { outline: 2px solid var(--primary, #2760A8); outline-offset: 2px; }
 .region-card-name { font-size: 1.0625rem; font-weight: 600; color: var(--foreground, #1e293b); line-height: 1.3; }
 .region-card-duration { font-size: 0.8125rem; color: var(--muted-foreground, #64748b); }
 .region-card-price { font-size: 1.375rem; font-weight: 700; color: var(--foreground, #1e293b); margin-top: auto; }
@@ -161,7 +161,7 @@ $tarifs = array_column($formules, 'montant', 'id');
 .region-choice-actions .btn-lg { padding: 0.625rem 1.25rem; font-size: 1rem; }
 .region-choice-help { font-size: 0.8125rem; color: var(--accent, #dc2626); margin: 0; }
 .region-choice-card .hidden { display: none !important; }
-@keyframes region-pulse { 0%, 100% { box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12); } 50% { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); } }
+@keyframes region-pulse { 0%, 100% { box-shadow: 0 4px 12px rgba(39, 96, 168, 0.12); } 50% { box-shadow: 0 0 0 3px rgba(39, 96, 168, 0.25); } }
 .region-cards-pulse .region-card { animation: region-pulse 0.6s ease-in-out 2; }
 
 /* Modal paiement — overlay et conteneur */
@@ -283,9 +283,9 @@ $tarifs = array_column($formules, 'montant', 'id');
   background: #f8fafc;
 }
 .payment-option.selected {
-  border-color: var(--primary, #2563eb);
+  border-color: var(--primary, #2760A8);
   background: #eff6ff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 3px rgba(39, 96, 168, 0.15);
 }
 .payment-option-img-wrap {
   display: flex;
@@ -301,7 +301,7 @@ $tarifs = array_column($formules, 'montant', 'id');
   object-fit: contain;
 }
 .payment-option-icon {
-  color: var(--primary, #2563eb);
+  color: var(--primary, #2760A8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -374,14 +374,14 @@ $tarifs = array_column($formules, 'montant', 'id');
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  background: var(--primary, #2563eb);
+  background: var(--primary, #2760A8);
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: background 0.2s, opacity 0.2s;
 }
 .payment-submit-btn:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: var(--upc-blue-dark, #1e4a82);
 }
 .payment-submit-btn:disabled {
   opacity: 0.5;

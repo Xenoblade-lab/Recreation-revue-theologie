@@ -6,27 +6,27 @@
   --foreground: #111827;
   --card: #ffffff;
   --card-foreground: #111827;
-  --primary: #1a3365;
+  --primary: #2760A8;
   --primary-foreground: #ffffff;
   --secondary: #f9fafb;
-  --secondary-foreground: #1a3365;
+  --secondary-foreground: #2760A8;
   --muted: #f3f4f6;
   --muted-foreground: #4b5563;
   --accent: #b3001b;
   --accent-foreground: #ffffff;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #1a3365;
+  --ring: #2760A8;
   --radius: 0.5rem;
-  --upc-blue: #1a3365;
-  --upc-blue-dark: #0f2847;
+  --upc-blue: #2760A8;
+  --upc-blue-dark: #1e4a82;
   --upc-red: #b3001b;
   --upc-red-dark: #8b0015;
   --upc-gold: #ffbb00;
   /* Bleu couverture revue-cover-upc.jpg (hero accueil) */
-  --hero-cover-blue: #2A70AF;
-  --hero-cover-blue-dark: #1e5a8e;
-  --hero-cover-blue-darker: #164670;
+  --hero-cover-blue: #2760A8;
+  --hero-cover-blue-dark: #1e4a82;
+  --hero-cover-blue-darker: #163a6b;
   --font-sans: 'Lato', sans-serif;
   --font-serif: 'Merriweather', Georgia, serif;
 }
@@ -229,7 +229,7 @@ body.page-template-2 {
 .hero .badge-float { position: absolute; bottom: -1rem; right: -1rem; background: var(--accent); color: var(--accent-foreground); padding: 0.5rem 1rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 700; }
 .hero .content { flex: 1; text-align: center; }
 @media (min-width: 1024px) { .hero .content { text-align: left; } }
-.hero .pill { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(26,51,101,0.1); color: var(--primary); border-radius: 9999px; padding: 0.375rem 1rem; margin-bottom: 1.5rem; font-size: 0.75rem; font-weight: 500; }
+.hero .pill { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(39,96,168,0.1); color: var(--primary); border-radius: 9999px; padding: 0.375rem 1rem; margin-bottom: 1.5rem; font-size: 0.75rem; font-weight: 500; }
 .hero .pill span { width: 8px; height: 8px; background: var(--upc-gold); border-radius: 9999px; }
 .hero h1 { margin: 0 0 0.5rem 0; }
 .hero .lead { color: var(--muted-foreground); font-size: 1.125rem; max-width: 36rem; margin: 0 auto 2rem auto; }
@@ -253,11 +253,11 @@ body.page-template-2 {
 @media (min-width: 640px) { .grid-5 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .grid-5 { grid-template-columns: repeat(5, 1fr); } }
 .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: box-shadow 0.2s, border-color 0.2s; }
-.card:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: rgba(26,51,101,0.2); }
-.card-icon { display: flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; border-radius: 0.5rem; background: rgba(26,51,101,0.1); color: var(--primary); margin-bottom: 1.25rem; }
+.card:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: rgba(39,96,168,0.2); }
+.card-icon { display: flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; border-radius: 0.5rem; background: rgba(39,96,168,0.1); color: var(--primary); margin-bottom: 1.25rem; }
 .card:hover .card-icon { background: var(--primary); color: var(--primary-foreground); }
 .badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem; font-size: 0.75rem; font-weight: 500; border-radius: var(--radius); }
-.badge-primary { background: rgba(26,51,101,0.1); color: var(--primary); }
+.badge-primary { background: rgba(39,96,168,0.1); color: var(--primary); }
 .badge-accent { background: rgba(179,0,27,0.1); color: var(--accent); }
 .badge-gold { background: rgba(255,187,0,0.2); color: var(--foreground); }
 
@@ -311,7 +311,7 @@ textarea { resize: vertical; min-height: 120px; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .contact-block { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
-.contact-block .icon { width: 2.5rem; height: 2.5rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(26,51,101,0.1); border-radius: 0.5rem; color: var(--primary); }
+.contact-block .icon { width: 2.5rem; height: 2.5rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(39,96,168,0.1); border-radius: 0.5rem; color: var(--primary); }
 .sticky-top { position: sticky; top: 6rem; }
 
 /* Two-column layout for presentation */
@@ -579,7 +579,7 @@ textarea { resize: vertical; min-height: 120px; }
   padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem;
 }
 .stat-card .stat-icon { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.stat-card .stat-icon.primary { background: rgba(26,51,101,0.1); color: var(--primary); }
+.stat-card .stat-icon.primary { background: rgba(39,96,168,0.1); color: var(--primary); }
 .stat-card .stat-icon.accent { background: rgba(179,0,27,0.1); color: var(--accent); }
 .stat-card .stat-icon.gold { background: rgba(255,187,0,0.2); color: var(--foreground); }
 .stat-card .stat-icon.green { background: rgba(34,197,94,0.1); color: #059669; }
@@ -1004,7 +1004,7 @@ textarea { resize: vertical; min-height: 120px; }
 .notice-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .notice-list a { font-size: 0.875rem; }
 .notice-list a:hover { color: var(--primary); }
-.widget-cta-icon { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: rgba(26,51,101,0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+.widget-cta-icon { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: rgba(39,96,168,0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
 .widget-cta-text { font-size: 0.875rem; color: var(--muted-foreground); margin: 0 0 1rem 0; line-height: 1.5; }
 .widget-question-text { font-size: 0.875rem; margin: 0 0 0.75rem 0; }
 .widget-poll { margin: 0; }

@@ -200,6 +200,8 @@ return [
     'comite.title' => 'Komite ya bokomasi',
     'comite.intro' => 'Bamemba ya komite ya rédaction mpe ya siansi ya revue.',
     'comite.director' => 'Mokonzi ya Revue',
+    'comite.redacteur_chef' => 'Mokonzi ya bokomasi',
+    'comite.redacteur_chef_name' => 'Prof. KALOMBO Kapuku Sébastien',
     'comite.faculty' => 'Faculté ya Théologie, UPC - Kinshasa',
     'comite.redac_default' => 'Komite ya rédaction ezali na gestion. Contact :',
     'comite.redaction' => 'Komite ya Rédaction',

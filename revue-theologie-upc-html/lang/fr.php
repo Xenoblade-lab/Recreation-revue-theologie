@@ -201,6 +201,8 @@ return [
     'comite.title' => 'Comité Editorial',
     'comite.intro' => 'Les membres du comité de rédaction et du comité scientifique de la revue.',
     'comite.director' => 'Directeur de la Revue',
+    'comite.redacteur_chef' => 'Rédacteur en Chef',
+    'comite.redacteur_chef_name' => 'Prof. KALOMBO Kapuku Sébastien',
     'comite.faculty' => 'Faculté de Théologie, UPC - Kinshasa',
     'comite.redac_default' => 'Le comité de rédaction assure la gestion éditoriale de la revue. Contact :',
     'comite.redaction' => 'Comité de Rédaction',

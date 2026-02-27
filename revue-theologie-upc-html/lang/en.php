@@ -200,6 +200,8 @@ return [
     'comite.title' => 'Editorial Committee',
     'comite.intro' => 'Members of the editorial board and scientific committee of the journal.',
     'comite.director' => 'Journal Director',
+    'comite.redacteur_chef' => 'Editor-in-Chief',
+    'comite.redacteur_chef_name' => 'Prof. KALOMBO Kapuku Sébastien',
     'comite.faculty' => 'Faculty of Theology, UPC - Kinshasa',
     'comite.redac_default' => 'The editorial board manages the journal. Contact:',
     'comite.redaction' => 'Editorial Board',

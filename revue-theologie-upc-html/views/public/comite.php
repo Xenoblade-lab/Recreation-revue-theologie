@@ -19,13 +19,10 @@ $comiteSci = $revueInfo['comite_scientifique'] ?? null;
       <div>
         <h2 class="font-serif text-base font-bold"><?= htmlspecialchars(__('comite.director')) ?></h2>
         <p class="text-accent font-medium text-xs"><?= htmlspecialchars(__('comite.faculty')) ?></p>
+        <p class="mb-0 mt-2" style="color: var(--foreground); font-weight: 600; font-size: 0.875rem;"><?= htmlspecialchars(__('comite.redacteur_chef')) ?> : <?= htmlspecialchars(__('comite.redacteur_chef_name')) ?></p>
       </div>
     </div>
-    <?php if ($comiteRedac): ?>
-    <div class="text-muted text-sm leading-relaxed"><?= nl2br(htmlspecialchars($comiteRedac)) ?></div>
-    <?php else: ?>
-    <p class="text-muted text-sm"><?= htmlspecialchars(__('comite.redac_default')) ?> <a href="mailto:revue.theologie@upc.ac.cd">revue.theologie@upc.ac.cd</a></p>
-    <?php endif; ?>
+    <p class="text-muted text-sm mb-0"><?= htmlspecialchars(__('comite.redac_default')) ?> <a href="mailto:revue.theologie@upc.ac.cd">revue.theologie@upc.ac.cd</a></p>
   </div>
 </section>
 <section class="section bg-secondary comite-redaction">
