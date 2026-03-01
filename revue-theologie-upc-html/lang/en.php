@@ -218,7 +218,7 @@ return [
     'politique.title' => 'Editorial policy',
     'politique.intro' => 'Evaluation process and editorial guidelines of the journal.',
     'politique.evaluation' => 'Article evaluation',
-    'politique.evaluation_text' => 'Each submitted article is double-blind reviewed by at least two experts in the field. The editorial committee reserves the right to request revisions or reject manuscripts that do not meet the journal\'s scientific criteria.',
+    'politique.evaluation_text' => 'Each submitted article is double-blind reviewed by at least two experts in the field. Authors must submit an anonymous version of the manuscript (no name or identifying information in the file). The editorial committee reserves the right to request revisions or reject manuscripts that do not meet the journal\'s scientific criteria.',
     'politique.copyright' => 'Copyright',
     'politique.copyright_text' => 'Authors retain copyright on their articles but grant the journal first publication rights. Articles are published under Creative Commons licence (CC BY-NC 4.0).',
 
@@ -240,6 +240,8 @@ return [
     'instructions.download_latex' => 'Download LaTeX template',
     'instructions.process' => 'Evaluation process',
     'instructions.process_text' => 'Each submitted article is double-blind reviewed by at least two experts in the field. The editorial committee reserves the right to request revisions or reject manuscripts that do not meet the journal\'s scientific criteria.',
+    'instructions.anonymized_manuscript_title' => 'Anonymous manuscript',
+    'instructions.anonymized_manuscript' => 'To ensure double-blind review, the submitted file (PDF or Word) must be an anonymous version of the manuscript: do not include your name or any identifying information in the file. Reviewers only learn the author\'s identity after the article is published.',
 
     'archives.title' => 'Archives',
     'archives.intro' => 'Browse all volumes and issues of the Journal of the Faculty of Theology.',
@@ -675,6 +677,7 @@ return [
     'admin.only_one_reviewer_warning' => 'Only one reviewer is assigned. Please assign at least a second one for double-blind evaluation.',
     'admin.cannot_publish_reject_min_two' => 'Please assign at least 2 reviewers and wait for their reports before publishing or rejecting.',
     'admin.assign_two_before_publish' => 'Assign at least 2 reviewers before you can publish or reject.',
+    'admin.conflicting_recommendations' => 'Conflicting recommendations: %d favorable (Accepted / Accepted with modifications), %d unfavorable (Rejected / Major revisions). The final decision is made by the editor-in-chief.',
     'admin.choose_reviewer' => 'Choose a reviewer',
     'admin.assign' => 'Assign',
     'admin.assign_success' => '%d reviewer(s) assigned successfully.',

@@ -81,9 +81,9 @@ Il **ne réévalue pas** l’article dans le système (pas de formulaire d’év
 Sur la fiche article admin, lorsqu’il y a au moins deux évaluations terminées et que les recommandations sont **divergentes** (ex. au moins un « Accepté » ou « Accepté avec modifications » et au moins un « Rejeté »), afficher un **message d’attention** du type : *« Avis divergents : X Accepté(s), Y Rejeté(s) [ou Révisions]. La décision finale revient au rédacteur en chef. »* — pour rappeler que c’est bien une décision manuelle et inciter à consulter les rapports avant de trancher.
 
 **À ajouter dans le plan si vous retenez cette amélioration :**
-- [ ] Détecter les cas « avis divergents » (au moins une reco favorable et une défavorable).
-- [ ] Afficher un encart d’information au-dessus du formulaire « Changer le statut » dans ce cas.
-- [ ] Clé i18n ex. : `admin.conflicting_recommendations`.
+- [x] Détecter les cas « avis divergents » (au moins une reco favorable et une défavorable).
+- [x] Afficher un encart d’information au-dessus du formulaire « Changer le statut » dans ce cas.
+- [x] Clé i18n ex. : `admin.conflicting_recommendations`.
 
 ---
 
@@ -169,8 +169,8 @@ Sur la fiche article admin, lorsqu’il y a au moins deux évaluations terminée
 - [x] **Page `/article/:id`** : n’afficher l’article que si `statut === 'valide'` (publié). Si l’article n’est pas publié, retourner **404** (ou une page « Article non disponible »). Ainsi, l’évaluateur qui clique sur « Voir la page article » pour un article en cours d’évaluation ne voit pas l’auteur.
 - [x] **Lien « Voir la page article »** (côté évaluateur) : pour les articles non publiés, soit retirer ce lien, soit le garder mais la page renverra 404 — on peut ajouter une note du type « La page article sera visible après publication. » pour éviter la confusion.
 - [x] **Téléchargement PDF** (`downloadArticle`) : pour les articles **non publiés**, autoriser en plus l’accès aux **utilisateurs assignés comme évaluateurs** pour cet article (vérifier dans la table `evaluations` que `article_id = :id` et `evaluateur_id = :userId`). Ainsi l’évaluateur peut télécharger le manuscrit sans passer par un lien direct vers un fichier (et sans voir l’auteur sur la page article).
-- [ ] **Côté auteur** : sur la page détail article de l’auteur, les noms des évaluateurs ne doivent être affichés **qu’après publication** (statut `valide`). Avant publication : afficher « Évaluateur » ou « Évaluateur 1 / 2 » sans nom. Après publication : afficher le nom de chaque évaluateur dans la section « Commentaires des évaluateurs » (voir étape 8).
-- [ ] **Manuscrit PDF** : si le fichier PDF déposé par l’auteur contient son nom, l’anonymat dépend du dépôt d’une version anonymisée par l’auteur. Indiquer dans les instructions aux auteurs (page soumission / politique) de fournir une version anonyme du manuscrit pour l’évaluation.
+- [x] **Côté auteur** : sur la page détail article de l’auteur, les noms des évaluateurs ne doivent être affichés **qu’après publication** (statut `valide`). Avant publication : afficher « Évaluateur » ou « Évaluateur 1 / 2 » sans nom. Après publication : afficher le nom de chaque évaluateur dans la section « Commentaires des évaluateurs » (voir étape 8).
+- [x] **Manuscrit PDF** : si le fichier PDF déposé par l’auteur contient son nom, l’anonymat dépend du dépôt d’une version anonymisée par l’auteur. Indiquer dans les instructions aux auteurs (page soumission / politique) de fournir une version anonyme du manuscrit pour l’évaluation.
 
 **Critère de validation :** Pour un article non publié, un évaluateur assigné ne peut pas voir l’auteur (page article = 404) ; il peut télécharger le manuscrit via l’interface. Après publication, la page article affiche l’auteur comme aujourd’hui.
 

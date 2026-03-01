@@ -70,8 +70,18 @@ $canPublishOrReject = $evaluatorsCount >= 2;
 </div>
 <?php endif; ?>
 
+<?php
+$conflictingRecommendations = $conflictingRecommendations ?? false;
+$conflictingFavorable = (int) ($conflictingFavorable ?? 0);
+$conflictingUnfavorable = (int) ($conflictingUnfavorable ?? 0);
+?>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.change_status')) ?></h2>
+  <?php if ($conflictingRecommendations): ?>
+  <div class="alert alert-warning mb-3" role="alert" style="background: rgba(245,158,11,0.12); color: #92400e; padding: 0.75rem 1rem; border-radius: var(--radius); border-left: 4px solid #d97706;">
+    <?= htmlspecialchars(sprintf(__('admin.conflicting_recommendations'), $conflictingFavorable, $conflictingUnfavorable)) ?>
+  </div>
+  <?php endif; ?>
   <?php if (!$canPublishOrReject): ?>
   <p class="text-sm text-muted mb-2"><?= htmlspecialchars(__('admin.assign_two_before_publish')) ?></p>
   <?php endif; ?>

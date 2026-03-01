@@ -219,7 +219,7 @@ return [
     'politique.title' => 'Politique éditoriale',
     'politique.intro' => 'Processus d\'évaluation et règles éditoriales de la revue.',
     'politique.evaluation' => 'Évaluation des articles',
-    'politique.evaluation_text' => 'Chaque article soumis est évalué en double aveugle par au moins deux experts du domaine concerné. Le comité éditorial se réserve le droit de demander des modifications ou de refuser les manuscrits ne répondant pas aux critères scientifiques de la revue.',
+    'politique.evaluation_text' => 'Chaque article soumis est évalué en double aveugle par au moins deux experts du domaine concerné. Les auteurs doivent fournir une version anonyme du manuscrit (sans nom ni éléments d\'identification dans le fichier). Le comité éditorial se réserve le droit de demander des modifications ou de refuser les manuscrits ne répondant pas aux critères scientifiques de la revue.',
     'politique.copyright' => 'Droits d\'auteur',
     'politique.copyright_text' => 'Les auteurs conservent les droits d\'auteur sur leurs articles mais accordent à la revue le droit de première publication. Les articles sont publiés sous licence Creative Commons (CC BY-NC 4.0).',
 
@@ -241,6 +241,8 @@ return [
     'instructions.download_latex' => 'Télécharger le template LaTeX',
     'instructions.process' => 'Processus d\'évaluation',
     'instructions.process_text' => 'Chaque article soumis est évalué en double aveugle par au moins deux experts du domaine concerné. Le comité éditorial se réserve le droit de demander des modifications ou de refuser les manuscrits ne répondant pas aux critères scientifiques de la revue.',
+    'instructions.anonymized_manuscript_title' => 'Manuscrit anonyme',
+    'instructions.anonymized_manuscript' => 'Pour garantir l\'évaluation en double aveugle, le fichier soumis (PDF ou Word) doit être une version anonyme du manuscrit : n\'indiquez pas votre nom ni d\'éléments permettant de vous identifier dans le fichier. Les évaluateurs ne connaissent l\'auteur qu\'après la publication de l\'article.',
 
     'archives.title' => 'Archives',
     'archives.intro' => 'Consultez l\'ensemble des volumes et numéros de la Revue de la Faculté de Théologie.',
@@ -708,6 +710,7 @@ return [
     'admin.only_one_reviewer_warning' => 'Un seul évaluateur est assigné. Veuillez en assigner au moins un second pour une évaluation en double aveugle.',
     'admin.cannot_publish_reject_min_two' => 'Veuillez assigner au moins 2 évaluateurs et attendre leurs rapports avant de publier ou rejeter.',
     'admin.assign_two_before_publish' => 'Assignez au moins 2 évaluateurs avant de pouvoir publier ou rejeter.',
+    'admin.conflicting_recommendations' => 'Avis divergents : %d favorable(s) (Accepté / Accepté avec modifications), %d défavorable(s) (Rejeté / Révisions majeures). La décision finale revient au rédacteur en chef.',
     'admin.choose_reviewer' => 'Choisir un évaluateur',
     'admin.assign' => 'Assigner',
     'admin.assign_success' => '%d évaluateur(s) assigné(s) avec succès.',

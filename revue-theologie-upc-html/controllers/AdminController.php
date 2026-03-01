@@ -193,6 +193,25 @@ class AdminController
             exit;
         }
         $evaluations = EvaluationModel::getByArticleId($id);
+        $conflictingRecommendations = false;
+        $conflictingFavorable = 0;
+        $conflictingUnfavorable = 0;
+        $terminated = array_filter($evaluations, function ($e) {
+            return ($e['statut'] ?? '') === 'termine';
+        });
+        if (count($terminated) >= 2) {
+            foreach ($terminated as $e) {
+                $rec = $e['recommendation'] ?? '';
+                if (in_array($rec, ['accepte', 'accepte_avec_modifications', 'revision_mineure'], true)) {
+                    $conflictingFavorable++;
+                } elseif (in_array($rec, ['rejete', 'revision_majeure'], true)) {
+                    $conflictingUnfavorable++;
+                }
+            }
+            if ($conflictingFavorable >= 1 && $conflictingUnfavorable >= 1) {
+                $conflictingRecommendations = true;
+            }
+        }
         if (ComiteEditorialModel::tableExists()) {
             $reviewers = ComiteEditorialModel::getActiveReviewers();
         } else {
@@ -214,6 +233,9 @@ class AdminController
             'revues' => $revues,
             'error' => $error,
             'assignSuccessCount' => $assignSuccessCount,
+            'conflictingRecommendations' => $conflictingRecommendations,
+            'conflictingFavorable' => $conflictingFavorable,
+            'conflictingUnfavorable' => $conflictingUnfavorable,
         ], 'Article #' . $id . ' | Administration', 'articles');
     }
 

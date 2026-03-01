@@ -218,7 +218,7 @@ return [
     'politique.title' => 'Politiki ya bokomasi',
     'politique.intro' => 'Ndenge ya kotungi mpe règle ya revue.',
     'politique.evaluation' => 'Kotungi makomi',
-    'politique.evaluation_text' => 'Likomi na likomi batungi na bato mibale. Komite ekoki kobenga mabongisi to koboya.',
+    'politique.evaluation_text' => 'Likomi na likomi batungi na bato mibale. Bakomi basengeli kotinda version ya likomi oyo nkombo ezwami te (nkombo to eloko ya kolakisa yo te na fichier). Komite ekoki kobenga mabongisi to koboya.',
     'politique.copyright' => 'Droit ya mokomi',
     'politique.copyright_text' => 'Bakomi bazali na droit. Bimwebi na CC BY-NC 4.0.',
 
@@ -240,6 +240,8 @@ return [
     'instructions.download_latex' => 'Kotélécharger template LaTeX',
     'instructions.process' => 'Ndenge ya kotungi',
     'instructions.process_text' => 'Bato mibale batungi. Komite ekoki kobenga mabongisi.',
+    'instructions.anonymized_manuscript_title' => 'Likomi ya nkombo te',
+    'instructions.anonymized_manuscript' => 'Mpo na kotungi ya double aveugle, fichier oyo otindi (PDF to Word) esengeli ezala version ya likomi oyo nkombo na yo ezwami te: kotiya nkombo na yo te to eloko oyo ekoki kolakisa yo te na fichier. Batungi bayebi auteur sé na nsuka ya kobimisa likomi.',
 
     'archives.title' => 'Bibuku',
     'archives.intro' => 'Tala bibuku mpe numéro ya Revue ya Faculté ya Théologie.',
@@ -674,6 +676,7 @@ return [
     'admin.only_one_reviewer_warning' => 'Motungi moko nde aponami. Pona motungi ya mibale mpo na kotungi ya double aveugle.',
     'admin.cannot_publish_reject_min_two' => 'Pona bamotungi mibale mpe botikala baporapo liboso ya kopublika to kojeter.',
     'admin.assign_two_before_publish' => 'Pona bamotungi mibale liboso ya kopublika to kojeter.',
+    'admin.conflicting_recommendations' => 'Maloba ya bamotungi e boke: %d malamu (Accepté / na mabongisi), %d mabe (Rejeté / mabongisi minene). Décision ya nsuka ezali ya rédacteur en chef.',
     'admin.choose_reviewer' => 'Kopona évaluateur',
     'admin.assign' => 'Kopona',
     'admin.assign_success' => '%d motungi ya likomi kotiya na succès.',

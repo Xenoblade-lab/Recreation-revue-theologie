@@ -30,6 +30,8 @@
         <span class="template-download-format">.tex</span>
       </a>
     </div>
+    <h2 class="font-serif text-base font-bold mb-2"><?= htmlspecialchars(__('instructions.anonymized_manuscript_title')) ?></h2>
+    <p class="text-muted text-sm leading-relaxed mb-4"><?= htmlspecialchars(__('instructions.anonymized_manuscript')) ?></p>
     <h2 class="font-serif text-base font-bold mb-2"><?= htmlspecialchars(__('instructions.process')) ?></h2>
     <p class="text-muted text-sm leading-relaxed mb-0"><?= htmlspecialchars(__('instructions.process_text')) ?></p>
     <p class="mt-4 mb-0"><a href="<?= $base ?>/soumettre" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('nav.submit')) ?></a> <a href="<?= $base ?>/politique-editoriale" class="btn btn-sm btn-outline-primary"><?= htmlspecialchars(__('nav.politique')) ?></a></p>
