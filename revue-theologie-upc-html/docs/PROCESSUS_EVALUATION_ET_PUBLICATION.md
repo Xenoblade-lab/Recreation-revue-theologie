@@ -57,6 +57,7 @@ Ce document décrit et compare le **processus d'évaluation** des articles et le
    - Depuis la fiche article (admin), formulaire « Assigner un évaluateur » : choix de l’évaluateur, POST vers `/admin/article/[id]/assign`.
    - `EvaluationModel::assign($articleId, $evaluateurId)` insère une ligne dans `evaluations` (statut `en_attente`, `date_echeance` par défaut +14 jours).
    - Notification à l’évaluateur (nouvelle assignation).
+   - **Lien évaluateurs / comité éditorial :** Les évaluateurs (utilisateurs avec le rôle Rédacteur ou Rédacteur en chef) sont des membres du comité éditorial. Seuls ces comptes peuvent être assignés pour évaluer un article. Le comité éditorial est affiché sur la page publique `/comite` (navigation du site).
 
 3. **Travail de l’évaluateur**
    - Pas d’acceptation/refus explicite d’assignation dans le flux principal ; l’évaluateur ouvre directement l’évaluation.
@@ -107,7 +108,22 @@ Ce document décrit et compare le **processus d'évaluation** des articles et le
 
 ---
 
-## 5. Politique éditoriale affichée (texte)
+## 5. Règles métier — nouveau projet
+
+Les règles suivantes s’appliquent au nouveau projet (`revue-theologie-upc-html`) :
+
+- **Minimum 2 évaluateurs** : l’admin doit assigner **au moins 2 évaluateurs** à un article avant de pouvoir le passer en **Publié** (`valide`) ou **Rejeté** (`rejete`). La fiche article affiche le nombre d’évaluateurs assignés et un rappel ; si moins de 2 sont assignés, les options « Publié » et « Rejeté » sont désactivées dans le formulaire « Changer le statut », et une tentative de passage direct (ex. POST) est refusée côté serveur avec redirection et message d’erreur.
+
+- **Évaluateurs = comité éditorial** : les évaluateurs sont des **membres du comité éditorial** (utilisateurs avec rôle Rédacteur ou Rédacteur en chef). La liste des évaluateurs proposés à l’assignation peut être restreinte aux membres de la table `comite_editorial` (option B du plan). La page publique « Comité éditorial » (`/comite`) précise que les évaluations sont réalisées par des membres du comité en double aveugle.
+
+- **Anonymat jusqu’à publication** : l’évaluateur et l’auteur ne se connaissent qu’**après publication** de l’article. Concrètement :
+  - La **page publique** `/article/:id` n’affiche l’article que si `statut === 'valide'` ; sinon une page 404 (« Article non disponible ») est renvoyée, afin qu’un évaluateur ne puisse pas découvrir l’auteur en suivant un lien « Voir la page article ».
+  - L’**évaluateur assigné** peut télécharger le manuscrit (PDF) via une route contrôlée (`/download/article/:id`) qui vérifie son assignation.
+  - **Après publication** : la page article affiche l’auteur ; sur la **fiche détail article côté auteur**, la section « Commentaires des évaluateurs » affiche les **noms des évaluateurs** (avant publication, seuls « Évaluateur 1 », « Évaluateur 2 », etc. sont affichés).
+
+---
+
+## 6. Politique éditoriale affichée (texte)
 
 Les deux projets s’appuient sur une **politique éditoriale** décrite côté public (page « Politique éditoriale » / « Processus d’évaluation ») :
 
@@ -119,7 +135,7 @@ Dans le **nouveau** projet, cette page est gérée par `views/public/politique-e
 
 ---
 
-## 6. Fichiers de référence
+## 7. Fichiers de référence
 
 ### Ancien projet (`revue-ancien`)
 

@@ -20,6 +20,56 @@ function authorFormatDate(?string $d): string {
     $t = strtotime($d);
     return $t ? date('j M. Y', $t) : $d;
 }
+
+/** Étapes du workflow auteur : Reçu, Soumis, En évaluation, Révisions, Accepté, Publié. Retourne pour chaque étape 'completed'|'current'|'pending'. */
+function authorWorkflowSteps(string $statut): array {
+    $statut = strtolower(trim($statut));
+    $steps = ['recu', 'soumis', 'en_evaluation', 'revisions', 'accepte', 'publie'];
+    $completed = [];
+    $current = 0;
+    switch ($statut) {
+        case 'brouillon':
+            $completed = [0];      // Reçu
+            $current = 1;         // Soumis
+            break;
+        case 'soumis':
+            $completed = [0, 1];
+            $current = 2;
+            break;
+        case 'en_evaluation':
+            $completed = [0, 1, 2];
+            $current = 3;
+            break;
+        case 'revision_requise':
+            $completed = [0, 1, 2, 3];
+            $current = 4;
+            break;
+        case 'accepte':
+            $completed = [0, 1, 2, 3, 4];
+            $current = 5;
+            break;
+        case 'valide':
+            $completed = [0, 1, 2, 3, 4, 5];
+            $current = 5;
+            break;
+        case 'rejete':
+            $completed = [0, 1, 2];
+            $current = 3;
+            break;
+        default:
+            $completed = [0];
+            $current = 1;
+    }
+    $result = [];
+    for ($i = 0; $i < count($steps); $i++) {
+        if (in_array($i, $completed, true)) {
+            $result[] = ($i === $current && $statut !== 'valide') ? 'current' : 'completed';
+        } else {
+            $result[] = $i === $current ? 'current' : 'pending';
+        }
+    }
+    return $result;
+}
 ?>
 <?php if (!$isAuthor): ?>
 <div class="dashboard-header">
@@ -82,18 +132,49 @@ function authorFormatDate(?string $d): string {
           <th><?= htmlspecialchars(__('author.th_title')) ?></th>
           <th><?= htmlspecialchars(__('author.th_date')) ?></th>
           <th><?= htmlspecialchars(__('author.th_status')) ?></th>
+          <th><?= htmlspecialchars(__('author.th_workflow')) ?></th>
           <th><?= htmlspecialchars(__('author.th_actions')) ?></th>
         </tr>
       </thead>
       <tbody>
         <?php if (empty($articles)): ?>
-          <tr><td colspan="4" class="text-muted"><?= htmlspecialchars(__('author.no_articles')) ?></td></tr>
+          <tr><td colspan="5" class="text-muted"><?= htmlspecialchars(__('author.no_articles')) ?></td></tr>
         <?php else: ?>
-          <?php foreach ($articles as $a): ?>
+          <?php foreach ($articles as $a):
+            $wf = authorWorkflowSteps($a['statut'] ?? 'soumis');
+            $wfLabels = [
+                __('author.workflow_recu'),
+                __('author.workflow_soumis'),
+                __('author.workflow_en_evaluation'),
+                __('author.workflow_revisions'),
+                __('author.workflow_accepte'),
+                __('author.workflow_publie'),
+            ];
+          ?>
           <tr>
             <td><?= htmlspecialchars($a['titre']) ?></td>
             <td><?= authorFormatDate($a['date_soumission'] ?? $a['created_at'] ?? null) ?></td>
             <td><?= authorStatutBadge($a['statut'] ?? 'soumis') ?></td>
+            <td class="workflow-col-cell">
+              <div class="workflow-col" role="status" aria-label="<?= htmlspecialchars(__('author.workflow_aria')) ?>">
+                <?php for ($i = 0; $i < 6; $i++):
+                  $state = $wf[$i] ?? 'pending';
+                  $label = $wfLabels[$i] ?? '';
+                ?>
+                  <?php if ($i > 0): ?><span class="workflow-arrow">→</span><?php endif; ?>
+                  <span class="workflow-step-mini workflow-step-<?= $state ?>">
+                    <?php if ($state === 'completed'): ?>
+                      <span class="workflow-icon workflow-icon-done" aria-hidden="true">✓</span>
+                    <?php elseif ($state === 'current'): ?>
+                      <span class="workflow-icon workflow-icon-current" aria-hidden="true">•</span>
+                    <?php else: ?>
+                      <span class="workflow-icon workflow-icon-pending" aria-hidden="true">◦</span>
+                    <?php endif; ?>
+                    <span class="workflow-label"><?= htmlspecialchars($label) ?></span>
+                  </span>
+                <?php endfor; ?>
+              </div>
+            </td>
             <td class="wrap-row">
               <a href="<?= $base ?>/author/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('common.read')) ?></a>
               <?php if (in_array($a['statut'] ?? '', ['soumis', 'brouillon'], true)): ?>

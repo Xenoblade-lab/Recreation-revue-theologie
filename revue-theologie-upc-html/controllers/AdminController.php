@@ -11,6 +11,7 @@ use Models\RevueModel;
 use Models\RevueInfoModel;
 use Models\NotificationModel;
 use Models\AbonnementModel;
+use Models\ComiteEditorialModel;
 
 /**
  * Contrôleur administration : dashboard, utilisateurs, articles, paiements, volumes, paramètres.
@@ -192,14 +193,19 @@ class AdminController
             exit;
         }
         $evaluations = EvaluationModel::getByArticleId($id);
-        $reviewers = UserModel::getAll(200);
-        $reviewers = array_filter($reviewers, function ($u) {
-            return in_array($u['role'] ?? '', ['redacteur', 'redacteur en chef'], true);
-        });
+        if (ComiteEditorialModel::tableExists()) {
+            $reviewers = ComiteEditorialModel::getActiveReviewers();
+        } else {
+            $reviewers = UserModel::getAll(200);
+            $reviewers = array_filter($reviewers, function ($u) {
+                return in_array($u['role'] ?? '', ['redacteur', 'redacteur en chef'], true);
+            });
+        }
         $volumes = VolumeModel::getAll();
         $revues = RevueModel::getAll(null, 200);
         $error = $_SESSION['admin_error'] ?? null;
-        unset($_SESSION['admin_error']);
+        $assignSuccessCount = isset($_SESSION['admin_success']) ? (int) $_SESSION['admin_success'] : null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
         $this->render('article-detail', [
             'article' => $article,
             'evaluations' => $evaluations,
@@ -207,6 +213,7 @@ class AdminController
             'volumes' => $volumes,
             'revues' => $revues,
             'error' => $error,
+            'assignSuccessCount' => $assignSuccessCount,
         ], 'Article #' . $id . ' | Administration', 'articles');
     }
 
@@ -229,6 +236,15 @@ class AdminController
         if (!in_array($statut, ['soumis', 'valide', 'rejete'], true)) {
             header('Location: ' . $this->base() . '/admin/article/' . $id);
             exit;
+        }
+        if (in_array($statut, ['valide', 'rejete'], true)) {
+            $evaluations = \Models\EvaluationModel::getByArticleId($id);
+            if (count($evaluations) < 2) {
+                $_SESSION['admin_error'] = function_exists('__') ? __('admin.cannot_publish_reject_min_two') : 'Veuillez assigner au moins 2 évaluateurs et attendre leurs rapports avant de publier ou rejeter.';
+                release_session();
+                header('Location: ' . $this->base() . '/admin/article/' . $id);
+                exit;
+            }
         }
         ArticleModel::updateStatut($id, $statut);
         $article = ArticleModel::getById($id);
@@ -260,19 +276,29 @@ class AdminController
             exit;
         }
         $id = (int) ($params['id'] ?? 0);
-        $evaluateurId = (int) ($_POST['evaluateur_id'] ?? 0);
-        if (!$id || !$evaluateurId) {
-            header('Location: ' . $this->base() . '/admin/article/' . $id);
+        $evaluateurIds = isset($_POST['evaluateur_ids']) && is_array($_POST['evaluateur_ids'])
+            ? array_map('intval', array_filter($_POST['evaluateur_ids']))
+            : [];
+        if (!$id) {
+            header('Location: ' . $this->base() . '/admin/articles');
             exit;
         }
-        $evalId = EvaluationModel::assign($id, $evaluateurId);
-        if ($evalId) {
-            $article = ArticleModel::getById($id);
-            $titre = $article['titre'] ?? 'Article';
-            NotificationModel::create($evaluateurId, 'EvaluationAssigned', [
-                'message' => 'Un nouvel article vous a été assigné pour évaluation : « ' . $titre . ' ».',
-                'link' => 'reviewer/evaluation/' . $evalId,
-            ]);
+        $assignedCount = 0;
+        $article = ArticleModel::getById($id);
+        $titre = $article['titre'] ?? 'Article';
+        foreach (array_unique($evaluateurIds) as $evaluateurId) {
+            if (!$evaluateurId) continue;
+            $evalId = EvaluationModel::assign($id, $evaluateurId);
+            if ($evalId) {
+                $assignedCount++;
+                NotificationModel::create($evaluateurId, 'EvaluationAssigned', [
+                    'message' => 'Un nouvel article vous a été assigné pour évaluation : « ' . $titre . ' ».',
+                    'link' => 'reviewer/evaluation/' . $evalId,
+                ]);
+            }
+        }
+        if ($assignedCount > 0) {
+            $_SESSION['admin_success'] = $assignedCount;
         }
         header('Location: ' . $this->base() . '/admin/article/' . $id);
         exit;
@@ -612,6 +638,131 @@ class AdminController
         );
         $_SESSION['admin_success'] = true;
         header('Location: ' . $this->base() . '/admin/parametres');
+        exit;
+    }
+
+    public function comiteEditorialIndex(array $params = []): void
+    {
+        if (!ComiteEditorialModel::tableExists()) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.comite_table_missing') : 'Table comité éditorial absente. Exécutez la migration add_comite_editorial.sql.';
+            header('Location: ' . $this->base() . '/admin');
+            exit;
+        }
+        $members = ComiteEditorialModel::getAllWithUsers();
+        $error = $_SESSION['admin_error'] ?? null;
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
+        $this->render('comite-editorial', ['members' => $members, 'error' => $error, 'success' => $success], 'Membres du comité | Administration', 'comite-editorial');
+    }
+
+    public function comiteEditorialCreate(array $params = []): void
+    {
+        if (!ComiteEditorialModel::tableExists()) {
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        $allReviewers = UserModel::getAll(500);
+        $allReviewers = array_filter($allReviewers, function ($u) {
+            return in_array($u['role'] ?? '', ['redacteur', 'redacteur en chef'], true);
+        });
+        $existingIds = ComiteEditorialModel::getAllUserIds();
+        $candidates = array_filter($allReviewers, function ($u) use ($existingIds) {
+            return !in_array((int) $u['id'], array_map('intval', $existingIds), true);
+        });
+        $error = $_SESSION['admin_error'] ?? null;
+        $old = $_SESSION['admin_old'] ?? [];
+        unset($_SESSION['admin_error'], $_SESSION['admin_old']);
+        $this->render('comite-editorial-form', ['member' => null, 'candidates' => $candidates, 'error' => $error, 'old' => $old], 'Ajouter un membre | Administration', 'comite-editorial');
+    }
+
+    public function comiteEditorialStore(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide.';
+            header('Location: ' . $this->base() . '/admin/comite-editorial/create');
+            exit;
+        }
+        $userId = (int) ($_POST['user_id'] ?? 0);
+        $ordre = (int) ($_POST['ordre'] ?? 0);
+        $titreAffiche = trim($_POST['titre_affiche'] ?? '') ?: null;
+        $actif = isset($_POST['actif']) && $_POST['actif'] !== '0';
+        if (!$userId) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.comite_choose_user') : 'Veuillez choisir un utilisateur.';
+            $_SESSION['admin_old'] = ['ordre' => $ordre, 'titre_affiche' => $titreAffiche, 'actif' => $actif];
+            header('Location: ' . $this->base() . '/admin/comite-editorial/create');
+            exit;
+        }
+        $id = ComiteEditorialModel::create($userId, $ordre, $titreAffiche, $actif);
+        if ($id) {
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.comite_member_added') : 'Membre ajouté.';
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        $_SESSION['admin_error'] = function_exists('__') ? __('admin.comite_member_already') : 'Cet utilisateur est déjà dans le comité.';
+        $_SESSION['admin_old'] = ['user_id' => $userId, 'ordre' => $ordre, 'titre_affiche' => $titreAffiche, 'actif' => $actif];
+        header('Location: ' . $this->base() . '/admin/comite-editorial/create');
+        exit;
+    }
+
+    public function comiteEditorialEdit(array $params = []): void
+    {
+        $id = (int) ($params['id'] ?? 0);
+        $member = $id ? ComiteEditorialModel::getById($id) : null;
+        if (!$member) {
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        $error = $_SESSION['admin_error'] ?? null;
+        $old = $_SESSION['admin_old'] ?? [];
+        unset($_SESSION['admin_error'], $_SESSION['admin_old']);
+        $this->render('comite-editorial-form', ['member' => $member, 'candidates' => [], 'error' => $error, 'old' => $old], 'Modifier le membre | Administration', 'comite-editorial');
+    }
+
+    public function comiteEditorialUpdate(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        if (!validate_csrf()) {
+            $_SESSION['admin_error'] = 'Requête invalide.';
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $member = $id ? ComiteEditorialModel::getById($id) : null;
+        if (!$member) {
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        $ordre = (int) ($_POST['ordre'] ?? 0);
+        $titreAffiche = trim($_POST['titre_affiche'] ?? '') ?: null;
+        $actif = isset($_POST['actif']) && $_POST['actif'] !== '0';
+        ComiteEditorialModel::update($id, $ordre, $titreAffiche, $actif);
+        $_SESSION['admin_success'] = function_exists('__') ? __('admin.comite_member_updated') : 'Membre mis à jour.';
+        header('Location: ' . $this->base() . '/admin/comite-editorial');
+        exit;
+    }
+
+    public function comiteEditorialDelete(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validate_csrf()) {
+            header('Location: ' . $this->base() . '/admin/comite-editorial');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        if ($id) {
+            ComiteEditorialModel::delete($id);
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.comite_member_removed') : 'Membre retiré du comité.';
+        }
+        header('Location: ' . $this->base() . '/admin/comite-editorial');
         exit;
     }
 }

@@ -5,8 +5,11 @@ $reviewers = $reviewers ?? [];
 $volumes = $volumes ?? [];
 $revues = $revues ?? [];
 $error = $error ?? null;
+$assignSuccessCount = $assignSuccessCount ?? null;
 $base = $base ?? '';
 if (!$article) return;
+$assignedEvaluatorIds = array_column($evaluations, 'evaluateur_id');
+$availableReviewers = array_filter($reviewers, fn($r) => !in_array((int)($r['id'] ?? 0), array_map('intval', $assignedEvaluatorIds), true));
 
 function adminStatutBadge(string $statut): string {
     $map = [
@@ -33,6 +36,8 @@ function evalStatutLabel(?string $s): string {
 }
 $statut = $article['statut'] ?? 'soumis';
 $articleId = (int) $article['id'];
+$evaluatorsCount = count($evaluations);
+$canPublishOrReject = $evaluatorsCount >= 2;
 ?>
 <div class="dashboard-header flex justify-between items-start">
   <div>
@@ -47,6 +52,9 @@ $articleId = (int) $article['id'];
 </div>
 <?php if ($error): ?>
 <div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
+<?php if ($assignSuccessCount !== null && $assignSuccessCount > 0): ?>
+<div class="alert alert-success mb-4" role="alert"><?= sprintf(__('admin.assign_success'), (int) $assignSuccessCount) ?></div>
 <?php endif; ?>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('author.content_summary')) ?></h2>
@@ -64,12 +72,15 @@ $articleId = (int) $article['id'];
 
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.change_status')) ?></h2>
+  <?php if (!$canPublishOrReject): ?>
+  <p class="text-sm text-muted mb-2"><?= htmlspecialchars(__('admin.assign_two_before_publish')) ?></p>
+  <?php endif; ?>
   <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/statut" class="flex items-center gap-2 flex-wrap">
     <?= csrf_field() ?>
     <select name="statut" class="input" style="width: auto;">
       <option value="soumis" <?= $statut === 'soumis' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.article_status_soumis')) ?></option>
-      <option value="valide" <?= $statut === 'valide' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.article_status_publie')) ?></option>
-      <option value="rejete" <?= $statut === 'rejete' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.article_status_rejete')) ?></option>
+      <option value="valide" <?= $statut === 'valide' ? 'selected' : '' ?> <?= !$canPublishOrReject ? 'disabled' : '' ?>><?= htmlspecialchars(__('admin.article_status_publie')) ?></option>
+      <option value="rejete" <?= $statut === 'rejete' ? 'selected' : '' ?> <?= !$canPublishOrReject ? 'disabled' : '' ?>><?= htmlspecialchars(__('admin.article_status_rejete')) ?></option>
     </select>
     <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('admin.save')) ?></button>
   </form>
@@ -77,15 +88,29 @@ $articleId = (int) $article['id'];
 
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.assign_reviewer')) ?></h2>
-  <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/assign" class="flex items-center gap-2 flex-wrap">
+  <p class="text-sm text-muted mb-2"><?= htmlspecialchars(__('admin.evaluators_are_committee')) ?></p>
+  <p class="text-sm text-muted mb-2"><?= sprintf(__('admin.evaluators_assigned'), $evaluatorsCount) ?> <?= htmlspecialchars(__('admin.min_two_reviewers')) ?></p>
+  <?php if ($evaluatorsCount < 2): ?>
+  <div class="alert alert-warning mb-3" role="alert" style="background: rgba(245,158,11,0.12); color: #92400e; padding: 0.75rem 1rem; border-radius: var(--radius); border-left: 4px solid #d97706;">
+    <?= htmlspecialchars(__('admin.only_one_reviewer_warning')) ?>
+  </div>
+  <?php endif; ?>
+  <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/assign" class="assign-reviewers-form">
     <?= csrf_field() ?>
-    <select name="evaluateur_id" class="input" style="width: auto; min-width: 200px;" required>
-      <option value="">— <?= htmlspecialchars(__('admin.choose_reviewer')) ?> —</option>
-      <?php foreach ($reviewers as $r): ?>
-        <option value="<?= (int) $r['id'] ?>"><?= htmlspecialchars(trim(($r['prenom'] ?? '') . ' ' . ($r['nom'] ?? ''))) ?> (<?= htmlspecialchars($r['email'] ?? '') ?>)</option>
-      <?php endforeach; ?>
-    </select>
-    <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('admin.assign')) ?></button>
+    <p class="text-sm text-muted mb-2"><?= htmlspecialchars(__('admin.select_reviewers')) ?></p>
+    <?php if (empty($availableReviewers)): ?>
+      <p class="text-muted"><?= htmlspecialchars(__('admin.no_more_reviewers')) ?></p>
+    <?php else: ?>
+      <div class="reviewer-checkboxes mb-3">
+        <?php foreach ($availableReviewers as $r): ?>
+          <label class="reviewer-checkbox-label">
+            <input type="checkbox" name="evaluateur_ids[]" value="<?= (int) $r['id'] ?>">
+            <?= htmlspecialchars(trim(($r['prenom'] ?? '') . ' ' . ($r['nom'] ?? ''))) ?> (<?= htmlspecialchars($r['email'] ?? '') ?>)
+          </label>
+        <?php endforeach; ?>
+      </div>
+      <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('admin.assign')) ?></button>
+    <?php endif; ?>
   </form>
 </div>
 

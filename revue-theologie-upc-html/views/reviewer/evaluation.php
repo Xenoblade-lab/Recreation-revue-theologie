@@ -18,6 +18,8 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
 }
 $titre = $evaluation['article_titre'] ?? '';
 $fichierPath = $evaluation['article_fichier_path'] ?? null;
+$articleStatut = $evaluation['article_statut'] ?? '';
+$articlePublished = ($articleStatut === 'valide');
 $jours = reviewerJoursRestants($evaluation['date_echeance'] ?? null);
 $recommendation = $evaluation['recommendation'] ?? '';
 // Afficher "revision_mineure" dans le formulaire si DB = accepte_avec_modifications
@@ -32,10 +34,13 @@ if ($recommendation === 'accepte_avec_modifications') {
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('reviewer.article_info')) ?></h2>
   <p><strong><?= htmlspecialchars(__('reviewer.th_title_label')) ?></strong> <?= htmlspecialchars($titre) ?></p>
+  <?php if (!$articlePublished): ?>
+  <p class="text-sm text-muted mb-2"><?= htmlspecialchars(__('reviewer.article_visible_after_publish')) ?></p>
+  <?php endif; ?>
   <p class="mb-0">
     <a href="<?= $base ?>/article/<?= (int) $evaluation['article_id'] ?>" class="btn btn-sm btn-outline-primary"><?= htmlspecialchars(__('reviewer.view_article_page')) ?></a>
     <?php if ($fichierPath): ?>
-      <a href="<?= $base ?>/<?= htmlspecialchars($fichierPath) ?>" class="btn btn-sm btn-outline" target="_blank" rel="noopener"><?= htmlspecialchars(__('reviewer.download_manuscript')) ?></a>
+      <a href="<?= $base ?>/download/article/<?= (int) $evaluation['article_id'] ?>" class="btn btn-sm btn-outline" target="_blank" rel="noopener" download><?= htmlspecialchars(__('reviewer.download_manuscript')) ?></a>
     <?php endif; ?>
   </p>
 </div>

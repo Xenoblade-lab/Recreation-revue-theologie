@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Models\ArticleModel;
+use Models\EvaluationModel;
 use Models\RevueModel;
 use Models\RevuePartModel;
 use Models\VolumeModel;
@@ -104,6 +105,16 @@ class RevueController
             release_session();
             http_response_code(404);
             $viewContent = '<div class="container section"><h1>Article introuvable</h1></div>';
+            require BASE_PATH . '/views/layouts/main.php';
+            return;
+        }
+        $statut = $article['statut'] ?? '';
+        if ($statut !== 'valide') {
+            release_session();
+            http_response_code(404);
+            $title = function_exists('__') ? __('public.article_not_available') : 'Article non disponible';
+            $lead = function_exists('__') ? __('public.article_not_available_lead') : 'Cet article n\'est pas encore publié.';
+            $viewContent = '<div class="container section"><h1>' . htmlspecialchars($title) . '</h1><p>' . htmlspecialchars($lead) . '</p></div>';
             require BASE_PATH . '/views/layouts/main.php';
             return;
         }
@@ -327,7 +338,9 @@ class RevueController
             if (class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn()) {
                 $user = \Service\AuthService::getUser();
                 $userId = (int) ($user['id'] ?? 0);
-                $allowed = ($userId === (int) ($article['auteur_id'] ?? 0)) || \Service\AuthService::hasRole('admin');
+                $allowed = ($userId === (int) ($article['auteur_id'] ?? 0))
+                    || \Service\AuthService::hasRole('admin')
+                    || EvaluationModel::isEvaluatorAssigned($id, $userId);
             }
         }
         if (!$allowed) {

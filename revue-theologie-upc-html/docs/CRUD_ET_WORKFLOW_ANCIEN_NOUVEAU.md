@@ -121,6 +121,8 @@ Le **workflow éditorial** décrit le parcours d’un article depuis sa soumissi
 
 **Points clés :** Décision **manuelle** (admin). `valide` = publié. Pas d'acceptation/refus d'assignation.
 
+**Règles métier (nouveau) :** Au moins **2 évaluateurs** doivent être assignés avant que l'admin puisse passer l'article en Publié ou Rejeté. Les évaluateurs sont des membres du **comité éditorial** (page `/comite`). **Anonymat double aveugle** jusqu'à publication : la page publique `/article/:id` renvoie 404 si l'article n'est pas publié ; les noms des évaluateurs ne sont visibles côté auteur qu'après publication (section « Commentaires des évaluateurs » sur la fiche détail article). Voir `docs/PROCESSUS_EVALUATION_ET_PUBLICATION.md` section 5.
+
 ---
 
 ### 2.3 Comparaison du workflow éditorial

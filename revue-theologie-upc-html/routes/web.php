@@ -98,6 +98,12 @@ Router::get('/admin/numero/[i:id]', [AdminController::class, 'numeroDetail']);
 Router::post('/admin/numero/[i:id]', [AdminController::class, 'numeroUpdate']);
 Router::get('/admin/parametres', [AdminController::class, 'parametres']);
 Router::post('/admin/parametres', [AdminController::class, 'parametresUpdate']);
+Router::get('/admin/comite-editorial', [AdminController::class, 'comiteEditorialIndex']);
+Router::get('/admin/comite-editorial/create', [AdminController::class, 'comiteEditorialCreate']);
+Router::post('/admin/comite-editorial/create', [AdminController::class, 'comiteEditorialStore']);
+Router::get('/admin/comite-editorial/[i:id]/edit', [AdminController::class, 'comiteEditorialEdit']);
+Router::post('/admin/comite-editorial/[i:id]', [AdminController::class, 'comiteEditorialUpdate']);
+Router::post('/admin/comite-editorial/[i:id]/delete', [AdminController::class, 'comiteEditorialDelete']);
 
 Router::get('/', [RevueController::class, 'index']);
 Router::post('/newsletter', [RevueController::class, 'newsletterSubmit']);

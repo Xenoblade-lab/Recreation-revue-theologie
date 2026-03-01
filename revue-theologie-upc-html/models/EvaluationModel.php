@@ -97,6 +97,15 @@ class EvaluationModel
         return (int) $stmt->fetchColumn();
     }
 
+    /** Vérifier si l'utilisateur est assigné comme évaluateur pour cet article (accès PDF double aveugle). */
+    public static function isEvaluatorAssigned(int $articleId, int $userId): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT 1 FROM evaluations WHERE article_id = :aid AND evaluateur_id = :eid LIMIT 1");
+        $stmt->execute([':aid' => $articleId, ':eid' => $userId]);
+        return (bool) $stmt->fetchColumn();
+    }
+
     /**
      * Sauvegarder un brouillon (statut = en_cours, pas de date_soumission).
      */
@@ -221,12 +230,24 @@ class EvaluationModel
     /** Évaluations d’un article pour l’auteur (timeline révisions : dates, recommandation, commentaires publics uniquement, sans nom évaluateur). */
     public static function getByArticleIdForAuthor(int $articleId): array
     {
+        return self::getByArticleIdForAuthorDisplay($articleId, false);
+    }
+
+    /** Évaluations pour la page détail auteur : champs affichables + noms évaluateurs si $includeEvaluatorNames (article publié). */
+    public static function getByArticleIdForAuthorDisplay(int $articleId, bool $includeEvaluatorNames = false): array
+    {
         $db = getDB();
-        $stmt = $db->prepare("
-            SELECT e.id, e.statut, e.date_assignation, e.date_echeance, e.date_soumission, e.recommendation, e.commentaires_public
-            FROM evaluations e
-            WHERE e.article_id = :aid ORDER BY e.date_assignation ASC
-        ");
+        $cols = "e.id, e.statut, e.date_assignation, e.date_echeance, e.date_soumission, e.recommendation, e.commentaires_public,
+                 e.suggestions, e.qualite_scientifique, e.originalite, e.pertinence, e.clarte, e.note_finale";
+        if ($includeEvaluatorNames) {
+            $cols .= ", u.nom AS evaluateur_nom, u.prenom AS evaluateur_prenom";
+        }
+        $sql = "SELECT $cols FROM evaluations e";
+        if ($includeEvaluatorNames) {
+            $sql .= " LEFT JOIN users u ON u.id = e.evaluateur_id";
+        }
+        $sql .= " WHERE e.article_id = :aid ORDER BY e.date_assignation ASC";
+        $stmt = $db->prepare($sql);
         $stmt->execute([':aid' => $articleId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

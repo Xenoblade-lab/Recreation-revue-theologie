@@ -60,6 +60,10 @@ $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Prot
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#award"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('admin.paiements') : 'Paiements') ?>
           </a>
+          <a href="<?= $base ?>/admin/comite-editorial" class="<?= ($_SESSION['admin_page'] ?? '') === 'comite-editorial' ? 'active' : '' ?>">
+            <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg>
+            <?= htmlspecialchars(function_exists('__') ? __('admin.comite_editorial_menu') : 'Comité éditorial') ?>
+          </a>
           <a href="<?= $base ?>/admin/notifications" class="<?= ($_SESSION['admin_page'] ?? '') === 'notifications' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('nav.notifications') : 'Notifications') ?>

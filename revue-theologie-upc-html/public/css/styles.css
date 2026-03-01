@@ -592,6 +592,42 @@ textarea { resize: vertical; min-height: 120px; }
 .dashboard-table th { font-weight: 600; color: var(--muted-foreground); }
 .dashboard-table tr:hover td { background: var(--muted); }
 .dashboard-table .badge { font-size: 0.7rem; }
+
+/* Colonne Workflow (liste articles auteur) */
+.workflow-col-cell { max-width: 420px; }
+.workflow-col { display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem 0.25rem; font-size: 0.75rem; }
+.workflow-col .workflow-step-mini { display: inline-flex; align-items: center; gap: 0.2rem; white-space: nowrap; }
+.workflow-col .workflow-step-mini .workflow-icon { font-weight: 700; line-height: 1; }
+.workflow-col .workflow-step-mini .workflow-label { color: var(--muted-foreground); }
+.workflow-col .workflow-step-mini.workflow-step-completed .workflow-icon-done { color: #059669; }
+.workflow-col .workflow-step-mini.workflow-step-completed .workflow-label { color: #059669; }
+.workflow-col .workflow-step-mini.workflow-step-current .workflow-icon-current { color: var(--primary); font-size: 1.1em; }
+.workflow-col .workflow-step-mini.workflow-step-current .workflow-label { color: var(--primary); font-weight: 600; }
+.workflow-col .workflow-step-mini.workflow-step-pending .workflow-icon-pending { color: var(--muted-foreground); opacity: 0.6; }
+.workflow-col .workflow-step-mini.workflow-step-pending .workflow-label { color: var(--muted-foreground); opacity: 0.8; }
+.workflow-col .workflow-arrow { color: var(--muted-foreground); opacity: 0.7; font-size: 0.7rem; margin: 0 0.1rem; }
+
+.alert-success { background: rgba(34,197,94,0.12); color: #047857; padding: 0.75rem 1rem; border-radius: var(--radius); border-left: 4px solid #059669; }
+.reviewer-checkboxes { display: flex; flex-direction: column; gap: 0.5rem; max-height: 12rem; overflow-y: auto; }
+.reviewer-checkbox-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem; }
+.reviewer-checkbox-label input[type="checkbox"] { flex-shrink: 0; }
+
+/* Page détail auteur : commentaires évaluateurs + workflow */
+.evaluations-list-author { display: flex; flex-direction: column; gap: 1rem; }
+.evaluation-card { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--muted); }
+.evaluation-card-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.evaluation-card-header .evaluation-date { font-size: 0.875rem; color: var(--muted-foreground); }
+.evaluation-block { margin-top: 0.75rem; }
+.evaluation-block h4 { margin-bottom: 0.25rem; }
+.evaluation-scores .scores-grid { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.875rem; }
+.workflow-steps-detail { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; margin-top: 0.5rem; }
+.workflow-steps-detail .workflow-step { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.875rem; }
+.workflow-steps-detail .workflow-step-icon { font-weight: 700; line-height: 1; }
+.workflow-steps-detail .workflow-step-icon-done { color: #059669; }
+.workflow-steps-detail .workflow-step-icon-current { color: var(--primary); font-size: 1.2em; }
+.workflow-steps-detail .workflow-step-icon-pending { color: var(--muted-foreground); opacity: 0.6; }
+.workflow-steps-detail .workflow-arrow { color: var(--muted-foreground); opacity: 0.7; font-size: 0.75rem; margin: 0 0.1rem; }
+
 .dashboard-topbar {
   background: var(--background); border-bottom: 1px solid var(--border);
   padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;

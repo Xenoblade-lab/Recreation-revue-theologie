@@ -10,6 +10,7 @@ $comiteSci = $revueInfo['comite_scientifique'] ?? null;
     <h1 class="font-serif text-xl md:text-2xl font-bold text-balance"><?= htmlspecialchars(__('comite.title')) ?></h1>
     <div class="divider"></div>
     <p class="text-sm" style="color: rgba(255,255,255,0.9);"><?= htmlspecialchars(__('comite.intro')) ?></p>
+    <p class="text-sm mt-2" style="color: rgba(255,255,255,0.85);"><?= htmlspecialchars(__('comite.evaluations_by_committee')) ?></p>
   </div>
 </div>
 <section class="container section">

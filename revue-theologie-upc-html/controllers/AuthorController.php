@@ -420,7 +420,9 @@ class AuthorController
         $_SESSION['author_page'] = '';
         $success = $_SESSION['author_success'] ?? null;
         unset($_SESSION['author_success']);
-        $this->render('article-detail', ['article' => $article, 'success' => $success], htmlspecialchars($article['titre']) . ' | Mes articles', '');
+        $includeEvaluatorNames = ($article['statut'] ?? '') === 'valide';
+        $evaluations = \Models\EvaluationModel::getByArticleIdForAuthorDisplay($id, $includeEvaluatorNames);
+        $this->render('article-detail', ['article' => $article, 'evaluations' => $evaluations, 'success' => $success], htmlspecialchars($article['titre']) . ' | Mes articles', '');
     }
 
     public function articleRevisions(array $params = []): void
