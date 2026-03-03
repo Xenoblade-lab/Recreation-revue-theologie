@@ -145,7 +145,25 @@ body.page-template-2 {
 .btn-outline-primary:hover { background: var(--primary); color: var(--primary-foreground); }
 .btn-accent { background: var(--accent); color: var(--accent-foreground); }
 .btn-accent:hover { background: var(--upc-red-dark); }
-.btn-icon { width: 2.5rem; height: 2.5rem; padding: 0; border-radius: 9999px; }
+.btn-danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.btn-danger:hover { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+/* Boutons icônes (Phase B — actions CRUD dans les tableaux) */
+.btn-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; min-width: 2rem; min-height: 2rem;
+  padding: 0; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--card); color: var(--foreground);
+  cursor: pointer; text-decoration: none; transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn-icon:hover { background: var(--muted); border-color: var(--muted-foreground); color: var(--primary); }
+.btn-icon:focus { outline: none; box-shadow: 0 0 0 2px var(--ring); }
+.btn-icon .icon-svg { width: 1.125rem; height: 1.125rem; }
+.btn-icon .icon-svg.icon-20 { width: 20px; height: 20px; }
+.btn-icon-danger { color: var(--muted-foreground); border-color: var(--border); }
+.btn-icon-danger:hover { background: rgba(220,38,38,0.1); border-color: #dc2626; color: #dc2626; }
+.btn-icon-danger:focus { box-shadow: 0 0 0 2px rgba(220,38,38,0.35); }
+.action-buttons { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+.action-buttons .btn-icon { flex-shrink: 0; }
 .menu-toggle { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; background: none; border: none; cursor: pointer; }
 @media (min-width: 1024px) { .menu-toggle { display: none; } }
 /* Actions header: visibles sur desktop (lg), cachées sur mobile */
@@ -592,6 +610,19 @@ textarea { resize: vertical; min-height: 120px; }
 .dashboard-table th { font-weight: 600; color: var(--muted-foreground); }
 .dashboard-table tr:hover td { background: var(--muted); }
 .dashboard-table .badge { font-size: 0.7rem; }
+.dashboard-table .actions-cell { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.dashboard-table .actions-cell form { display: inline; }
+.dashboard-table .actions-cell .inline-form { display: inline; }
+
+/* Modal de confirmation (remplace confirm()) */
+.confirm-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
+.confirm-modal.is-open { opacity: 1; visibility: visible; }
+.confirm-modal[hidden] { display: none !important; }
+.confirm-modal:not([hidden]).is-open { display: flex; }
+.confirm-modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); cursor: pointer; }
+.confirm-modal-box { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+.confirm-modal-message { margin: 0 0 1.25rem 0; font-size: 1rem; line-height: 1.5; color: var(--foreground); }
+.confirm-modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap; }
 
 /* Colonne Workflow (liste articles auteur) */
 .workflow-col-cell { max-width: 420px; }

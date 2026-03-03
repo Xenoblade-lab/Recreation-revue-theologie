@@ -199,6 +199,15 @@ class ArticleModel
         return $stmt->execute([':id' => $id, ':iid' => $issueId]);
     }
 
+    /** Supprimer un article par id. Retourne true si une ligne a été supprimée. Appeler après avoir supprimé les évaluations liées. */
+    public static function delete(int $id): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM articles WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->rowCount() > 0;
+    }
+
     /** Recherche dans les articles publiés (titre, contenu, nom et prénom auteur) */
     public static function search(string $query, int $limit = 30, int $offset = 0): array
     {

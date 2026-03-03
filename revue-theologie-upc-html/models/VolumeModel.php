@@ -23,6 +23,20 @@ class VolumeModel
         return $row ?: null;
     }
 
+    /** Créer un nouveau volume. Retourne l'id du volume créé ou null. */
+    public static function create(int $annee, string $numeroVolume, ?string $description = null, ?string $redacteurChef = null): ?int
+    {
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO volumes (annee, numero_volume, description, redacteur_chef) VALUES (:annee, :numero_volume, :description, :redacteur_chef)");
+        $ok = $stmt->execute([
+            ':annee' => $annee,
+            ':numero_volume' => $numeroVolume,
+            ':description' => $description,
+            ':redacteur_chef' => $redacteurChef,
+        ]);
+        return $ok ? (int) $db->lastInsertId() : null;
+    }
+
     public static function update(int $id, int $annee, string $numeroVolume, ?string $description, ?string $redacteurChef): bool
     {
         $db = getDB();

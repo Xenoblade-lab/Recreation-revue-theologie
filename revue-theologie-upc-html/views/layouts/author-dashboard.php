@@ -91,6 +91,16 @@ $isAuthor = $isAuthor ?? false;
       </div>
     </div>
   </footer>
+  <div id="confirm-modal" class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" aria-hidden="true" hidden>
+    <div class="confirm-modal-overlay"></div>
+    <div class="confirm-modal-box">
+      <p id="confirm-modal-message" class="confirm-modal-message"></p>
+      <div class="confirm-modal-actions">
+        <button type="button" class="btn btn-outline confirm-modal-cancel"><?= htmlspecialchars(function_exists('__') ? __('common.cancel') : 'Annuler') ?></button>
+        <button type="button" class="btn btn-primary confirm-modal-confirm"><?= htmlspecialchars(function_exists('__') ? __('common.confirm') : 'Confirmer') ?></button>
+      </div>
+    </div>
+  </div>
   <script>if (document.getElementById('year')) document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="<?= $base ?>/js/main.js"></script>
 </body>

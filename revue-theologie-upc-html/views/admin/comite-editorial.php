@@ -34,7 +34,12 @@ $success = $success ?? null;
         <?php if (empty($members)): ?>
           <tr><td colspan="6" class="text-muted"><?= htmlspecialchars(__('admin.comite_no_members')) ?></td></tr>
         <?php else: ?>
-          <?php foreach ($members as $m): ?>
+          <?php foreach ($members as $m):
+              $mid = (int) $m['id'];
+              $modifyLabel = htmlspecialchars(__('admin.modify'));
+              $removeLabel = htmlspecialchars(__('admin.comite_remove'));
+              $confirmRemove = __('admin.comite_confirm_remove');
+          ?>
             <tr>
               <td><?= (int) ($m['ordre'] ?? 0) ?></td>
               <td><?= htmlspecialchars(trim(($m['prenom'] ?? '') . ' ' . ($m['nom'] ?? ''))) ?></td>
@@ -45,12 +50,18 @@ $success = $success ?? null;
                   <?= !empty($m['actif']) ? htmlspecialchars(__('admin.comite_actif')) : htmlspecialchars(__('admin.comite_inactif')) ?>
                 </span>
               </td>
-              <td class="wrap-row">
-                <a href="<?= $base ?>/admin/comite-editorial/<?= (int) $m['id'] ?>/edit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('admin.modify')) ?></a>
-                <form method="post" action="<?= $base ?>/admin/comite-editorial/<?= (int) $m['id'] ?>/delete" class="inline" onsubmit="return confirm('<?= htmlspecialchars(__('admin.comite_confirm_remove')) ?>');">
-                  <?= csrf_field() ?>
-                  <button type="submit" class="btn btn-sm" style="color: var(--accent);"><?= htmlspecialchars(__('admin.comite_remove')) ?></button>
-                </form>
+              <td class="actions-cell">
+                <div class="action-buttons">
+                  <a href="<?= $base ?>/admin/comite-editorial/<?= $mid ?>/edit" class="btn-icon" title="<?= $modifyLabel ?>" aria-label="<?= $modifyLabel ?>">
+                    <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#pencil"/></svg>
+                  </a>
+                  <form method="post" action="<?= $base ?>/admin/comite-editorial/<?= $mid ?>/delete" class="inline-form js-confirm-submit" style="display:inline;" data-confirm-message="<?= htmlspecialchars($confirmRemove, ENT_QUOTES, 'UTF-8') ?>">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="btn-icon btn-icon-danger" title="<?= $removeLabel ?>" aria-label="<?= $removeLabel ?>">
+                      <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#trash"/></svg>
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
           <?php endforeach; ?>

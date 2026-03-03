@@ -6,6 +6,15 @@ namespace Models;
  */
 class PaiementModel
 {
+    /** Nombre de paiements pour un utilisateur (pour vérifier les dépendances avant suppression). */
+    public static function countByUserId(int $userId): int
+    {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM paiements WHERE utilisateur_id = :uid");
+        $stmt->execute([':uid' => $userId]);
+        return (int) $stmt->fetchColumn();
+    }
+
     /** Paiements d'un utilisateur (historique). Inclut region si la colonne existe (migration add_paiement_region_details). */
     public static function getByUserId(int $userId, int $limit = 20): array
     {

@@ -2,6 +2,7 @@
 $volume = $volume ?? null;
 $revues = $revues ?? [];
 $error = $error ?? null;
+$success = $success ?? null;
 $base = $base ?? '';
 if (!$volume) return;
 $id = (int) $volume['id'];
@@ -11,7 +12,10 @@ $id = (int) $volume['id'];
   <p><a href="<?= $base ?>/admin/volumes"><?= htmlspecialchars(__('admin.back_list')) ?></a></p>
 </div>
 <?php if ($error): ?>
-<p class="text-accent mb-4"><?= htmlspecialchars($error) ?></p>
+<div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
+<?php if (!empty($success)): ?>
+<div class="alert alert-success mb-4"><?= htmlspecialchars($success) ?></div>
 <?php endif; ?>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.edit_volume')) ?></h2>

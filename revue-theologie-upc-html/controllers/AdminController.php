@@ -59,7 +59,10 @@ class AdminController
     public function users(array $params = []): void
     {
         $users = UserModel::getAll(100);
-        $this->render('users', ['users' => $users], 'Utilisateurs | Administration', 'users');
+        $error = $_SESSION['admin_error'] ?? null;
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
+        $this->render('users', ['users' => $users, 'error' => $error, 'success' => $success], 'Utilisateurs | Administration', 'users');
     }
 
     public function userCreate(array $params = []): void
@@ -109,6 +112,17 @@ class AdminController
         $_SESSION['admin_error'] = 'Erreur lors de la création.';
         header('Location: ' . $this->base() . '/admin/users/create');
         exit;
+    }
+
+    public function userDetail(array $params = []): void
+    {
+        $id = (int) ($params['id'] ?? 0);
+        $user = $id ? UserModel::getById($id) : null;
+        if (!$user) {
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        $this->render('user-detail', ['user' => $user], (function_exists('__') ? __('admin.user_detail') : 'Détail utilisateur') . ' | Administration', 'users');
     }
 
     public function userEdit(array $params = []): void
@@ -166,10 +180,116 @@ class AdminController
         exit;
     }
 
+    public function userDelete(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validate_csrf()) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.invalid_request') : 'Requête invalide. Veuillez réessayer.';
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $user = $id ? UserModel::getById($id) : null;
+        if (!$user) {
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        $currentUser = AuthService::getUser();
+        $currentId = isset($currentUser['id']) ? (int) $currentUser['id'] : 0;
+        if ($currentId === $id) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.cannot_delete_self') : 'Vous ne pouvez pas supprimer votre propre compte.';
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        $role = $user['role'] ?? '';
+        if ($role === 'admin' && UserModel::countWithRole('admin') <= 1) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.cannot_delete_last_admin') : 'Impossible de supprimer le dernier administrateur.';
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        if (ArticleModel::countByAuthorId($id) > 0) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.cannot_delete_user_has_articles') : 'Impossible de supprimer un utilisateur ayant des articles.';
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        if (EvaluationModel::countByEvaluateurId($id) > 0) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.cannot_delete_user_has_evaluations') : 'Impossible de supprimer un utilisateur ayant des évaluations.';
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        if (PaiementModel::countByUserId($id) > 0) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.cannot_delete_user_has_payments') : 'Impossible de supprimer un utilisateur ayant des paiements.';
+            header('Location: ' . $this->base() . '/admin/users');
+            exit;
+        }
+        if (ComiteEditorialModel::tableExists()) {
+            ComiteEditorialModel::deleteByUserId($id);
+        }
+        if (UserModel::delete($id)) {
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.user_deleted') : 'Utilisateur supprimé.';
+        } else {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.user_delete_failed') : 'Erreur lors de la suppression.';
+        }
+        header('Location: ' . $this->base() . '/admin/users');
+        exit;
+    }
+
+    public function articleDelete(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validate_csrf()) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.invalid_request') : 'Requête invalide. Veuillez réessayer.';
+            header('Location: ' . $this->base() . '/admin/articles');
+            exit;
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $article = $id ? ArticleModel::getById($id) : null;
+        if (!$article) {
+            header('Location: ' . $this->base() . '/admin/articles');
+            exit;
+        }
+        EvaluationModel::deleteByArticleId($id);
+        if (ArticleModel::delete($id)) {
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.article_deleted') : 'Article supprimé.';
+        } else {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.article_delete_failed') : 'Erreur lors de la suppression de l\'article.';
+        }
+        header('Location: ' . $this->base() . '/admin/articles');
+        exit;
+    }
+
+    public function evaluationUnassign(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validate_csrf()) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.invalid_request') : 'Requête invalide. Veuillez réessayer.';
+            header('Location: ' . $this->base() . '/admin/articles');
+            exit;
+        }
+        $evaluationId = (int) ($params['id'] ?? 0);
+        $evaluation = $evaluationId ? EvaluationModel::getById($evaluationId) : null;
+        if (!$evaluation || empty($evaluation['article_id'])) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.evaluator_unassign_failed') : 'Évaluation introuvable.';
+            header('Location: ' . $this->base() . '/admin/articles');
+            exit;
+        }
+        $articleId = (int) $evaluation['article_id'];
+        if (EvaluationModel::deleteById($evaluationId)) {
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.evaluator_unassigned') : 'Évaluateur retiré.';
+        } else {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.evaluator_unassign_failed') : 'Erreur lors du retrait de l\'évaluateur.';
+        }
+        header('Location: ' . $this->base() . '/admin/article/' . $articleId);
+        exit;
+    }
+
     public function articles(array $params = []): void
     {
         $articles = ArticleModel::getAllForAdmin(50);
-        $this->render('articles', ['articles' => $articles], 'Articles | Administration', 'articles');
+        $error = $_SESSION['admin_error'] ?? null;
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
+        $this->render('articles', ['articles' => $articles, 'error' => $error, 'success' => $success], 'Articles | Administration', 'articles');
     }
 
     public function evaluations(array $params = []): void
@@ -223,7 +343,9 @@ class AdminController
         $volumes = VolumeModel::getAll();
         $revues = RevueModel::getAll(null, 200);
         $error = $_SESSION['admin_error'] ?? null;
-        $assignSuccessCount = isset($_SESSION['admin_success']) ? (int) $_SESSION['admin_success'] : null;
+        $rawSuccess = $_SESSION['admin_success'] ?? null;
+        $assignSuccessCount = (is_numeric($rawSuccess) && (int) $rawSuccess > 0) ? (int) $rawSuccess : null;
+        $success = (is_string($rawSuccess) && $rawSuccess !== '') ? $rawSuccess : null;
         unset($_SESSION['admin_error'], $_SESSION['admin_success']);
         $this->render('article-detail', [
             'article' => $article,
@@ -232,6 +354,7 @@ class AdminController
             'volumes' => $volumes,
             'revues' => $revues,
             'error' => $error,
+            'success' => $success,
             'assignSuccessCount' => $assignSuccessCount,
             'conflictingRecommendations' => $conflictingRecommendations,
             'conflictingFavorable' => $conflictingFavorable,
@@ -525,7 +648,51 @@ class AdminController
         foreach ($volumes as $v) {
             $revuesByVolume[$v['id']] = RevueModel::getAll((int) $v['id'], 50);
         }
-        $this->render('volumes', ['volumes' => $volumes, 'revuesByVolume' => $revuesByVolume], 'Volumes & Numéros | Administration', 'volumes');
+        $success = $_SESSION['admin_success'] ?? null;
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_success'], $_SESSION['admin_error']);
+        $this->render('volumes', ['volumes' => $volumes, 'revuesByVolume' => $revuesByVolume, 'success' => $success, 'error' => $error], 'Volumes & Numéros | Administration', 'volumes');
+    }
+
+    public function volumeCreate(array $params = []): void
+    {
+        requireAdmin();
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
+        $this->render('volume-form', ['volume' => null, 'isCreate' => true, 'error' => $error], (function_exists('__') ? __('admin.create_volume_title') : 'Créer un volume') . ' | Administration', 'volumes');
+    }
+
+    public function volumeStore(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validate_csrf()) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.invalid_request') : 'Requête invalide.';
+            header('Location: ' . $this->base() . '/admin/volumes/create');
+            exit;
+        }
+        $annee = (int) ($_POST['annee'] ?? 0);
+        $numeroVolume = trim($_POST['numero_volume'] ?? '');
+        $description = trim($_POST['description'] ?? '') ?: null;
+        $redacteurChef = trim($_POST['redacteur_chef'] ?? '') ?: null;
+        if ($annee < 1900 || $annee > 2100) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.volume_year_invalid') : 'Année invalide.';
+            header('Location: ' . $this->base() . '/admin/volumes/create');
+            exit;
+        }
+        if ($numeroVolume === '') {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.volume_number_required') : 'Le numéro de volume est requis.';
+            header('Location: ' . $this->base() . '/admin/volumes/create');
+            exit;
+        }
+        $newId = VolumeModel::create($annee, $numeroVolume, $description, $redacteurChef);
+        if ($newId) {
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.volume_created') : 'Volume créé.';
+            header('Location: ' . $this->base() . '/admin/volume/' . $newId);
+            exit;
+        }
+        $_SESSION['admin_error'] = function_exists('__') ? __('admin.volume_create_failed') : 'Erreur lors de la création du volume.';
+        header('Location: ' . $this->base() . '/admin/volumes/create');
+        exit;
     }
 
     public function volumeDetail(array $params = []): void
@@ -538,8 +705,9 @@ class AdminController
         }
         $revues = RevueModel::getAll($id, 50);
         $error = $_SESSION['admin_error'] ?? null;
-        unset($_SESSION['admin_error']);
-        $this->render('volume-detail', ['volume' => $volume, 'revues' => $revues, 'error' => $error], 'Volume ' . $id . ' | Administration', 'volumes');
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
+        $this->render('volume-detail', ['volume' => $volume, 'revues' => $revues, 'error' => $error, 'success' => $success], 'Volume ' . $id . ' | Administration', 'volumes');
     }
 
     public function volumeUpdate(array $params = []): void
@@ -576,6 +744,49 @@ class AdminController
         exit;
     }
 
+    public function numeroCreate(array $params = []): void
+    {
+        requireAdmin();
+        $volumes = VolumeModel::getAll();
+        $error = $_SESSION['admin_error'] ?? null;
+        unset($_SESSION['admin_error']);
+        $this->render('numero-form', ['numero' => null, 'volumes' => $volumes, 'isCreate' => true, 'error' => $error], (function_exists('__') ? __('admin.create_numero_title') : 'Créer un numéro') . ' | Administration', 'volumes');
+    }
+
+    public function numeroStore(array $params = []): void
+    {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validate_csrf()) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.invalid_request') : 'Requête invalide.';
+            header('Location: ' . $this->base() . '/admin/numeros/create');
+            exit;
+        }
+        $volumeId = (int) ($_POST['volume_id'] ?? 0);
+        $numeroVal = trim($_POST['numero'] ?? '');
+        $titre = trim($_POST['titre'] ?? '');
+        $description = trim($_POST['description'] ?? '') ?: null;
+        $datePublication = trim($_POST['date_publication'] ?? '') ?: null;
+        if ($volumeId <= 0) {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.numero_volume_required') : 'Veuillez sélectionner un volume.';
+            header('Location: ' . $this->base() . '/admin/numeros/create');
+            exit;
+        }
+        if ($numeroVal === '' || $titre === '') {
+            $_SESSION['admin_error'] = function_exists('__') ? __('admin.numero_titre_required') : 'Numéro et titre sont obligatoires.';
+            header('Location: ' . $this->base() . '/admin/numeros/create');
+            exit;
+        }
+        $newId = RevueModel::create($volumeId, $numeroVal, $titre, $description, $datePublication);
+        if ($newId) {
+            $_SESSION['admin_success'] = function_exists('__') ? __('admin.numero_created') : 'Numéro créé.';
+            header('Location: ' . $this->base() . '/admin/numero/' . $newId);
+            exit;
+        }
+        $_SESSION['admin_error'] = function_exists('__') ? __('admin.numero_create_failed') : 'Erreur lors de la création du numéro.';
+        header('Location: ' . $this->base() . '/admin/numeros/create');
+        exit;
+    }
+
     public function numeroDetail(array $params = []): void
     {
         $id = (int) ($params['id'] ?? 0);
@@ -586,8 +797,9 @@ class AdminController
         }
         $volume = !empty($numero['volume_id']) ? VolumeModel::getById((int) $numero['volume_id']) : null;
         $error = $_SESSION['admin_error'] ?? null;
-        unset($_SESSION['admin_error']);
-        $this->render('numero-detail', ['numero' => $numero, 'volume' => $volume, 'error' => $error], 'Numéro ' . ($numero['numero'] ?? '') . ' | Administration', 'volumes');
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_error'], $_SESSION['admin_success']);
+        $this->render('numero-detail', ['numero' => $numero, 'volume' => $volume, 'error' => $error, 'success' => $success], 'Numéro ' . ($numero['numero'] ?? '') . ' | Administration', 'volumes');
     }
 
     public function numeroUpdate(array $params = []): void

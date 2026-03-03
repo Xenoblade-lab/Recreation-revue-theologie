@@ -200,4 +200,52 @@
     });
   });
 
+  // Modal de confirmation (remplace alert/confirm)
+  var confirmModal = document.getElementById('confirm-modal');
+  var confirmModalMessage = document.getElementById('confirm-modal-message');
+  var confirmModalOverlay = confirmModal ? confirmModal.querySelector('.confirm-modal-overlay') : null;
+  var confirmModalCancel = confirmModal ? confirmModal.querySelector('.confirm-modal-cancel') : null;
+  var confirmModalConfirm = confirmModal ? confirmModal.querySelector('.confirm-modal-confirm') : null;
+  var pendingConfirmForm = null;
+
+  function openConfirmModal(message) {
+    if (!confirmModal || !confirmModalMessage) return;
+    confirmModalMessage.textContent = message || '';
+    confirmModal.removeAttribute('hidden');
+    confirmModal.classList.add('is-open');
+    confirmModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeConfirmModal() {
+    if (!confirmModal) return;
+    confirmModal.classList.remove('is-open');
+    confirmModal.setAttribute('hidden', '');
+    confirmModal.setAttribute('aria-hidden', 'true');
+    pendingConfirmForm = null;
+  }
+
+  if (confirmModal) {
+    if (confirmModalOverlay) confirmModalOverlay.addEventListener('click', closeConfirmModal);
+    if (confirmModalCancel) confirmModalCancel.addEventListener('click', closeConfirmModal);
+    if (confirmModalConfirm) {
+      confirmModalConfirm.addEventListener('click', function () {
+        if (pendingConfirmForm) {
+          pendingConfirmForm.removeAttribute('data-confirm-message');
+          pendingConfirmForm.submit();
+        }
+        closeConfirmModal();
+      });
+    }
+  }
+
+  document.querySelectorAll('form.js-confirm-submit').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      var msg = this.getAttribute('data-confirm-message');
+      if (!msg) return;
+      e.preventDefault();
+      pendingConfirmForm = this;
+      openConfirmModal(msg);
+    });
+  });
+
 })();

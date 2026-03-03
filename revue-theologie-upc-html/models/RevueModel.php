@@ -34,6 +34,21 @@ class RevueModel
         return $row ?: null;
     }
 
+    /** Créer un nouveau numéro (revue) lié à un volume. Retourne l'id créé ou null. */
+    public static function create(int $volumeId, string $numero, string $titre, ?string $description = null, ?string $datePublication = null): ?int
+    {
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO revues (volume_id, numero, titre, description, date_publication, created_at, updated_at) VALUES (:volume_id, :numero, :titre, :description, :date_publication, NOW(), NOW())");
+        $ok = $stmt->execute([
+            ':volume_id' => $volumeId,
+            ':numero' => $numero,
+            ':titre' => $titre,
+            ':description' => $description,
+            ':date_publication' => $datePublication,
+        ]);
+        return $ok ? (int) $db->lastInsertId() : null;
+    }
+
     /** Derniers numéros (pour l'accueil) */
     public static function getLatest(int $limit = 5): array
     {

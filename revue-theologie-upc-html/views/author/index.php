@@ -150,6 +150,10 @@ function authorWorkflowSteps(string $statut): array {
                 __('author.workflow_accepte'),
                 __('author.workflow_publie'),
             ];
+            $aid = (int) $a['id'];
+            $readLabel = htmlspecialchars(__('common.read'));
+            $editLabel = htmlspecialchars(__('author.edit_article'));
+            $submitLabel = htmlspecialchars(__('author.submit_article_btn'));
           ?>
           <tr>
             <td><?= htmlspecialchars($a['titre']) ?></td>
@@ -175,14 +179,25 @@ function authorWorkflowSteps(string $statut): array {
                 <?php endfor; ?>
               </div>
             </td>
-            <td class="wrap-row">
-              <a href="<?= $base ?>/author/article/<?= (int) $a['id'] ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('common.read')) ?></a>
-              <?php if (in_array($a['statut'] ?? '', ['soumis', 'brouillon'], true)): ?>
-                <a href="<?= $base ?>/author/article/<?= (int) $a['id'] ?>/edit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('author.edit_article')) ?></a>
-              <?php endif; ?>
-              <?php if (($a['statut'] ?? '') === 'brouillon'): ?>
-                <form method="post" action="<?= $base ?>/author/article/<?= (int) $a['id'] ?>/submit" class="inline-form"><?= csrf_field() ?><button type="submit" class="btn btn-sm btn-accent"><?= htmlspecialchars(__('author.submit_article_btn')) ?></button></form>
-              <?php endif; ?>
+            <td class="actions-cell">
+              <div class="action-buttons">
+                <a href="<?= $base ?>/author/article/<?= $aid ?>" class="btn-icon" title="<?= $readLabel ?>" aria-label="<?= $readLabel ?>">
+                  <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#eye"/></svg>
+                </a>
+                <?php if (in_array($a['statut'] ?? '', ['soumis', 'brouillon'], true)): ?>
+                  <a href="<?= $base ?>/author/article/<?= $aid ?>/edit" class="btn-icon" title="<?= $editLabel ?>" aria-label="<?= $editLabel ?>">
+                    <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#pencil"/></svg>
+                  </a>
+                <?php endif; ?>
+                <?php if (($a['statut'] ?? '') === 'brouillon'): ?>
+                  <form method="post" action="<?= $base ?>/author/article/<?= $aid ?>/submit" class="inline-form" style="display:inline;">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="btn-icon" title="<?= $submitLabel ?>" aria-label="<?= $submitLabel ?>">
+                      <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#check"/></svg>
+                    </button>
+                  </form>
+                <?php endif; ?>
+              </div>
             </td>
           </tr>
           <?php endforeach; ?>

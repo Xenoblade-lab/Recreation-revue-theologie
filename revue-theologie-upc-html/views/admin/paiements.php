@@ -56,7 +56,7 @@ function adminFormatDate(?string $d): string {
               <td><?= htmlspecialchars($p['moyen'] ?? '') ?></td>
               <td><span class="badge <?= $st === 'valide' ? 'badge green' : ($st === 'refuse' ? 'badge-accent' : 'badge-primary') ?>"><?= htmlspecialchars(adminPaymentStatusLabel($st)) ?></span></td>
               <td><?= adminFormatDate($p['date_paiement'] ?? $p['created_at'] ?? null) ?></td>
-              <td>
+              <td class="actions-cell">
                 <?php if ($st === 'en_attente'): ?>
                   <?php
                   $baseUrl = rtrim($base ?? '', '/');
@@ -64,17 +64,25 @@ function adminFormatDate(?string $d): string {
                       $baseUrl = rtrim(BASE_URL, '/');
                   }
                   $urlStatut = $baseUrl . '/admin/paiement/' . $pid . '/statut';
+                  $labelValidate = htmlspecialchars(__('admin.validate'));
+                  $labelRefuse = htmlspecialchars(__('admin.refuse'));
                   ?>
-                  <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" style="display: inline; margin-right: 0.25rem;">
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="statut" value="valide">
-                    <button type="submit" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('admin.validate')) ?></button>
-                  </form>
-                  <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" style="display: inline;">
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="statut" value="refuse">
-                    <button type="submit" class="btn btn-sm btn-outline btn-accent"><?= htmlspecialchars(__('admin.refuse')) ?></button>
-                  </form>
+                  <div class="action-buttons">
+                    <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" class="inline-form" style="display:inline;">
+                      <?= csrf_field() ?>
+                      <input type="hidden" name="statut" value="valide">
+                      <button type="submit" class="btn-icon" title="<?= $labelValidate ?>" aria-label="<?= $labelValidate ?>">
+                        <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#check"/></svg>
+                      </button>
+                    </form>
+                    <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" class="inline-form" style="display:inline;">
+                      <?= csrf_field() ?>
+                      <input type="hidden" name="statut" value="refuse">
+                      <button type="submit" class="btn-icon btn-icon-danger" title="<?= $labelRefuse ?>" aria-label="<?= $labelRefuse ?>">
+                        <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#x"/></svg>
+                      </button>
+                    </form>
+                  </div>
                 <?php else: ?>
                   —
                 <?php endif; ?>

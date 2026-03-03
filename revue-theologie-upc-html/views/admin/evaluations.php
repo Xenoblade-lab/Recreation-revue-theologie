@@ -45,17 +45,24 @@ function adminFormatDate(?string $d): string {
           <th><?= htmlspecialchars(__('admin.th_deadline')) ?></th>
           <th><?= htmlspecialchars(__('admin.th_submission_date')) ?></th>
           <th><?= htmlspecialchars(__('admin.th_recommendation')) ?></th>
+          <th><?= htmlspecialchars(__('admin.actions')) ?></th>
         </tr>
       </thead>
       <tbody>
         <?php if (empty($evaluations)): ?>
-          <tr><td colspan="8" class="text-muted"><?= htmlspecialchars(__('admin.evaluations_empty')) ?></td></tr>
+          <tr><td colspan="9" class="text-muted"><?= htmlspecialchars(__('admin.evaluations_empty')) ?></td></tr>
         <?php else: ?>
-          <?php foreach ($evaluations as $e): ?>
+          <?php foreach ($evaluations as $e):
+              $eid = (int)($e['id'] ?? 0);
+              $aid = (int)($e['article_id'] ?? 0);
+              $viewLabel = htmlspecialchars(__('common.read'));
+              $unassignLabel = htmlspecialchars(__('admin.unassign_evaluator'));
+              $confirmUnassign = __('admin.confirm_unassign_evaluator');
+          ?>
             <tr>
-              <td><?= (int)($e['id'] ?? 0) ?></td>
+              <td><?= $eid ?></td>
               <td>
-                <a href="<?= $base ?>/admin/article/<?= (int)($e['article_id'] ?? 0) ?>"><?= htmlspecialchars($e['article_titre'] ?? '—') ?></a>
+                <a href="<?= $base ?>/admin/article/<?= $aid ?>"><?= htmlspecialchars($e['article_titre'] ?? '—') ?></a>
                 <span class="text-sm text-muted">(<?= htmlspecialchars($e['article_statut'] ?? '') ?>)</span>
               </td>
               <td><?= htmlspecialchars(trim(($e['evaluateur_prenom'] ?? '') . ' ' . ($e['evaluateur_nom'] ?? ''))) ?: '—' ?></td>
@@ -64,6 +71,19 @@ function adminFormatDate(?string $d): string {
               <td><?= adminFormatDate($e['date_echeance'] ?? null) ?></td>
               <td><?= adminFormatDate($e['date_soumission'] ?? null) ?></td>
               <td><?= htmlspecialchars($e['recommendation'] ?? '—') ?></td>
+              <td class="actions-cell">
+                <div class="action-buttons">
+                  <a href="<?= $base ?>/admin/article/<?= $aid ?>" class="btn-icon" title="<?= $viewLabel ?>" aria-label="<?= $viewLabel ?>">
+                    <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#eye"/></svg>
+                  </a>
+                  <form method="post" action="<?= $base ?>/admin/evaluation/<?= $eid ?>/unassign" class="inline-form js-confirm-submit" style="display:inline;" data-confirm-message="<?= htmlspecialchars($confirmUnassign, ENT_QUOTES, 'UTF-8') ?>">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="btn-icon btn-icon-danger" title="<?= $unassignLabel ?>" aria-label="<?= $unassignLabel ?>">
+                      <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#trash"/></svg>
+                    </button>
+                  </form>
+                </div>
+              </td>
             </tr>
           <?php endforeach; ?>
         <?php endif; ?>

@@ -97,12 +97,20 @@ class ComiteEditorialModel
         ]);
     }
 
-    /** Supprimer un membre du comité. */
+    /** Supprimer un membre du comité par id (clé primaire). */
     public static function delete(int $id): bool
     {
         $db = getDB();
         $stmt = $db->prepare("DELETE FROM comite_editorial WHERE id = :id");
         return $stmt->execute([':id' => $id]);
+    }
+
+    /** Supprimer un membre du comité par user_id (ex. avant suppression de l'utilisateur). */
+    public static function deleteByUserId(int $userId): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM comite_editorial WHERE user_id = :uid");
+        return $stmt->execute([':uid' => $userId]);
     }
 
     /** Vérifier si la table existe (pour fallback si migration non faite). */

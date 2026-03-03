@@ -290,4 +290,31 @@ class EvaluationModel
         }
         return (int) $stmt->fetchColumn();
     }
+
+    /** Supprimer toutes les évaluations d'un article (ex. avant suppression de l'article). */
+    public static function deleteByArticleId(int $articleId): void
+    {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM evaluations WHERE article_id = :aid");
+        $stmt->execute([':aid' => $articleId]);
+    }
+
+    /** Récupérer une évaluation par ID (pour admin, ex. avant désassignation). Retourne au moins id et article_id. */
+    public static function getById(int $id): ?array
+    {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT id, article_id, evaluateur_id, statut FROM evaluations WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
+    /** Supprimer une évaluation par ID (désassignation). Retourne true si une ligne a été supprimée. */
+    public static function deleteById(int $id): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM evaluations WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->rowCount() > 0;
+    }
 }

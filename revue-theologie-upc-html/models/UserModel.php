@@ -75,13 +75,31 @@ class UserModel
         return (int) $db->query("SELECT COUNT(*) FROM users")->fetchColumn();
     }
 
-    /** Compter les utilisateurs avec un rôle donné */
+    /** Compter les utilisateurs avec un rôle donné (actifs uniquement) */
     public static function countByRole(string $role): int
     {
         $db = getDB();
         $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE role = :role AND statut = 'actif'");
         $stmt->execute([':role' => $role]);
         return (int) $stmt->fetchColumn();
+    }
+
+    /** Compter tous les utilisateurs ayant un rôle donné (tous statuts). Utile pour interdire la suppression du dernier admin. */
+    public static function countWithRole(string $role): int
+    {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE role = :role");
+        $stmt->execute([':role' => $role]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    /** Supprimer un utilisateur par id. Retourne true si une ligne a été supprimée. À appeler après avoir retiré les dépendances (comite_editorial, etc.). */
+    public static function delete(int $id): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->rowCount() > 0;
     }
 
     /** Ids des utilisateurs ayant un des rôles donnés (ex. pour notifier les admins). */

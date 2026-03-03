@@ -1,6 +1,8 @@
 <?php
 $volumes = $volumes ?? [];
 $revuesByVolume = $revuesByVolume ?? [];
+$error = $error ?? null;
+$success = $success ?? null;
 $base = $base ?? '';
 
 function adminFormatDate(?string $d): string {
@@ -9,10 +11,22 @@ function adminFormatDate(?string $d): string {
     return $t ? date('j M. Y', $t) : $d;
 }
 ?>
-<div class="dashboard-header">
-  <h1><?= htmlspecialchars(__('admin.volumes')) ?></h1>
-  <p><?= htmlspecialchars(__('admin.volumes_intro')) ?></p>
+<div class="dashboard-header flex justify-between items-start">
+  <div>
+    <h1><?= htmlspecialchars(__('admin.volumes')) ?></h1>
+    <p><?= htmlspecialchars(__('admin.volumes_intro')) ?></p>
+  </div>
+  <div class="wrap-row">
+    <a href="<?= $base ?>/admin/volumes/create" class="btn btn-primary"><?= htmlspecialchars(__('admin.create_volume')) ?></a>
+    <a href="<?= $base ?>/admin/numeros/create" class="btn btn-outline"><?= htmlspecialchars(__('admin.create_numero')) ?></a>
+  </div>
 </div>
+<?php if (!empty($error)): ?>
+<div class="alert alert-error mb-4"><?= htmlspecialchars(is_string($error) ? $error : __('admin.error')) ?></div>
+<?php endif; ?>
+<?php if (!empty($success)): ?>
+<div class="alert alert-success mb-4"><?= htmlspecialchars(is_string($success) ? $success : __('admin.success')) ?></div>
+<?php endif; ?>
 <div class="dashboard-card">
   <?php if (empty($volumes)): ?>
     <p class="text-muted"><?= htmlspecialchars(__('admin.no_volume')) ?></p>

@@ -48,13 +48,22 @@ $canPublishOrReject = $evaluatorsCount >= 2;
       · <?= adminStatutBadge($statut) ?>
     </p>
   </div>
-  <a href="<?= $base ?>/admin/articles" class="btn btn-outline"><?= htmlspecialchars(__('admin.back_list')) ?></a>
+  <div class="wrap-row">
+    <a href="<?= $base ?>/admin/articles" class="btn btn-outline"><?= htmlspecialchars(__('admin.back_list')) ?></a>
+    <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/delete" class="inline-form js-confirm-submit" data-confirm-message="<?= htmlspecialchars(__('admin.confirm_delete_article'), ENT_QUOTES, 'UTF-8') ?>">
+      <?= csrf_field() ?>
+      <button type="submit" class="btn btn-danger"><?= htmlspecialchars(__('admin.delete_article')) ?></button>
+    </form>
+  </div>
 </div>
 <?php if ($error): ?>
 <div class="alert alert-error mb-4"><?= htmlspecialchars($error) ?></div>
 <?php endif; ?>
 <?php if ($assignSuccessCount !== null && $assignSuccessCount > 0): ?>
 <div class="alert alert-success mb-4" role="alert"><?= sprintf(__('admin.assign_success'), (int) $assignSuccessCount) ?></div>
+<?php endif; ?>
+<?php if (!empty($success) && is_string($success)): ?>
+<div class="alert alert-success mb-4" role="alert"><?= htmlspecialchars($success) ?></div>
 <?php endif; ?>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('author.content_summary')) ?></h2>
@@ -155,13 +164,30 @@ $conflictingUnfavorable = (int) ($conflictingUnfavorable ?? 0);
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($evaluations as $e): ?>
+          <?php foreach ($evaluations as $e):
+              $eid = (int)($e['id'] ?? 0);
+              $readLabel = htmlspecialchars(__('common.read'));
+              $unassignLabel = htmlspecialchars(__('admin.unassign_evaluator'));
+              $confirmUnassign = __('admin.confirm_unassign_evaluator');
+          ?>
             <tr>
               <td><?= htmlspecialchars(trim(($e['evaluateur_prenom'] ?? '') . ' ' . ($e['evaluateur_nom'] ?? ''))) ?></td>
               <td><?= htmlspecialchars(evalStatutLabel($e['statut'] ?? null)) ?></td>
               <td><?= htmlspecialchars($e['recommendation'] ?? '—') ?></td>
               <td><?= adminFormatDate($e['date_soumission'] ?? null) ?></td>
-              <td><a href="<?= $base ?>/reviewer/evaluation/<?= (int)($e['id'] ?? 0) ?>" class="btn btn-sm btn-outline" target="_blank">Voir</a></td>
+              <td class="actions-cell">
+                <div class="action-buttons">
+                  <a href="<?= $base ?>/reviewer/evaluation/<?= $eid ?>" class="btn-icon" title="<?= $readLabel ?>" aria-label="<?= $readLabel ?>" target="_blank" rel="noopener">
+                    <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#eye"/></svg>
+                  </a>
+                  <form method="post" action="<?= $base ?>/admin/evaluation/<?= $eid ?>/unassign" class="inline-form js-confirm-submit" style="display:inline;" data-confirm-message="<?= htmlspecialchars($confirmUnassign, ENT_QUOTES, 'UTF-8') ?>">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="btn-icon btn-icon-danger" title="<?= $unassignLabel ?>" aria-label="<?= $unassignLabel ?>">
+                      <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#trash"/></svg>
+                    </button>
+                  </form>
+                </div>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>

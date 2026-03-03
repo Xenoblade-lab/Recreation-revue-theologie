@@ -63,7 +63,7 @@ function authorRegionLabel(?string $region, $montant = null): string {
   <h2><?= htmlspecialchars(__('author.current_status')) ?></h2>
   <?php if ($abonnementActif): ?>
     <p><?= __('author.subscription_active_until') ?> <?= authorFormatDate($abonnementActif['date_fin'] ?? null) ?>.</p>
-    <form method="post" action="<?= $base ?>/author/abonnement/cancel" class="mt-4 mb-0" onsubmit="return confirm(<?= json_encode(__('author.cancel_subscription_confirm')) ?>);">
+    <form method="post" action="<?= $base ?>/author/abonnement/cancel" class="mt-4 mb-0 js-confirm-submit" data-confirm-message="<?= htmlspecialchars(__('author.cancel_subscription_confirm'), ENT_QUOTES, 'UTF-8') ?>">
       <?= csrf_field() ?>
       <input type="hidden" name="abonnement_id" value="<?= (int)($abonnementActif['id'] ?? 0) ?>">
       <button type="submit" class="btn btn-outline btn-accent"><?= htmlspecialchars(__('author.cancel_subscription')) ?></button>
@@ -96,7 +96,7 @@ function authorRegionLabel(?string $region, $montant = null): string {
             <?php if (($pStatut ?? '') === 'valide'): ?>
               <a href="<?= $base ?>/author/paiement/receipt/<?= (int)($p['id'] ?? 0) ?>" class="btn btn-sm btn-outline" target="_blank" rel="noopener"><?= htmlspecialchars(function_exists('__') ? __('author.receipt') : 'Reçu') ?></a>
             <?php elseif (($pStatut ?? '') === 'en_attente'): ?>
-              <form method="post" action="<?= $base ?>/author/paiement/<?= (int)($p['id'] ?? 0) ?>/cancel" class="inline" onsubmit="return confirm(<?= json_encode(function_exists('__') ? __('author.cancel_payment_confirm') : 'Annuler ce paiement ?') ?>);">
+              <form method="post" action="<?= $base ?>/author/paiement/<?= (int)($p['id'] ?? 0) ?>/cancel" class="inline js-confirm-submit" data-confirm-message="<?= htmlspecialchars(function_exists('__') ? __('author.cancel_payment_confirm') : 'Annuler ce paiement ?', ENT_QUOTES, 'UTF-8') ?>">
                 <?= csrf_field() ?>
                 <button type="submit" class="btn btn-sm btn-outline btn-accent"><?= htmlspecialchars(function_exists('__') ? __('author.cancel_payment') : 'Annuler') ?></button>
               </form>
