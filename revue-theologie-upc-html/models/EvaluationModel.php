@@ -282,13 +282,24 @@ class EvaluationModel
     public static function countAllForAdmin(?string $statut = null): int
     {
         $db = getDB();
+        $sql = "SELECT COUNT(*) FROM evaluations e INNER JOIN articles a ON a.id = e.article_id";
         if ($statut !== null && $statut !== '') {
-            $stmt = $db->prepare("SELECT COUNT(*) FROM evaluations WHERE statut = :statut");
+            $sql .= " WHERE e.statut = :statut";
+            $stmt = $db->prepare($sql);
             $stmt->execute([':statut' => $statut]);
         } else {
-            $stmt = $db->query("SELECT COUNT(*) FROM evaluations");
+            $stmt = $db->query($sql);
         }
         return (int) $stmt->fetchColumn();
+    }
+
+    /** Supprime les évaluations orphelines (article_id ne correspondant plus à un article). */
+    public static function deleteOrphanEvaluations(): int
+    {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM evaluations WHERE article_id NOT IN (SELECT id FROM articles)");
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 
     /** Supprimer toutes les évaluations d'un article (ex. avant suppression de l'article). */

@@ -112,6 +112,18 @@ class ReviewerController
         }
         $ok = $this->applyEvaluationForm($id, $evaluateurId, $isDraft);
         if ($ok) {
+            if (!$isDraft) {
+                $articleId = (int) ($evaluation['article_id'] ?? 0);
+                $articleTitre = $evaluation['article_titre'] ?? '';
+                $reviewerName = trim(($user['prenom'] ?? '') . ' ' . ($user['nom'] ?? ''));
+                $msg = (function_exists('__') ? __('admin.notif_evaluation_submitted') : 'Évaluation soumise pour l\'article') . ' « ' . $articleTitre . ' »' . ($reviewerName !== '' ? ' (' . $reviewerName . ').' : '.');
+                foreach (UserModel::getIdsByRole('admin', 'redacteur en chef') as $adminId) {
+                    NotificationModel::create((int) $adminId, 'evaluation_submitted', [
+                        'message' => $msg,
+                        'link' => 'admin/article/' . $articleId,
+                    ]);
+                }
+            }
             if ($isDraft) {
                 header('Location: ' . $this->base() . '/reviewer/evaluation/' . $id);
             } else {

@@ -395,6 +395,16 @@ class AuthorController
 
         $id = ArticleModel::create($userId, $titre, $contenu, $fichierPath, $fichierNomOriginal, $statut);
         if ($id) {
+            if ($statut === 'soumis') {
+                $msg = function_exists('__') ? __('admin.notif_new_submission') : 'Nouvelle soumission d\'article';
+                $msg = $msg . ' : « ' . $titre . ' ».';
+                foreach (UserModel::getIdsByRole('admin', 'redacteur en chef') as $adminId) {
+                    NotificationModel::create((int) $adminId, 'new_submission', [
+                        'message' => $msg,
+                        'link' => 'admin/article/' . $id,
+                    ]);
+                }
+            }
             unset($_SESSION['author_old']);
             header('Location: ' . $this->base() . '/author/article/' . $id);
             exit;
@@ -536,6 +546,13 @@ class AuthorController
             exit;
         }
         if (ArticleModel::submitDraft($id, $userId)) {
+            $msg = (function_exists('__') ? __('admin.notif_new_submission') : 'Nouvelle soumission d\'article') . ' : « ' . ($article['titre'] ?? '') . ' ».';
+            foreach (UserModel::getIdsByRole('admin', 'redacteur en chef') as $adminId) {
+                NotificationModel::create((int) $adminId, 'new_submission', [
+                    'message' => $msg,
+                    'link' => 'admin/article/' . $id,
+                ]);
+            }
             $_SESSION['author_success'] = 'submitted';
         }
         header('Location: ' . $this->base() . '/author/article/' . $id);

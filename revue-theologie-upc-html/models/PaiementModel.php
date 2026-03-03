@@ -150,11 +150,23 @@ class PaiementModel
         return $stmt->execute([':id' => $id]);
     }
 
-    /** Revenus du mois en cours (paiements validés) */
+    /** Revenus du mois en cours (paiements validés). Utilise date_paiement ou updated_at si date_paiement est NULL. */
     public static function getMonthlyTotal(): float
     {
         $db = getDB();
-        $stmt = $db->query("SELECT COALESCE(SUM(montant), 0) FROM paiements WHERE statut = 'valide' AND date_paiement >= DATE_FORMAT(NOW(), '%Y-%m-01')");
+        $stmt = $db->query("
+            SELECT COALESCE(SUM(montant), 0) FROM paiements
+            WHERE statut = 'valide'
+            AND (COALESCE(date_paiement, updated_at) >= DATE_FORMAT(NOW(), '%Y-%m-01'))
+        ");
+        return (float) $stmt->fetchColumn();
+    }
+
+    /** Total des revenus (paiements validés, tous mois confondus). */
+    public static function getTotalValidated(): float
+    {
+        $db = getDB();
+        $stmt = $db->query("SELECT COALESCE(SUM(montant), 0) FROM paiements WHERE statut = 'valide'");
         return (float) $stmt->fetchColumn();
     }
 

@@ -42,17 +42,23 @@ class AdminController
 
     public function index(array $params = []): void
     {
+        $user = AuthService::getUser();
+        $adminId = $user ? (int) $user['id'] : 0;
         $totalArticles = ArticleModel::countAll();
         $publishedArticles = ArticleModel::countPublished();
         $reviewersCount = UserModel::countByRole('redacteur') + UserModel::countByRole('redacteur en chef');
         $monthlyRevenue = PaiementModel::getMonthlyTotal();
+        $totalRevenue = PaiementModel::getTotalValidated();
         $lastSubmissions = ArticleModel::getAllForAdmin(10);
+        $recentActivities = $adminId > 0 ? NotificationModel::getByUserId($adminId, 20) : [];
         $this->render('index', [
             'totalArticles' => $totalArticles,
             'publishedArticles' => $publishedArticles,
             'reviewersCount' => $reviewersCount,
             'monthlyRevenue' => $monthlyRevenue,
+            'totalRevenue' => $totalRevenue,
             'lastSubmissions' => $lastSubmissions,
+            'recentActivities' => $recentActivities,
         ], 'Tableau de bord | Administration - Revue Congolaise de Théologie Protestante', 'index');
     }
 
@@ -105,6 +111,16 @@ class AdminController
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $id = UserModel::create($nom, $prenom, $email, $hash, $role);
         if ($id) {
+            $roleMap = ['redacteur en chef' => 'redacteur_chef', 'auteur' => 'author'];
+            $roleKey = 'admin.role_' . ($roleMap[$role] ?? $role);
+            $roleLabel = function_exists('__') ? __($roleKey) : $role;
+            $msg = (function_exists('__') ? __('admin.notif_user_created') : 'Nouvel utilisateur créé') . ' : ' . trim($prenom . ' ' . $nom) . ' – ' . $roleLabel . '.';
+            foreach (UserModel::getIdsByRole('admin', 'redacteur en chef') as $adminId) {
+                NotificationModel::create((int) $adminId, 'user_created', [
+                    'message' => $msg,
+                    'link' => 'admin/users/' . $id,
+                ]);
+            }
             unset($_SESSION['admin_old']);
             header('Location: ' . $this->base() . '/admin/users');
             exit;
@@ -294,8 +310,9 @@ class AdminController
 
     public function evaluations(array $params = []): void
     {
+        EvaluationModel::deleteOrphanEvaluations();
         $statut = isset($_GET['statut']) && $_GET['statut'] !== '' ? (string) $_GET['statut'] : null;
-        $evaluations = EvaluationModel::getAllForAdmin($statut, 100, 0);
+        $evaluations = EvaluationModel::getAllForAdmin($statut, 500, 0);
         $total = EvaluationModel::countAllForAdmin($statut);
         $this->render('evaluations', [
             'evaluations' => $evaluations,

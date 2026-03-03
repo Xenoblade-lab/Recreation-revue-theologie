@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Service\AuthService;
 use Models\UserModel;
+use Models\NotificationModel;
 
 /**
  * Contrôleur authentification : login, register, logout, mot de passe oublié.
@@ -128,6 +129,13 @@ class AuthController
             release_session();
             header('Location: ' . $this->base() . '/register');
             exit;
+        }
+        $msg = (function_exists('__') ? __('admin.notif_new_registration') : 'Nouvelle inscription') . ' : ' . trim($prenom . ' ' . $nom) . ' (' . $email . ').';
+        foreach (UserModel::getIdsByRole('admin', 'redacteur en chef') as $adminId) {
+            NotificationModel::create((int) $adminId, 'new_registration', [
+                'message' => $msg,
+                'link' => 'admin/users/' . $userId,
+            ]);
         }
         unset($_SESSION['auth_old']);
         AuthService::login($email, $password);
