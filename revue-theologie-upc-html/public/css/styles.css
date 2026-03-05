@@ -200,11 +200,18 @@ body.page-template-2 {
 .site-footer .footer-bottom p, .site-footer .footer-bottom a { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
 .site-footer .footer-bottom a:hover { color: var(--upc-gold); }
 
-/* Phase 6.1 – Footer dashboard : colonne en mobile, côte à côte à partir de 768px */
+/* Phase 6.1 – Footer dashboard : colonne en mobile, texte centré + déconnexion à droite sur desktop */
 .dashboard-layout .site-footer .footer-bottom { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; flex-wrap: wrap; }
 .dashboard-layout .site-footer .footer-bottom p { word-break: break-word; max-width: 100%; }
 @media (min-width: 768px) {
-  .dashboard-layout .site-footer .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+  .dashboard-layout .site-footer .footer-bottom {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .dashboard-layout .site-footer .footer-bottom p { flex: 1; text-align: center; }
+  .dashboard-layout .site-footer .footer-bottom a[href*="logout"] { flex-shrink: 0; }
 }
 
 /* Typography */
