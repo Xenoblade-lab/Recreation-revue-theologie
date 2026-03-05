@@ -17,12 +17,15 @@ $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Prot
 </head>
 <body class="dashboard-layout min-h-screen flex flex-col">
   <div class="dashboard-topbar">
-    <div class="flex items-center gap-4">
+    <button type="button" class="dashboard-mobile-menu" id="dashboard-menu-toggle" aria-label="<?= htmlspecialchars(function_exists('__') ? __('dash.open_menu') : 'Ouvrir le menu') ?>" aria-expanded="false">
+      <svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#menu"/></svg>
+    </button>
+    <div class="flex items-center gap-4 flex-wrap">
       <a href="<?= $base ?>/" class="flex items-center gap-2">
         <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC" width="36" height="36">
-        <span class="font-serif font-bold text-primary">Revue Congolaise de Théologie Protestante</span>
+        <span class="dashboard-topbar-brand font-serif font-bold text-primary">Revue Congolaise de Théologie Protestante</span>
       </a>
-      <span class="text-muted">|</span>
+      <span class="dashboard-topbar-sep text-muted">|</span>
       <span class="text-sm font-medium"><?= htmlspecialchars(function_exists('__') ? __('dash.admin_space') : 'Administration') ?></span>
     </div>
     <div class="breadcrumb">
@@ -32,6 +35,7 @@ $pageTitle = $pageTitle ?? 'Administration | Revue Congolaise de Théologie Prot
     </div>
   </div>
   <div class="dashboard-body">
+    <div class="dashboard-sidebar-backdrop" id="dashboard-sidebar-backdrop" aria-hidden="true"></div>
     <aside class="dashboard-sidebar" id="dashboard-sidebar">
       <div class="sidebar-inner">
         <p class="sidebar-title"><?= htmlspecialchars(function_exists('__') ? __('dash.admin_space') : 'Administration') ?></p>

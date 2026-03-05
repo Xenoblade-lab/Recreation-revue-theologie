@@ -50,13 +50,13 @@ function adminFormatDate(?string $d): string {
           <?php foreach ($paiements as $p): ?>
             <?php $st = $p['statut'] ?? 'en_attente'; $pid = (int)($p['id'] ?? 0); ?>
             <tr>
-              <td><?= $pid ?></td>
-              <td><?= htmlspecialchars(trim(($p['user_prenom'] ?? '') . ' ' . ($p['user_nom'] ?? ''))) ?><br><span class="text-sm text-muted"><?= htmlspecialchars($p['user_email'] ?? '') ?></span></td>
-              <td><?= number_format((float) ($p['montant'] ?? 0), 2, ',', ' ') ?> $</td>
-              <td><?= htmlspecialchars($p['moyen'] ?? '') ?></td>
-              <td><span class="badge <?= $st === 'valide' ? 'badge green' : ($st === 'refuse' ? 'badge-accent' : 'badge-primary') ?>"><?= htmlspecialchars(adminPaymentStatusLabel($st)) ?></span></td>
-              <td><?= adminFormatDate($p['date_paiement'] ?? $p['created_at'] ?? null) ?></td>
-              <td class="actions-cell">
+              <td data-label="<?= htmlspecialchars(__('admin.th_id'), ENT_QUOTES, 'UTF-8') ?>"><?= $pid ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_user'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(trim(($p['user_prenom'] ?? '') . ' ' . ($p['user_nom'] ?? ''))) ?><br><span class="text-sm text-muted"><?= htmlspecialchars($p['user_email'] ?? '') ?></span></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_amount'), ENT_QUOTES, 'UTF-8') ?>"><?= number_format((float) ($p['montant'] ?? 0), 2, ',', ' ') ?> $</td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_method'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($p['moyen'] ?? '') ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_status'), ENT_QUOTES, 'UTF-8') ?>"><span class="badge <?= $st === 'valide' ? 'badge green' : ($st === 'refuse' ? 'badge-accent' : 'badge-primary') ?>"><?= htmlspecialchars(adminPaymentStatusLabel($st)) ?></span></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_date'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($p['date_paiement'] ?? $p['created_at'] ?? null) ?></td>
+              <td class="actions-cell" data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>">
                 <?php if ($st === 'en_attente'): ?>
                   <?php
                   $baseUrl = rtrim($base ?? '', '/');

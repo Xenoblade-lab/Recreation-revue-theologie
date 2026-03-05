@@ -21,26 +21,26 @@ if (!$user) return;
     <div>
       <label for="nom" class="block font-medium mb-1"><?= htmlspecialchars(__('author.profil_nom')) ?> *</label>
       <input type="text" id="nom" name="nom" required value="<?= htmlspecialchars($user['nom'] ?? '') ?>"
-             class="w-full px-3 py-2 border rounded" maxlength="255">
+             class="input w-full" maxlength="255">
     </div>
     <div>
       <label for="prenom" class="block font-medium mb-1"><?= htmlspecialchars(__('author.profil_prenom')) ?> *</label>
       <input type="text" id="prenom" name="prenom" required value="<?= htmlspecialchars($user['prenom'] ?? '') ?>"
-             class="w-full px-3 py-2 border rounded" maxlength="255">
+             class="input w-full" maxlength="255">
     </div>
     <div>
       <label for="email" class="block font-medium mb-1"><?= htmlspecialchars(__('author.profil_email')) ?> *</label>
       <input type="email" id="email" name="email" required value="<?= htmlspecialchars($user['email'] ?? '') ?>"
-             class="w-full px-3 py-2 border rounded" maxlength="255">
+             class="input w-full" maxlength="255">
     </div>
     <div>
       <label for="password" class="block font-medium mb-1"><?= htmlspecialchars(__('author.profil_password')) ?></label>
-      <input type="password" id="password" name="password" class="w-full px-3 py-2 border rounded" minlength="6"
+      <input type="password" id="password" name="password" class="input w-full" minlength="6"
              placeholder="<?= htmlspecialchars(__('author.profil_password_placeholder')) ?>"
              autocomplete="new-password">
       <p class="text-sm text-muted mt-1"><?= htmlspecialchars(__('author.profil_password_hint')) ?></p>
     </div>
-    <div class="flex gap-3">
+    <div class="form-actions flex flex-wrap gap-2">
       <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('author.profil_save')) ?></button>
       <a href="<?= $base ?>/author" class="btn btn-outline-primary"><?= htmlspecialchars(__('author.back_dashboard')) ?></a>
     </div>

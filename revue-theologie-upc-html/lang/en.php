@@ -358,6 +358,7 @@ return [
     'auth.role_reviewer' => 'Reviewer',
 
     'dash.home' => 'Home',
+    'dash.open_menu' => 'Open menu',
     'dash.dashboard' => 'Dashboard',
     'dash.logout' => 'Log out',
     'dash.view_site' => 'View site',

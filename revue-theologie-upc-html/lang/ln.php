@@ -358,6 +358,7 @@ return [
     'auth.role_reviewer' => 'Motungi',
 
     'dash.home' => 'Liboso',
+    'dash.open_menu' => 'Fungola menu',
     'dash.dashboard' => 'Dashboard',
     'dash.logout' => 'Kobima',
     'dash.view_site' => 'Tala site',

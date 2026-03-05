@@ -72,10 +72,11 @@ function authorRegionLabel(?string $region, $montant = null): string {
     <p><?= htmlspecialchars(__('author.no_subscription')) ?></p>
     <p class="mt-3"><a href="<?= $base ?>/author/s-abonner" class="btn btn-primary"><?= htmlspecialchars(__('author.subscribe_btn')) ?></a></p>
   <?php endif; ?>
-  <p class="mt-4 mb-0"><a href="<?= $base ?>/author" class="btn btn-outline-primary"><?= htmlspecialchars(__('author.back_dashboard')) ?></a></p>
+  <p class="mt-4 mb-0 flex flex-wrap gap-2"><a href="<?= $base ?>/author" class="btn btn-outline-primary"><?= htmlspecialchars(__('author.back_dashboard')) ?></a></p>
 </div>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('author.payment_history')) ?></h2>
+  <div class="overflow-auto">
   <table class="dashboard-table">
     <thead>
       <tr><th><?= htmlspecialchars(__('author.th_date')) ?></th><th><?= htmlspecialchars(__('author.th_amount')) ?></th><th><?= htmlspecialchars(function_exists('__') ? __('author.th_region') : 'Région') ?></th><th><?= htmlspecialchars(__('author.th_method')) ?></th><th><?= htmlspecialchars(__('author.th_status')) ?></th><th><?= htmlspecialchars(__('author.th_actions')) ?></th></tr>
@@ -87,12 +88,12 @@ function authorRegionLabel(?string $region, $montant = null): string {
         <?php foreach ($paiements as $p): ?>
         <?php $pStatut = $p['statut'] ?? 'en_attente'; $badgeClass = $pStatut === 'valide' ? 'badge green' : ($pStatut === 'refuse' ? 'badge-accent' : 'badge-primary'); $statutLabel = $pStatut === 'en_attente' ? (function_exists('__') ? __('admin.status_pending') : 'En attente') : ($pStatut === 'refuse' ? (function_exists('__') ? __('admin.status_refused') : 'Refusé') : (function_exists('__') ? __('admin.status_valid') : 'Valide')); ?>
         <tr>
-          <td><?= authorFormatDate($p['date_paiement'] ?? $p['created_at'] ?? null) ?></td>
-          <td><?= htmlspecialchars($p['montant'] ?? '—') ?></td>
-          <td><?= htmlspecialchars(authorRegionLabel($p['region'] ?? null, $p['montant'] ?? null)) ?></td>
-          <td><?= htmlspecialchars($p['moyen'] ?? '—') ?></td>
-          <td><span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($statutLabel) ?></span></td>
-          <td>
+          <td data-label="<?= htmlspecialchars(__('author.th_date'), ENT_QUOTES, 'UTF-8') ?>"><?= authorFormatDate($p['date_paiement'] ?? $p['created_at'] ?? null) ?></td>
+          <td data-label="<?= htmlspecialchars(__('author.th_amount'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($p['montant'] ?? '—') ?></td>
+          <td data-label="<?= htmlspecialchars(function_exists('__') ? __('author.th_region') : 'Région', ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(authorRegionLabel($p['region'] ?? null, $p['montant'] ?? null)) ?></td>
+          <td data-label="<?= htmlspecialchars(__('author.th_method'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($p['moyen'] ?? '—') ?></td>
+          <td data-label="<?= htmlspecialchars(__('author.th_status'), ENT_QUOTES, 'UTF-8') ?>"><span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($statutLabel) ?></span></td>
+          <td data-label="<?= htmlspecialchars(__('author.th_actions'), ENT_QUOTES, 'UTF-8') ?>">
             <?php if (($pStatut ?? '') === 'valide'): ?>
               <a href="<?= $base ?>/author/paiement/receipt/<?= (int)($p['id'] ?? 0) ?>" class="btn btn-sm btn-outline" target="_blank" rel="noopener"><?= htmlspecialchars(function_exists('__') ? __('author.receipt') : 'Reçu') ?></a>
             <?php elseif (($pStatut ?? '') === 'en_attente'): ?>
@@ -107,4 +108,5 @@ function authorRegionLabel(?string $region, $montant = null): string {
       <?php endif; ?>
     </tbody>
   </table>
+  </div>
 </div>

@@ -90,11 +90,11 @@ function adminActivityDate(?string $d): string {
         <?php else: ?>
           <?php foreach ($lastSubmissions as $a): ?>
           <tr>
-            <td><?= htmlspecialchars($a['titre'] ?? '') ?></td>
-            <td><?= adminFormatDate($a['date_soumission'] ?? null) ?></td>
-            <td><?= adminStatutBadge($a['statut'] ?? 'soumis') ?></td>
-            <td><?= htmlspecialchars(trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''))) ?></td>
-            <td><a href="<?= $base ?>/admin/article/<?= (int) ($a['id'] ?? 0) ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('common.read')) ?></a></td>
+            <td data-label="<?= htmlspecialchars(__('author.th_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($a['titre'] ?? '') ?></td>
+            <td data-label="<?= htmlspecialchars(__('author.th_date'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($a['date_soumission'] ?? null) ?></td>
+            <td data-label="<?= htmlspecialchars(__('author.th_status'), ENT_QUOTES, 'UTF-8') ?>"><?= adminStatutBadge($a['statut'] ?? 'soumis') ?></td>
+            <td data-label="<?= htmlspecialchars(__('admin.th_author'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''))) ?></td>
+            <td data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>"><a href="<?= $base ?>/admin/article/<?= (int) ($a['id'] ?? 0) ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('common.read')) ?></a></td>
           </tr>
           <?php endforeach; ?>
         <?php endif; ?>

@@ -57,6 +57,8 @@ $comite_redaction = $info['comite_redaction'] ?? '';
       <label for="comite_redaction" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('admin.editorial_committee')) ?></label>
       <textarea id="comite_redaction" name="comite_redaction" rows="4" class="input w-full"><?= htmlspecialchars($comite_redaction) ?></textarea>
     </div>
-    <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('admin.save_params')) ?></button>
+    <div class="form-actions flex flex-wrap gap-2">
+      <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('admin.save_params')) ?></button>
+    </div>
   </form>
 </div>

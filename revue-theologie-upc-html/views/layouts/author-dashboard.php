@@ -18,23 +18,27 @@ $isAuthor = $isAuthor ?? false;
 </head>
 <body class="dashboard-layout min-h-screen flex flex-col">
   <div class="dashboard-topbar">
-    <div class="flex items-center gap-4">
+    <button type="button" class="dashboard-mobile-menu" id="dashboard-menu-toggle" aria-label="<?= htmlspecialchars(function_exists('__') ? __('dash.open_menu') : 'Ouvrir le menu') ?>" aria-expanded="false">
+      <svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#menu"/></svg>
+    </button>
+    <div class="flex items-center gap-4 flex-wrap">
       <a href="<?= $base ?>/" class="flex items-center gap-2">
         <img src="<?= $base ?>/images/logo_upc.png" alt="Logo UPC" width="36" height="36">
-        <span class="font-serif font-bold text-primary">Revue Congolaise de Théologie Protestante</span>
+        <span class="dashboard-topbar-brand font-serif font-bold text-primary">Revue Congolaise de Théologie Protestante</span>
       </a>
-      <span class="text-muted">|</span>
+      <span class="dashboard-topbar-sep text-muted">|</span>
       <span class="text-sm font-medium"><?= htmlspecialchars(function_exists('__') ? __('dash.author_space') : 'Espace Auteur') ?></span>
     </div>
     <div class="breadcrumb">
       <a href="<?= $base ?>/"><?= htmlspecialchars(function_exists('__') ? __('dash.home') : 'Accueil') ?></a>
       <a href="<?= $base ?>/author"><?= htmlspecialchars(function_exists('__') ? __('dash.dashboard') : 'Dashboard') ?></a>
-      <a href="<?= $base ?>/author/abonnement" class="text-primary"><?= htmlspecialchars(function_exists('__') ? __('author.subscription') : 'Abonnement') ?></a>
-      <a href="<?= $base ?>/author/notifications" class="text-primary"><?= htmlspecialchars(function_exists('__') ? __('author.notifications') : 'Notifications') ?></a>
+      <a href="<?= $base ?>/author/abonnement" class="breadcrumb-optional text-primary"><?= htmlspecialchars(function_exists('__') ? __('author.subscription') : 'Abonnement') ?></a>
+      <a href="<?= $base ?>/author/notifications" class="breadcrumb-optional text-primary"><?= htmlspecialchars(function_exists('__') ? __('author.notifications') : 'Notifications') ?></a>
       <a href="<?= $base ?>/logout" class="ml-4 text-accent"><?= htmlspecialchars(function_exists('__') ? __('dash.logout') : 'Déconnexion') ?></a>
     </div>
   </div>
   <div class="dashboard-body">
+    <div class="dashboard-sidebar-backdrop" id="dashboard-sidebar-backdrop" aria-hidden="true"></div>
     <aside class="dashboard-sidebar" id="dashboard-sidebar">
       <div class="sidebar-inner">
         <p class="sidebar-title"><?= htmlspecialchars(function_exists('__') ? __('dash.author_space') : 'Espace auteur') ?></p>

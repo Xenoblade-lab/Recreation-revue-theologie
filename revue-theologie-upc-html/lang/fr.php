@@ -360,6 +360,7 @@ return [
 
     // Phase 3 — Espaces connectés
     'dash.home' => 'Accueil',
+    'dash.open_menu' => 'Ouvrir le menu',
     'dash.dashboard' => 'Dashboard',
     'dash.logout' => 'Déconnexion',
     'dash.view_site' => 'Voir le site',

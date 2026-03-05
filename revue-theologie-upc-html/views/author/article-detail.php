@@ -31,13 +31,13 @@ $statut = $article['statut'] ?? 'soumis';
   <p class="text-green-700 dark:text-green-300 font-medium"><?= function_exists('__') ? __('author.article_submitted_success') : 'Article soumis avec succès.' ?></p>
 </div>
 <?php endif; ?>
-<div class="dashboard-header flex justify-between items-start">
-  <div>
+<div class="dashboard-header flex flex-wrap justify-between items-start gap-2">
+  <div style="min-width: 0;">
     <h1><?= htmlspecialchars($article['titre']) ?></h1>
     <p class="text-muted"><?= htmlspecialchars(__('author.submitted_on')) ?> <?= authorFormatDate($article['date_soumission'] ?? $article['created_at'] ?? null) ?> · <?= authorStatutBadge($statut) ?></p>
   </div>
   <?php if (in_array($statut, ['soumis', 'brouillon'], true)): ?>
-  <div class="wrap-row">
+  <div class="wrap-row flex flex-wrap gap-2">
     <a href="<?= $base ?>/author/article/<?= (int) $article['id'] ?>/edit" class="btn btn-outline"><?= htmlspecialchars(__('author.edit_article')) ?></a>
     <?php if ($statut === 'brouillon'): ?>
     <form method="post" action="<?= $base ?>/author/article/<?= (int) $article['id'] ?>/submit" class="inline-form"><?= csrf_field() ?><button type="submit" class="btn btn-accent"><?= htmlspecialchars(__('author.submit_article_btn')) ?></button></form>

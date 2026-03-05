@@ -53,12 +53,12 @@ function adminRoleLabel(string $role): string {
               $confirmDeleteUser = htmlspecialchars(__('admin.confirm_delete_user'));
           ?>
             <tr>
-              <td><?= htmlspecialchars(trim(($u['prenom'] ?? '') . ' ' . ($u['nom'] ?? ''))) ?></td>
-              <td><?= htmlspecialchars($u['email'] ?? '') ?></td>
-              <td><?= htmlspecialchars(adminRoleLabel($u['role'] ?? 'user')) ?></td>
-              <td><span class="badge <?= ($u['statut'] ?? '') === 'actif' ? 'badge green' : 'badge' ?>"><?= htmlspecialchars(($u['statut'] ?? '') === 'actif' ? __('admin.status_active') : __('admin.status_inactive')) ?></span></td>
-              <td><?= !empty($u['created_at']) ? date('d/m/Y', strtotime($u['created_at'])) : '—' ?></td>
-              <td class="actions-cell">
+              <td data-label="<?= htmlspecialchars(__('admin.th_name'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(trim(($u['prenom'] ?? '') . ' ' . ($u['nom'] ?? ''))) ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_email'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($u['email'] ?? '') ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_role'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(adminRoleLabel($u['role'] ?? 'user')) ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_status'), ENT_QUOTES, 'UTF-8') ?>"><span class="badge <?= ($u['statut'] ?? '') === 'actif' ? 'badge green' : 'badge' ?>"><?= htmlspecialchars(($u['statut'] ?? '') === 'actif' ? __('admin.status_active') : __('admin.status_inactive')) ?></span></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_registered'), ENT_QUOTES, 'UTF-8') ?>"><?= !empty($u['created_at']) ? date('d/m/Y', strtotime($u['created_at'])) : '—' ?></td>
+              <td class="actions-cell" data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>">
                 <div class="action-buttons">
                   <a href="<?= $base ?>/admin/users/<?= $uid ?>" class="btn-icon" title="<?= $viewLabel ?>" aria-label="<?= $viewLabel ?>">
                     <svg class="icon-svg icon-20" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>

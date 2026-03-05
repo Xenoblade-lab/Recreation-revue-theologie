@@ -17,22 +17,22 @@ $contenu = $old['contenu'] ?? '';
   <?php if ($error): ?>
   <p class="text-accent mb-4"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
-  <form action="<?= $base ?>/author/soumettre" method="post" enctype="multipart/form-data" class="flex flex-col gap-4">
+  <form action="<?= $base ?>/author/soumettre" method="post" enctype="multipart/form-data" class="space-y-4">
     <?= csrf_field() ?>
-    <div class="form-group">
-      <label for="titre"><?= htmlspecialchars(__('author.article_title_label')) ?> *</label>
-      <input type="text" id="titre" name="titre" value="<?= htmlspecialchars($titre) ?>" placeholder="<?= htmlspecialchars(__('author.article_title_placeholder')) ?>" required class="h-11">
+    <div>
+      <label for="titre" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('author.article_title_label')) ?> *</label>
+      <input type="text" id="titre" name="titre" value="<?= htmlspecialchars($titre) ?>" placeholder="<?= htmlspecialchars(__('author.article_title_placeholder')) ?>" required class="input w-full">
     </div>
-    <div class="form-group">
-      <label for="contenu"><?= htmlspecialchars(__('author.summary_content')) ?> *</label>
-      <textarea id="contenu" name="contenu" rows="6" placeholder="<?= htmlspecialchars(__('author.summary_placeholder')) ?>" required><?= htmlspecialchars($contenu) ?></textarea>
+    <div>
+      <label for="contenu" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('author.summary_content')) ?> *</label>
+      <textarea id="contenu" name="contenu" rows="6" placeholder="<?= htmlspecialchars(__('author.summary_placeholder')) ?>" required class="input w-full"><?= htmlspecialchars($contenu) ?></textarea>
     </div>
-    <div class="form-group">
-      <label for="fichier"><?= htmlspecialchars(__('author.file_label')) ?></label>
-      <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx" style="font-size:0.875rem;">
+    <div>
+      <label for="fichier" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('author.file_label')) ?></label>
+      <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx" class="input w-full" style="font-size:0.875rem; max-width:100%;">
       <p class="text-xs text-muted mt-1"><?= htmlspecialchars(__('author.formats_accepted')) ?></p>
     </div>
-    <div class="wrap-row">
+    <div class="form-actions flex flex-wrap gap-2">
       <button type="submit" class="btn btn-accent"><?= htmlspecialchars(__('author.submit_article_btn')) ?></button>
       <a href="<?= $base ?>/instructions-auteurs" class="btn btn-outline"><?= htmlspecialchars(__('nav.instructions')) ?></a>
     </div>

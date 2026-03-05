@@ -11,12 +11,12 @@ function adminFormatDate(?string $d): string {
     return $t ? date('j M. Y', $t) : $d;
 }
 ?>
-<div class="dashboard-header flex justify-between items-start">
-  <div>
+<div class="dashboard-header flex flex-wrap justify-between items-start gap-4">
+  <div style="min-width: 0;">
     <h1><?= htmlspecialchars(__('admin.volumes')) ?></h1>
     <p><?= htmlspecialchars(__('admin.volumes_intro')) ?></p>
   </div>
-  <div class="wrap-row">
+  <div class="wrap-row flex flex-wrap gap-2">
     <a href="<?= $base ?>/admin/volumes/create" class="btn btn-primary"><?= htmlspecialchars(__('admin.create_volume')) ?></a>
     <a href="<?= $base ?>/admin/numeros/create" class="btn btn-outline"><?= htmlspecialchars(__('admin.create_numero')) ?></a>
   </div>
@@ -57,9 +57,9 @@ function adminFormatDate(?string $d): string {
               <tbody>
                 <?php foreach ($revues as $r): ?>
                   <tr>
-                    <td><a href="<?= $base ?>/admin/numero/<?= (int) $r['id'] ?>"><?= htmlspecialchars($r['numero'] ?? '') ?></a></td>
-                    <td><?= htmlspecialchars($r['titre'] ?? '') ?></td>
-                    <td><?= adminFormatDate($r['date_publication'] ?? null) ?></td>
+                    <td data-label="<?= htmlspecialchars(__('admin.th_issue'), ENT_QUOTES, 'UTF-8') ?>"><a href="<?= $base ?>/admin/numero/<?= (int) $r['id'] ?>"><?= htmlspecialchars($r['numero'] ?? '') ?></a></td>
+                    <td data-label="<?= htmlspecialchars(__('author.th_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($r['titre'] ?? '') ?></td>
+                    <td data-label="<?= htmlspecialchars(__('admin.th_pub_date'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($r['date_publication'] ?? null) ?></td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>

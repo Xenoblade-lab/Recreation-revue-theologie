@@ -43,6 +43,40 @@
     });
   });
 
+  // Dashboard (admin / auteur / évaluateur) : sidebar mobile – Phase 2.3
+  // Bouton .dashboard-mobile-menu / #dashboard-menu-toggle, sidebar #dashboard-sidebar, overlay #dashboard-sidebar-backdrop
+  // État ouvert : classe dashboard-sidebar-open sur body (aria-expanded sur le bouton)
+  var dashboardToggle = document.getElementById('dashboard-menu-toggle') || document.querySelector('.dashboard-mobile-menu');
+  var dashboardSidebar = document.getElementById('dashboard-sidebar');
+  var dashboardBackdrop = document.getElementById('dashboard-sidebar-backdrop');
+  if (dashboardToggle && dashboardSidebar) {
+    function closeDashboardSidebar() {
+      document.body.classList.remove('dashboard-sidebar-open');
+      dashboardToggle.setAttribute('aria-expanded', 'false');
+      dashboardToggle.focus();
+    }
+    function openDashboardSidebar() {
+      document.body.classList.add('dashboard-sidebar-open');
+      dashboardToggle.setAttribute('aria-expanded', 'true');
+    }
+    dashboardToggle.addEventListener('click', function () {
+      if (document.body.classList.contains('dashboard-sidebar-open')) {
+        closeDashboardSidebar();
+      } else {
+        openDashboardSidebar();
+      }
+    });
+    if (dashboardBackdrop) {
+      dashboardBackdrop.addEventListener('click', closeDashboardSidebar);
+    }
+    var sidebarLinks = dashboardSidebar.querySelectorAll('nav a');
+    sidebarLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        closeDashboardSidebar();
+      });
+    });
+  }
+
   // Carousels : boutons prev/next pour .issues-carousel et .coming-blocks
   function scrollCarousel(container, direction) {
     if (!container) return;

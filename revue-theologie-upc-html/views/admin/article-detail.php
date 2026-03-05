@@ -39,8 +39,8 @@ $articleId = (int) $article['id'];
 $evaluatorsCount = count($evaluations);
 $canPublishOrReject = $evaluatorsCount >= 2;
 ?>
-<div class="dashboard-header flex justify-between items-start">
-  <div>
+<div class="dashboard-header flex flex-wrap justify-between items-start gap-2">
+  <div style="min-width: 0;">
     <h1><?= htmlspecialchars($article['titre']) ?></h1>
     <p class="text-muted">
       <?= htmlspecialchars(__('admin.th_author')) ?> : <?= htmlspecialchars(trim(($article['auteur_prenom'] ?? '') . ' ' . ($article['auteur_nom'] ?? ''))) ?>
@@ -48,7 +48,7 @@ $canPublishOrReject = $evaluatorsCount >= 2;
       · <?= adminStatutBadge($statut) ?>
     </p>
   </div>
-  <div class="wrap-row">
+  <div class="wrap-row flex flex-wrap gap-2">
     <a href="<?= $base ?>/admin/articles" class="btn btn-outline"><?= htmlspecialchars(__('admin.back_list')) ?></a>
     <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/delete" class="inline-form js-confirm-submit" data-confirm-message="<?= htmlspecialchars(__('admin.confirm_delete_article'), ENT_QUOTES, 'UTF-8') ?>">
       <?= csrf_field() ?>

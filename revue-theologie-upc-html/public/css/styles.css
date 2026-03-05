@@ -199,6 +199,13 @@ body.page-template-2 {
 .site-footer .footer-bottom p, .site-footer .footer-bottom a { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
 .site-footer .footer-bottom a:hover { color: var(--upc-gold); }
 
+/* Phase 6.1 – Footer dashboard : colonne en mobile, côte à côte à partir de 768px */
+.dashboard-layout .site-footer .footer-bottom { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; flex-wrap: wrap; }
+.dashboard-layout .site-footer .footer-bottom p { word-break: break-word; max-width: 100%; }
+@media (min-width: 768px) {
+  .dashboard-layout .site-footer .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+
 /* Typography */
 .font-serif { font-family: var(--font-serif); }
 .font-bold { font-weight: 700; }
@@ -574,6 +581,13 @@ textarea { resize: vertical; min-height: 120px; }
   color: var(--primary-foreground);
 }
 @media (min-width: 1024px) { .dashboard-sidebar { width: 16rem; flex-shrink: 0; } }
+
+/* Phase 1.1 – Mobile/tablette : body en colonne, sidebar pleine largeur */
+@media (max-width: 1023px) {
+  .dashboard-body { flex-direction: column; }
+  .dashboard-sidebar { width: 100%; max-width: 100%; }
+}
+
 .dashboard-sidebar .sidebar-inner { padding: 1.5rem; position: sticky; top: 0; }
 .dashboard-sidebar .sidebar-title { font-family: var(--font-serif); font-weight: 700; font-size: 0.875rem; margin-bottom: 1.5rem; color: var(--upc-gold); }
 .dashboard-sidebar nav { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -584,17 +598,32 @@ textarea { resize: vertical; min-height: 120px; }
 }
 .dashboard-sidebar nav a:hover, .dashboard-sidebar nav a.active { background: rgba(255,255,255,0.1); color: var(--primary-foreground); }
 .dashboard-sidebar nav a svg { flex-shrink: 0; opacity: 0.9; }
-.dashboard-main { flex: 1; padding: 1.5rem; background: var(--secondary); }
-@media (min-width: 768px) { .dashboard-main { padding: 2rem; } }
+/* Phase 3.1 – Padding et largeur zone main */
+.dashboard-main { flex: 1; min-width: 0; padding: 1rem; background: var(--secondary); }
+@media (min-width: 768px) { .dashboard-main { padding: 1.5rem; } }
+@media (min-width: 1024px) { .dashboard-main { padding: 2rem; } }
+/* Phase 3.2 – En-têtes de page */
 .dashboard-header { margin-bottom: 1.5rem; }
-.dashboard-header h1 { margin: 0 0 0.25rem 0; font-family: var(--font-serif); font-size: 1.5rem; }
+.dashboard-header h1 { margin: 0 0 0.25rem 0; font-family: var(--font-serif); font-size: 1.25rem; }
 .dashboard-header p { margin: 0; color: var(--muted-foreground); font-size: 0.875rem; }
-.dashboard-stats { display: grid; gap: 1rem; margin-bottom: 2rem; }
+@media (min-width: 768px) {
+  .dashboard-header h1 { font-size: 1.5rem; }
+}
+.dashboard-header.flex { flex-wrap: wrap; gap: 0.5rem; align-items: flex-start; }
+@media (min-width: 768px) {
+  .dashboard-header.flex { gap: 1rem; }
+}
+/* Phase 3.3 – Cartes statistiques : grille 1 col mobile, 2 à 640px, 4 à 1024px */
+.dashboard-stats { display: grid; gap: 1rem; margin-bottom: 2rem; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .dashboard-stats { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .dashboard-stats { grid-template-columns: repeat(4, 1fr); } }
 .stat-card {
   background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem;
   padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem;
+}
+@media (max-width: 639px) {
+  .stat-card { padding: 1rem; }
+  .stat-card .stat-value { font-size: 1.25rem; }
 }
 .stat-card .stat-icon { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .stat-card .stat-icon.primary { background: rgba(39,96,168,0.1); color: var(--primary); }
@@ -603,8 +632,82 @@ textarea { resize: vertical; min-height: 120px; }
 .stat-card .stat-icon.green { background: rgba(34,197,94,0.1); color: #059669; }
 .stat-card .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--foreground); margin-bottom: 0.25rem; }
 .stat-card .stat-label { font-size: 0.8125rem; color: var(--muted-foreground); }
-.dashboard-card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
-.dashboard-card h2 { margin: 0 0 1rem 0; font-family: var(--font-serif); font-size: 1.125rem; }
+/* Phase 5.1 – dashboard-card : padding et titres h2 responsive */
+.dashboard-card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; }
+.dashboard-card h2 { margin: 0 0 1rem 0; font-family: var(--font-serif); font-size: 1rem; }
+@media (min-width: 768px) {
+  .dashboard-card { padding: 1.5rem; }
+  .dashboard-card h2 { font-size: 1.125rem; }
+}
+
+/* Phase 5.2 – Listes (notifications, activités récentes) : padding, word-break, zone tactile */
+.activity-list,
+.dashboard-card > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.activity-list li,
+.dashboard-card > ul li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.activity-list li:last-child,
+.dashboard-card > ul li:last-child { border-bottom: none; }
+.activity-list li span,
+.activity-list li p,
+.dashboard-card > ul li p,
+.dashboard-card > ul li .flex-1 { word-break: break-word; overflow-wrap: break-word; min-width: 0; }
+.dashboard-card > ul li .btn,
+.dashboard-card > ul li a.btn,
+.activity-list .btn,
+.activity-list a.btn {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.dashboard-card > ul li a.text-primary { min-height: 44px; padding: 0.5rem 0.75rem; display: inline-flex; align-items: center; }
+
+/* Phase 5.3 – Formulaires dans les dashboards : champs et boutons responsive */
+.dashboard-card input,
+.dashboard-card select,
+.dashboard-card textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.dashboard-card input[type="text"],
+.dashboard-card input[type="email"],
+.dashboard-card input[type="password"],
+.dashboard-card input[type="number"],
+.dashboard-card input[type="url"],
+.dashboard-card select,
+.dashboard-card textarea { width: 100%; }
+.dashboard-card form .flex,
+.dashboard-card form .wrap-row,
+.dashboard-card form .form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .dashboard-card form .flex .btn,
+  .dashboard-card form .flex a.btn,
+  .dashboard-card form .wrap-row .btn,
+  .dashboard-card form .wrap-row a.btn,
+  .dashboard-card form .form-actions .btn,
+  .dashboard-card form .form-actions a.btn {
+    flex: 1 1 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+}
+
 .dashboard-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
 .dashboard-table th, .dashboard-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
 .dashboard-table th { font-weight: 600; color: var(--muted-foreground); }
@@ -614,15 +717,78 @@ textarea { resize: vertical; min-height: 120px; }
 .dashboard-table .actions-cell form { display: inline; }
 .dashboard-table .actions-cell .inline-form { display: inline; }
 
+/* Phase 4.2 – Colonnes et cellules : padding mobile + zone tactile Actions */
+@media (max-width: 767px) {
+  .dashboard-table th, .dashboard-table td { padding: 0.5rem 0.75rem; }
+}
+.dashboard-table .actions-cell a,
+.dashboard-table .actions-cell button,
+.dashboard-table .actions-cell .btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.dashboard-table .actions-cell a[href]:not(.btn):not([class*="btn"]) { min-width: auto; }
+
+/* Phase 4.1 – Scroll horizontal tableaux dashboard */
+.overflow-auto { overflow: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.dashboard-card > .overflow-auto { min-width: 0; border-radius: 0 0 var(--radius, 0.5rem) var(--radius, 0.5rem); box-shadow: inset -8px 0 12px -8px rgba(0, 0, 0, 0.06); }
+
+/* Phase 4.3 – Vue carte sur très petit écran (< 640px) : une ligne = une carte */
+@media (max-width: 639px) {
+  .dashboard-table { display: block; }
+  .dashboard-table thead { display: none; }
+  .dashboard-table tbody tr {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius, 0.5rem);
+    margin-bottom: 0.75rem;
+    background: var(--card);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+  .dashboard-table tbody tr:has(td[colspan]) {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+  .dashboard-table tbody td {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dashboard-table tbody td:last-child { border-bottom: none; }
+  .dashboard-table tbody tr:has(td[colspan]) td { border: none; }
+  .dashboard-table tbody td[data-label]::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--muted-foreground);
+    font-size: 0.8125rem;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .dashboard-table tbody td.actions-cell::before { margin-bottom: 0.35rem; }
+}
+
 /* Modal de confirmation (remplace confirm()) */
-.confirm-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
+/* Phase 6.2 – Modal de confirmation : bords et boutons accessibles sur petit écran */
+.confirm-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; overflow-y: auto; }
 .confirm-modal.is-open { opacity: 1; visibility: visible; }
 .confirm-modal[hidden] { display: none !important; }
 .confirm-modal:not([hidden]).is-open { display: flex; }
 .confirm-modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); cursor: pointer; }
-.confirm-modal-box { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
-.confirm-modal-message { margin: 0 0 1.25rem 0; font-size: 1rem; line-height: 1.5; color: var(--foreground); }
+.confirm-modal-box { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.15); margin: auto; }
+.confirm-modal-message { margin: 0 0 1.25rem 0; font-size: 1rem; line-height: 1.5; color: var(--foreground); word-break: break-word; }
 .confirm-modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap; }
+@media (max-width: 480px) {
+  .confirm-modal { padding: 0.75rem; align-items: flex-start; padding-top: 2rem; }
+  .confirm-modal-box { padding: 1rem; max-width: 100%; }
+  .confirm-modal-actions { flex-direction: column; width: 100%; }
+  .confirm-modal-actions .btn { width: 100%; min-height: 44px; justify-content: center; }
+}
 
 /* Colonne Workflow (liste articles auteur) */
 .workflow-col-cell { max-width: 420px; }
@@ -663,15 +829,90 @@ textarea { resize: vertical; min-height: 120px; }
   background: var(--background); border-bottom: 1px solid var(--border);
   padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
 }
-.dashboard-topbar .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--muted-foreground); }
+.dashboard-topbar .breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.875rem; color: var(--muted-foreground); }
 .dashboard-topbar .breadcrumb a { color: var(--primary); }
 .dashboard-topbar .breadcrumb a:hover { text-decoration: underline; }
-.dashboard-mobile-menu { display: block; padding: 0.5rem; background: none; border: 1px solid rgba(255,255,255,0.3); color: var(--primary-foreground); border-radius: 0.375rem; cursor: pointer; }
-@media (min-width: 1024px) { .dashboard-mobile-menu { display: none; } }
+
+/* Phase 1.2 – Topbar responsive */
+@media (max-width: 768px) {
+  .dashboard-topbar .breadcrumb { font-size: 0.8125rem; }
+}
+@media (max-width: 480px) {
+  .dashboard-topbar-brand,
+  .dashboard-topbar-sep { display: none !important; }
+  .dashboard-topbar .breadcrumb .breadcrumb-optional { display: none; }
+}
+/* Phase 2.1 – Bouton menu hamburger (visible < 1024px, masqué au-dessus) */
+.dashboard-mobile-menu {
+  display: none;
+  padding: 0.5rem 0.75rem;
+  background: var(--background);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  border-radius: var(--radius, 0.5rem);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard-mobile-menu:hover { background: var(--muted); color: var(--foreground); }
+@media (max-width: 1023px) { .dashboard-mobile-menu { display: flex; } }
+@media (min-width: 1024px) { .dashboard-mobile-menu { display: none !important; } }
+
+/* Phase 2.2 – Comportement sidebar (drawer + backdrop < 1024px, toujours visible au-dessus) */
+.dashboard-topbar { position: relative; z-index: 1100; }
+.dashboard-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+@media (max-width: 1023px) {
+  .dashboard-sidebar-backdrop {
+    display: block;
+  }
+  .dashboard-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 85vw;
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+  body.dashboard-sidebar-open .dashboard-sidebar-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.dashboard-sidebar-open .dashboard-sidebar {
+    transform: translateX(0);
+  }
+  body.dashboard-sidebar-open {
+    overflow: hidden;
+  }
+}
+@media (min-width: 1024px) {
+  .dashboard-sidebar-backdrop {
+    display: none !important;
+  }
+  .dashboard-sidebar {
+    position: relative;
+    transform: none;
+    width: 16rem;
+    max-width: none;
+    box-shadow: none;
+  }
+}
+
 .dashboard-sidebar.collapsed { display: none; }
 @media (min-width: 1024px) { .dashboard-sidebar.collapsed { display: block; } }
 .wrap-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
-.overflow-auto { overflow: auto; }
 .ml-4 { margin-left: 1rem; }
 
 /* ========== Template 2 - Accueil type journal (index_2.html) ========== */

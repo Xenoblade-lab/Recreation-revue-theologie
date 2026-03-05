@@ -88,11 +88,11 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
             $jours = reviewerJoursRestants($e['date_echeance'] ?? null);
           ?>
           <tr>
-            <td><?= htmlspecialchars($e['article_titre'] ?? '') ?></td>
-            <td><?= reviewerFormatDate($e['date_assignation'] ?? null) ?></td>
-            <td><?= $jours !== null ? $jours . ' ' . __('reviewer.days_left') : '—' ?></td>
-            <td><?= reviewerStatutBadge($statut) ?></td>
-            <td>
+            <td data-label="<?= htmlspecialchars(__('author.th_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($e['article_titre'] ?? '') ?></td>
+            <td data-label="<?= htmlspecialchars(__('reviewer.th_assignment_date'), ENT_QUOTES, 'UTF-8') ?>"><?= reviewerFormatDate($e['date_assignation'] ?? null) ?></td>
+            <td data-label="<?= htmlspecialchars(__('reviewer.th_deadline'), ENT_QUOTES, 'UTF-8') ?>"><?= $jours !== null ? $jours . ' ' . __('reviewer.days_left') : '—' ?></td>
+            <td data-label="<?= htmlspecialchars(__('author.th_status'), ENT_QUOTES, 'UTF-8') ?>"><?= reviewerStatutBadge($statut) ?></td>
+            <td data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>">
               <?php if ($peutEvaluer): ?>
                 <a href="<?= $base ?>/reviewer/evaluation/<?= (int) $e['id'] ?>" class="btn btn-sm btn-accent"><?= $statut === 'en_cours' ? __('reviewer.resume') : __('reviewer.evaluate') ?></a>
               <?php else: ?>
@@ -105,7 +105,7 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
       </tbody>
     </table>
   </div>
-  <p class="text-sm text-muted mt-4 mb-0"><a href="<?= $base ?>/reviewer/terminees" class="text-primary"><?= htmlspecialchars(__('reviewer.done_list')) ?></a> · <a href="<?= $base ?>/reviewer/historique" class="text-primary"><?= htmlspecialchars(__('reviewer.full_history')) ?></a></p>
+  <p class="text-sm text-muted mt-4 mb-0 flex flex-wrap gap-2"><a href="<?= $base ?>/reviewer/terminees" class="text-primary"><?= htmlspecialchars(__('reviewer.done_list')) ?></a> · <a href="<?= $base ?>/reviewer/historique" class="text-primary"><?= htmlspecialchars(__('reviewer.full_history')) ?></a></p>
 </div>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('reviewer.reminder_title')) ?></h2>

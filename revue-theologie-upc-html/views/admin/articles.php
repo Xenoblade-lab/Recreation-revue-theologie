@@ -58,12 +58,12 @@ function adminFormatDate(?string $d): string {
               $confirmDelete = __('admin.confirm_delete_article');
           ?>
             <tr>
-              <td><?= $aid ?></td>
-              <td><?= htmlspecialchars($a['titre'] ?? '') ?></td>
-              <td><?= adminFormatDate($a['date_soumission'] ?? null) ?></td>
-              <td><?= adminStatutBadge($a['statut'] ?? 'soumis') ?></td>
-              <td><?= htmlspecialchars(trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''))) ?></td>
-              <td class="actions-cell">
+              <td data-label="<?= htmlspecialchars(__('admin.th_id'), ENT_QUOTES, 'UTF-8') ?>"><?= $aid ?></td>
+              <td data-label="<?= htmlspecialchars(__('author.th_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($a['titre'] ?? '') ?></td>
+              <td data-label="<?= htmlspecialchars(__('author.th_date'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($a['date_soumission'] ?? null) ?></td>
+              <td data-label="<?= htmlspecialchars(__('author.th_status'), ENT_QUOTES, 'UTF-8') ?>"><?= adminStatutBadge($a['statut'] ?? 'soumis') ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_author'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(trim(($a['auteur_prenom'] ?? '') . ' ' . ($a['auteur_nom'] ?? ''))) ?></td>
+              <td class="actions-cell" data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>">
                 <div class="action-buttons">
                   <a href="<?= $base ?>/admin/article/<?= $aid ?>" class="btn-icon" title="<?= $viewLabel ?>" aria-label="<?= $viewLabel ?>">
                     <svg class="icon-svg icon-20" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>

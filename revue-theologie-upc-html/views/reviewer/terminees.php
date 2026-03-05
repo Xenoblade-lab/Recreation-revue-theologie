@@ -24,6 +24,7 @@ function reviewerRecommendationLabel(?string $r): string {
   <p><?= htmlspecialchars(__('reviewer.terminees_intro')) ?></p>
 </div>
 <div class="dashboard-card">
+  <div class="overflow-auto">
   <table class="dashboard-table">
     <thead>
       <tr>
@@ -39,13 +40,14 @@ function reviewerRecommendationLabel(?string $r): string {
       <?php else: ?>
         <?php foreach ($evaluations as $e): ?>
         <tr>
-          <td><?= htmlspecialchars($e['article_titre'] ?? '') ?></td>
-          <td><?= reviewerFormatDate($e['date_soumission'] ?? null) ?></td>
-          <td><span class="badge"><?= htmlspecialchars(reviewerRecommendationLabel($e['recommendation'] ?? null)) ?></span></td>
-          <td><a href="<?= $base ?>/article/<?= (int) ($e['article_id'] ?? 0) ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('reviewer.view_article')) ?></a></td>
+          <td data-label="<?= htmlspecialchars(__('reviewer.th_article_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($e['article_titre'] ?? '') ?></td>
+          <td data-label="<?= htmlspecialchars(__('reviewer.th_submission_date'), ENT_QUOTES, 'UTF-8') ?>"><?= reviewerFormatDate($e['date_soumission'] ?? null) ?></td>
+          <td data-label="<?= htmlspecialchars(__('reviewer.th_recommendation'), ENT_QUOTES, 'UTF-8') ?>"><span class="badge"><?= htmlspecialchars(reviewerRecommendationLabel($e['recommendation'] ?? null)) ?></span></td>
+          <td data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>"><a href="<?= $base ?>/article/<?= (int) ($e['article_id'] ?? 0) ?>" class="btn btn-sm btn-outline"><?= htmlspecialchars(__('reviewer.view_article')) ?></a></td>
         </tr>
         <?php endforeach; ?>
       <?php endif; ?>
     </tbody>
   </table>
+  </div>
 </div>

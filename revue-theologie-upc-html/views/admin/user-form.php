@@ -61,7 +61,7 @@ $statut = $isEdit ? ($user['statut'] ?? 'actif') : 'actif';
       <input type="password" id="password" name="password" required minlength="6" class="input w-full" autocomplete="new-password">
     </div>
     <?php endif; ?>
-    <div class="flex gap-2">
+    <div class="form-actions flex flex-wrap gap-2">
       <button type="submit" class="btn btn-primary"><?= $isEdit ? __('admin.save') : __('admin.create') ?></button>
       <a href="<?= $base ?>/admin/users" class="btn btn-outline"><?= htmlspecialchars(__('common.cancel')) ?></a>
     </div>

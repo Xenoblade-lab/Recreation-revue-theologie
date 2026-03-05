@@ -33,7 +33,7 @@ foreach ($notifications as $n) {
   <?php if (empty($notifications)): ?>
   <p class="text-muted"><?= htmlspecialchars(__('author.no_notifications')) ?></p>
   <?php else: ?>
-  <ul style="list-style: none; padding: 0; margin: 0;">
+  <ul class="activity-list">
     <?php foreach ($notifications as $n): ?>
     <?php
       $data = [];
@@ -46,7 +46,7 @@ foreach ($notifications as $n) {
       $isUnread = empty($n['read_at']);
       $id = $n['id'] ?? '';
     ?>
-    <li style="padding: 1rem; border-bottom: 1px solid var(--border);<?= $isUnread ? ' background: rgba(39,96,168,0.04);' : '' ?>">
+    <li style="<?= $isUnread ? 'background: rgba(39,96,168,0.04);' : '' ?>">
       <div class="flex flex-wrap items-start justify-between gap-2">
         <div class="flex-1">
           <p class="mb-0"><strong><?= htmlspecialchars($message) ?></strong></p>

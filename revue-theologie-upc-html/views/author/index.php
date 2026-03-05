@@ -78,7 +78,7 @@ function authorWorkflowSteps(string $statut): array {
 </div>
 <div class="dashboard-card">
   <p><?= htmlspecialchars(__('author.dashboard_subscribe_intro')) ?></p>
-  <p class="mt-4 mb-0">
+  <p class="mt-4 mb-0 flex flex-wrap gap-2">
     <a href="<?= $base ?>/author/s-abonner" class="btn btn-accent"><?= htmlspecialchars(__('author.subscribe_btn')) ?></a>
     <a href="<?= $base ?>/author/abonnement" class="btn btn-outline-primary"><?= htmlspecialchars(__('author.manage_subscription')) ?></a>
   </p>
@@ -121,7 +121,7 @@ function authorWorkflowSteps(string $statut): array {
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('author.submit_new')) ?></h2>
   <p class="text-muted text-sm mb-4"><?= htmlspecialchars(__('author.submit_form_intro')) ?></p>
-  <p><a href="<?= $base ?>/author/soumettre" class="btn btn-accent"><?= htmlspecialchars(__('author.submit_article')) ?></a> <a href="<?= $base ?>/instructions-auteurs" class="btn btn-outline"><?= htmlspecialchars(__('nav.instructions')) ?></a></p>
+  <p class="flex flex-wrap gap-2"><a href="<?= $base ?>/author/soumettre" class="btn btn-accent"><?= htmlspecialchars(__('author.submit_article')) ?></a> <a href="<?= $base ?>/instructions-auteurs" class="btn btn-outline"><?= htmlspecialchars(__('nav.instructions')) ?></a></p>
 </div>
 <div class="dashboard-card" id="articles">
   <h2><?= htmlspecialchars(__('author.my_articles')) ?></h2>
@@ -156,10 +156,10 @@ function authorWorkflowSteps(string $statut): array {
             $submitLabel = htmlspecialchars(__('author.submit_article_btn'));
           ?>
           <tr>
-            <td><?= htmlspecialchars($a['titre']) ?></td>
-            <td><?= authorFormatDate($a['date_soumission'] ?? $a['created_at'] ?? null) ?></td>
-            <td><?= authorStatutBadge($a['statut'] ?? 'soumis') ?></td>
-            <td class="workflow-col-cell">
+            <td data-label="<?= htmlspecialchars(__('author.th_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($a['titre']) ?></td>
+            <td data-label="<?= htmlspecialchars(__('author.th_date'), ENT_QUOTES, 'UTF-8') ?>"><?= authorFormatDate($a['date_soumission'] ?? $a['created_at'] ?? null) ?></td>
+            <td data-label="<?= htmlspecialchars(__('author.th_status'), ENT_QUOTES, 'UTF-8') ?>"><?= authorStatutBadge($a['statut'] ?? 'soumis') ?></td>
+            <td class="workflow-col-cell" data-label="<?= htmlspecialchars(__('author.th_workflow'), ENT_QUOTES, 'UTF-8') ?>">
               <div class="workflow-col" role="status" aria-label="<?= htmlspecialchars(__('author.workflow_aria')) ?>">
                 <?php for ($i = 0; $i < 6; $i++):
                   $state = $wf[$i] ?? 'pending';
@@ -179,7 +179,7 @@ function authorWorkflowSteps(string $statut): array {
                 <?php endfor; ?>
               </div>
             </td>
-            <td class="actions-cell">
+            <td class="actions-cell" data-label="<?= htmlspecialchars(__('author.th_actions'), ENT_QUOTES, 'UTF-8') ?>">
               <div class="action-buttons">
                 <a href="<?= $base ?>/author/article/<?= $aid ?>" class="btn-icon" title="<?= $readLabel ?>" aria-label="<?= $readLabel ?>">
                   <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#eye"/></svg>

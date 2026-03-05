@@ -60,18 +60,18 @@ function adminFormatDate(?string $d): string {
               $confirmUnassign = __('admin.confirm_unassign_evaluator');
           ?>
             <tr>
-              <td><?= $eid ?></td>
-              <td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_id'), ENT_QUOTES, 'UTF-8') ?>"><?= $eid ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_article'), ENT_QUOTES, 'UTF-8') ?>">
                 <a href="<?= $base ?>/admin/article/<?= $aid ?>"><?= htmlspecialchars($e['article_titre'] ?? '—') ?></a>
                 <span class="text-sm text-muted">(<?= htmlspecialchars($e['article_statut'] ?? '') ?>)</span>
               </td>
-              <td><?= htmlspecialchars(trim(($e['evaluateur_prenom'] ?? '') . ' ' . ($e['evaluateur_nom'] ?? ''))) ?: '—' ?></td>
-              <td><span class="badge"><?= htmlspecialchars(adminEvalStatutLabel($e['statut'] ?? '')) ?></span></td>
-              <td><?= adminFormatDate($e['date_assignation'] ?? null) ?></td>
-              <td><?= adminFormatDate($e['date_echeance'] ?? null) ?></td>
-              <td><?= adminFormatDate($e['date_soumission'] ?? null) ?></td>
-              <td><?= htmlspecialchars($e['recommendation'] ?? '—') ?></td>
-              <td class="actions-cell">
+              <td data-label="<?= htmlspecialchars(__('admin.th_evaluator'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(trim(($e['evaluateur_prenom'] ?? '') . ' ' . ($e['evaluateur_nom'] ?? ''))) ?: '—' ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_status'), ENT_QUOTES, 'UTF-8') ?>"><span class="badge"><?= htmlspecialchars(adminEvalStatutLabel($e['statut'] ?? '')) ?></span></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_assignment_date'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($e['date_assignation'] ?? null) ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_deadline'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($e['date_echeance'] ?? null) ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_submission_date'), ENT_QUOTES, 'UTF-8') ?>"><?= adminFormatDate($e['date_soumission'] ?? null) ?></td>
+              <td data-label="<?= htmlspecialchars(__('admin.th_recommendation'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($e['recommendation'] ?? '—') ?></td>
+              <td class="actions-cell" data-label="<?= htmlspecialchars(__('admin.actions'), ENT_QUOTES, 'UTF-8') ?>">
                 <div class="action-buttons">
                   <a href="<?= $base ?>/admin/article/<?= $aid ?>" class="btn-icon" title="<?= $viewLabel ?>" aria-label="<?= $viewLabel ?>">
                     <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#eye"/></svg>
