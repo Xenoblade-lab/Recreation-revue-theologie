@@ -28,8 +28,8 @@ function adminRoleLabel(string $role): string {
 <?php if ($success): ?>
   <div class="alert alert-success mb-4"><?= htmlspecialchars(is_string($success) ? $success : __('admin.success')) ?></div>
 <?php endif; ?>
-<div class="dashboard-card">
-  <div class="overflow-auto">
+<div class="dashboard-card dashboard-card-table">
+  <div class="overflow-auto dashboard-table-wrap">
     <table class="dashboard-table">
       <thead>
         <tr>

@@ -133,7 +133,7 @@ function adminActivityDate(?string $d): string {
 </div>
 <div class="dashboard-card">
   <h2><?= htmlspecialchars(__('admin.quick_actions')) ?></h2>
-  <div class="flex flex-wrap gap-2">
+  <div class="quick-actions-wrap">
     <a href="<?= $base ?>/admin/users/create" class="btn btn-outline-primary"><?= htmlspecialchars(__('admin.create_user')) ?></a>
     <a href="<?= $base ?>/admin/articles" class="btn btn-outline-primary"><?= htmlspecialchars(__('admin.manage_articles')) ?></a>
     <a href="<?= $base ?>/admin/paiements" class="btn btn-outline-primary"><?= htmlspecialchars(__('admin.payments')) ?></a>

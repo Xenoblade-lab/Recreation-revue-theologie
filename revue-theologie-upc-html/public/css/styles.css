@@ -59,6 +59,7 @@ a:hover { color: var(--primary); }
 /* Layout */
 .min-h-screen { min-height: 100vh; }
 .flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
 .flex-col { flex-direction: column; }
 .flex-1 { flex: 1; min-width: 0; }
 .items-center { align-items: center; }
@@ -708,6 +709,29 @@ textarea { resize: vertical; min-height: 120px; }
   }
 }
 
+/* Actions rapides : forcer le wrap des boutons en responsive */
+.quick-actions-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.quick-actions-wrap .btn,
+.quick-actions-wrap a.btn {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+@media (max-width: 767px) {
+  .quick-actions-wrap .btn,
+  .quick-actions-wrap a.btn {
+    flex: 1 1 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+}
+
 .dashboard-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
 .dashboard-table th, .dashboard-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
 .dashboard-table th { font-weight: 600; color: var(--muted-foreground); }
@@ -738,15 +762,36 @@ textarea { resize: vertical; min-height: 120px; }
 .overflow-auto { overflow: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .dashboard-card > .overflow-auto { min-width: 0; border-radius: 0 0 var(--radius, 0.5rem) var(--radius, 0.5rem); box-shadow: inset -8px 0 12px -8px rgba(0, 0, 0, 0.06); }
 
-/* Phase 4.3 – Vue carte sur très petit écran (< 640px) : une ligne = une carte */
-@media (max-width: 639px) {
-  .dashboard-table { display: block; }
+/* Phase 4.3 – Vue carte sur petit écran (≤ 768px) : une ligne = une carte, blocs pleine largeur et centrés */
+@media (max-width: 767px) {
+  .dashboard-main .dashboard-card,
+  .dashboard-card > .overflow-auto {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+  /* Annuler min-width: 0 en vue carte pour que le conteneur prenne toute la largeur */
+  .dashboard-card > .overflow-auto.dashboard-table-wrap {
+    min-width: 100%;
+  }
+  .dashboard-card > .overflow-auto .dashboard-table {
+    display: block;
+    width: 100%;
+    min-width: 100%;
+    table-layout: fixed;
+  }
   .dashboard-table thead { display: none; }
+  .dashboard-table tbody { display: block; width: 100%; }
   .dashboard-table tbody tr {
     display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     border: 1px solid var(--border);
     border-radius: var(--radius, 0.5rem);
     margin-bottom: 0.75rem;
+    margin-left: auto;
+    margin-right: auto;
     background: var(--card);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   }
@@ -771,6 +816,52 @@ textarea { resize: vertical; min-height: 120px; }
     margin-bottom: 0.2rem;
   }
   .dashboard-table tbody td.actions-cell::before { margin-bottom: 0.35rem; }
+  /* Garder la cellule Actions visible en vue carte : flex + afficher formulaires et boutons */
+  .dashboard-table tbody td.actions-cell {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dashboard-table tbody td.actions-cell .action-buttons,
+  .dashboard-table tbody td.actions-cell .payment-actions,
+  .dashboard-table tbody td.actions-cell form.inline-form {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  .dashboard-table tbody td.actions-cell .btn-icon,
+  .dashboard-table tbody td.actions-cell button {
+    flex-shrink: 0;
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Forcer largeur pleine pour liste utilisateurs (éviter conflit min-width: 0) */
+@media (max-width: 767px) {
+  .dashboard-card-table.dashboard-card { width: 100%; max-width: 100%; }
+  .dashboard-card-table .dashboard-table-wrap.overflow-auto {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+  .dashboard-card-table .dashboard-table-wrap .dashboard-table {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+  .dashboard-card-table .dashboard-table tbody tr {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 /* Modal de confirmation (remplace confirm()) */

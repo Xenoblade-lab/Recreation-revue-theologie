@@ -67,15 +67,15 @@ function adminFormatDate(?string $d): string {
                   $labelValidate = htmlspecialchars(__('admin.validate'));
                   $labelRefuse = htmlspecialchars(__('admin.refuse'));
                   ?>
-                  <div class="action-buttons">
-                    <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" class="inline-form" style="display:inline;">
+                  <div class="action-buttons payment-actions">
+                    <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" class="inline-form">
                       <?= csrf_field() ?>
                       <input type="hidden" name="statut" value="valide">
                       <button type="submit" class="btn-icon" title="<?= $labelValidate ?>" aria-label="<?= $labelValidate ?>">
                         <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#check"/></svg>
                       </button>
                     </form>
-                    <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" class="inline-form" style="display:inline;">
+                    <form method="post" action="<?= htmlspecialchars($urlStatut) ?>" class="inline-form">
                       <?= csrf_field() ?>
                       <input type="hidden" name="statut" value="refuse">
                       <button type="submit" class="btn-icon btn-icon-danger" title="<?= $labelRefuse ?>" aria-label="<?= $labelRefuse ?>">
