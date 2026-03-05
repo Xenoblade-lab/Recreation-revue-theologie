@@ -7,6 +7,7 @@ $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
 $isLoggedIn = class_exists('Service\AuthService') && \Service\AuthService::isLoggedIn();
 $currentUser = $isLoggedIn ? \Service\AuthService::getUser() : null;
 $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
+$hasNewInArchives = class_exists('Models\RevueModel') && \Models\RevueModel::hasNewInLastDays(7);
 ?>
   <div class="site-header-sticky-wrap">
   <!-- Barre utilitaire -->
@@ -87,7 +88,7 @@ $currentLang = function_exists('current_lang') ? current_lang() : 'fr';
         </div>
         <div class="dropdown dropdown-badge">
           <a href="<?= $base ?>/archives"><?= htmlspecialchars(__('nav.archives')) ?> <span aria-hidden="true">▼</span></a>
-          <span class="nav-badge">Nouveau</span>
+          <?php if (!empty($hasNewInArchives)): ?><span class="nav-badge">Nouveau</span><?php endif; ?>
           <div class="dropdown-menu">
             <a href="<?= $base ?>/archives"><?= htmlspecialchars(__('nav.volumes')) ?></a>
             <a href="<?= $base ?>/actualites"><?= htmlspecialchars(__('nav.actualites')) ?></a>

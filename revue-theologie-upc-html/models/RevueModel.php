@@ -49,6 +49,20 @@ class RevueModel
         return $ok ? (int) $db->lastInsertId() : null;
     }
 
+    /** Indique s'il existe des numéros créés/mis en ligne dans les X derniers jours (pour badge "Nouveau" archives). */
+    public static function hasNewInLastDays(int $days = 7): bool
+    {
+        $db = getDB();
+        $stmt = $db->prepare("
+            SELECT 1 FROM revues
+            WHERE created_at >= DATE_SUB(NOW(), INTERVAL :days DAY)
+            LIMIT 1
+        ");
+        $stmt->bindValue(':days', $days, \PDO::PARAM_INT);
+        $stmt->execute();
+        return (bool) $stmt->fetch();
+    }
+
     /** Derniers numéros (pour l'accueil) */
     public static function getLatest(int $limit = 5): array
     {
