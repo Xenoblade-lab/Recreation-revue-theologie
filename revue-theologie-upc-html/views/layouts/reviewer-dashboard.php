@@ -73,18 +73,20 @@ $pageTitle = $pageTitle ?? 'Espace évaluateur | Revue Congolaise de Théologie 
         </nav>
       </div>
     </aside>
-    <main class="dashboard-main">
-      <?= $viewContent ?? '' ?>
-    </main>
-  </div>
-  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
-    <div class="container">
-      <div class="footer-bottom">
-        <p class="mb-0">&copy; <span id="year"></span> Revue Congolaise de Théologie Protestante - UPC. <?= htmlspecialchars(function_exists('__') ? __('dash.footer_reviewer') : 'Espace évaluateur') ?>.</p>
-        <a href="<?= $base ?>/logout"><?= htmlspecialchars(function_exists('__') ? __('dash.logout') : 'Déconnexion') ?></a>
-      </div>
+    <div class="dashboard-content-wrap">
+      <main class="dashboard-main">
+        <?= $viewContent ?? '' ?>
+      </main>
+      <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+        <div class="container">
+          <div class="footer-bottom">
+            <p class="mb-0">&copy; <span id="year"></span> Revue Congolaise de Théologie Protestante - UPC. <?= htmlspecialchars(function_exists('__') ? __('dash.footer_reviewer') : 'Espace évaluateur') ?>.</p>
+            <a href="<?= $base ?>/logout"><?= htmlspecialchars(function_exists('__') ? __('dash.logout') : 'Déconnexion') ?></a>
+          </div>
+        </div>
+      </footer>
     </div>
-  </footer>
+  </div>
   <script>if (document.getElementById('year')) document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="<?= $base ?>/js/main.js"></script>
 </body>
