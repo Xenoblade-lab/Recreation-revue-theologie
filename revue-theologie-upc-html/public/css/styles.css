@@ -583,13 +583,45 @@ textarea { resize: vertical; min-height: 120px; }
 }
 @media (min-width: 1024px) { .dashboard-sidebar { width: 16rem; flex-shrink: 0; } }
 
+/* Zone contenu + footer : seul ce bloc défile ; sidebar fixe (admin) */
+.dashboard-content-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .dashboard-layout {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    padding-top: 4rem;
+  }
+  .dashboard-layout .dashboard-body { min-height: 0; overflow: hidden; flex: 1; display: flex; }
+  .dashboard-content-wrap { min-height: 0; overflow-y: auto; flex: 1; margin-left: 16rem; }
+}
+.dashboard-content-wrap .site-footer { flex-shrink: 0; }
+
 /* Phase 1.1 – Mobile/tablette : body en colonne, sidebar pleine largeur */
 @media (max-width: 1023px) {
   .dashboard-body { flex-direction: column; }
   .dashboard-sidebar { width: 100%; max-width: 100%; }
+  .dashboard-content-wrap { margin-left: 0; }
 }
 
-.dashboard-sidebar .sidebar-inner { padding: 1.5rem; position: sticky; top: 0; }
+.dashboard-sidebar .sidebar-inner { padding: 1.5rem; }
+@media (min-width: 1024px) {
+  .dashboard-sidebar {
+    position: fixed !important;
+    left: 0;
+    top: 4rem;
+    bottom: 0;
+    width: 16rem;
+    z-index: 100;
+    align-self: stretch;
+  }
+  .dashboard-sidebar .sidebar-inner { height: 100%; overflow-y: auto; }
+}
 .dashboard-sidebar .sidebar-title { font-family: var(--font-serif); font-weight: 700; font-size: 0.875rem; margin-bottom: 1.5rem; color: var(--upc-gold); }
 .dashboard-sidebar nav { display: flex; flex-direction: column; gap: 0.25rem; }
 .dashboard-sidebar nav a {
@@ -919,6 +951,17 @@ textarea { resize: vertical; min-height: 120px; }
 .dashboard-topbar {
   background: var(--background); border-bottom: 1px solid var(--border);
   padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+  flex-shrink: 0;
+}
+@media (min-width: 1024px) {
+  .dashboard-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 4rem;
+    z-index: 1100;
+  }
 }
 .dashboard-topbar .breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.875rem; color: var(--muted-foreground); }
 .dashboard-topbar .breadcrumb a { color: var(--primary); }
@@ -950,7 +993,12 @@ textarea { resize: vertical; min-height: 120px; }
 @media (min-width: 1024px) { .dashboard-mobile-menu { display: none !important; } }
 
 /* Phase 2.2 – Comportement sidebar (drawer + backdrop < 1024px, toujours visible au-dessus) */
-.dashboard-topbar { position: relative; z-index: 1100; }
+@media (max-width: 1023px) {
+  .dashboard-topbar { position: relative; z-index: 1100; }
+}
+@media (min-width: 1024px) {
+  .dashboard-topbar { position: fixed !important; z-index: 1100; }
+}
 .dashboard-sidebar-backdrop {
   display: none;
   position: fixed;
@@ -993,9 +1041,7 @@ textarea { resize: vertical; min-height: 120px; }
     display: none !important;
   }
   .dashboard-sidebar {
-    position: relative;
     transform: none;
-    width: 16rem;
     max-width: none;
     box-shadow: none;
   }
