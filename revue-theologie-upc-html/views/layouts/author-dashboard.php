@@ -83,18 +83,20 @@ $isAuthor = $isAuthor ?? false;
         </nav>
       </div>
     </aside>
-    <main class="dashboard-main">
-      <?= $viewContent ?? '' ?>
-    </main>
-  </div>
-  <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
-    <div class="container">
-      <div class="footer-bottom">
-        <p class="mb-0">&copy; <span id="year"></span> Revue Congolaise de Théologie Protestante - UPC. <?= htmlspecialchars(function_exists('__') ? __('dash.footer_author') : 'Espace auteur') ?>.</p>
-        <a href="<?= $base ?>/logout"><?= htmlspecialchars(function_exists('__') ? __('dash.logout') : 'Déconnexion') ?></a>
-      </div>
+    <div class="dashboard-content-wrap">
+      <main class="dashboard-main">
+        <?= $viewContent ?? '' ?>
+      </main>
+      <footer class="site-footer" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+        <div class="container">
+          <div class="footer-bottom">
+            <p class="mb-0">&copy; <span id="year"></span> Revue Congolaise de Théologie Protestante - UPC. <?= htmlspecialchars(function_exists('__') ? __('dash.footer_author') : 'Espace auteur') ?>.</p>
+            <a href="<?= $base ?>/logout"><?= htmlspecialchars(function_exists('__') ? __('dash.logout') : 'Déconnexion') ?></a>
+          </div>
+        </div>
+      </footer>
     </div>
-  </footer>
+  </div>
   <div id="confirm-modal" class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" aria-hidden="true" hidden>
     <div class="confirm-modal-overlay"></div>
     <div class="confirm-modal-box">
