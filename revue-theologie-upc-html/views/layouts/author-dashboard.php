@@ -66,9 +66,10 @@ if (!empty($currentUser['id']) && class_exists('Models\NotificationModel')) {
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#award"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.subscription') : 'Abonnement') ?>
           </a>
-          <a href="<?= $base ?>/author/notifications" class="<?= ($_SESSION['author_page'] ?? '') === 'notifications' ? 'active' : '' ?>">
+          <a href="<?= $base ?>/author/notifications" class="<?= ($_SESSION['author_page'] ?? '') === 'notifications' ? 'active' : '' ?>"<?php if ($notificationCount > 0): ?> aria-label="<?= htmlspecialchars((function_exists('__') ? __('author.notifications') : 'Notifications') . ', ' . $notificationCount . ' non lues') ?>"<?php endif; ?>>
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.notifications') : 'Notifications') ?>
+            <?php if ($notificationCount > 0): ?><span class="sidebar-notif-badge" aria-hidden="true"><?= $notificationCount > 99 ? '99+' : $notificationCount ?></span><?php endif; ?>
           </a>
           <?php if ($isAuthor): ?>
           <a href="<?= $base ?>/author/profil" class="<?= ($_SESSION['author_page'] ?? '') === 'profil' ? 'active' : '' ?>">

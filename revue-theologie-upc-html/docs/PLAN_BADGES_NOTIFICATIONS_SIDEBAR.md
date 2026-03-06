@@ -34,19 +34,19 @@ Objectif : afficher le **nombre de notifications non lues** à côté du lien «
 
 ### Étape 2.1 – Admin
 
-- [ ] **2.1.1** Dans `views/layouts/admin-dashboard.php`, à côté du libellé « Notifications » du lien vers `/admin/notifications`, ajouter un élément conditionnel (ex. `<span>`) qui affiche le nombre si `$notificationCount > 0`.
-- [ ] **2.1.2** Utiliser une classe CSS dédiée pour le badge (ex. `sidebar-notif-badge` ou réutiliser une classe existante type `badge` / `nav-badge`) pour le style (couleur, taille, arrondi).
-- [ ] **2.1.3** Gérer l’affichage des grands nombres (ex. afficher « 99+ » si `$notificationCount > 99`) pour éviter un badge trop large.
+- [x] **2.1.1** Dans `views/layouts/admin-dashboard.php`, à côté du libellé « Notifications » du lien vers `/admin/notifications`, ajouter un élément conditionnel (ex. `<span>`) qui affiche le nombre si `$notificationCount > 0`.
+- [x] **2.1.2** Utiliser une classe CSS dédiée pour le badge (ex. `sidebar-notif-badge` ou réutiliser une classe existante type `badge` / `nav-badge`) pour le style (couleur, taille, arrondi).
+- [x] **2.1.3** Gérer l’affichage des grands nombres (ex. afficher « 99+ » si `$notificationCount > 99`) pour éviter un badge trop large.
 
 ### Étape 2.2 – Auteur
 
-- [ ] **2.2.1** Dans `views/layouts/author-dashboard.php`, à côté du libellé « Notifications » du lien vers `/author/notifications`, ajouter le même type de badge conditionnel basé sur `$notificationCount`.
-- [ ] **2.2.2** Réutiliser la même classe CSS que pour l’admin pour cohérence visuelle.
+- [x] **2.2.1** Dans `views/layouts/author-dashboard.php`, à côté du libellé « Notifications » du lien vers `/author/notifications`, ajouter le même type de badge conditionnel basé sur `$notificationCount`.
+- [x] **2.2.2** Réutiliser la même classe CSS que pour l’admin pour cohérence visuelle.
 
 ### Étape 2.3 – Évaluateur
 
-- [ ] **2.3.1** Dans `views/layouts/reviewer-dashboard.php`, à côté du libellé « Notifications » du lien vers `/reviewer/notifications`, ajouter le même type de badge conditionnel basé sur `$notificationCount`.
-- [ ] **2.3.2** Réutiliser la même classe CSS que pour l’admin et l’auteur.
+- [x] **2.3.1** Dans `views/layouts/reviewer-dashboard.php`, à côté du libellé « Notifications » du lien vers `/reviewer/notifications`, ajouter le même type de badge conditionnel basé sur `$notificationCount`.
+- [x] **2.3.2** Réutiliser la même classe CSS que pour l’admin et l’auteur.
 
 ---
 

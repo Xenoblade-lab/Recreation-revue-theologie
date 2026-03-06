@@ -58,9 +58,10 @@ if (!empty($currentUser['id']) && class_exists('Models\NotificationModel')) {
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clock"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('reviewer.history_title') : 'Historique') ?>
           </a>
-          <a href="<?= $base ?>/reviewer/notifications" class="<?= ($_SESSION['reviewer_page'] ?? '') === 'notifications' ? 'active' : '' ?>">
+          <a href="<?= $base ?>/reviewer/notifications" class="<?= ($_SESSION['reviewer_page'] ?? '') === 'notifications' ? 'active' : '' ?>"<?php if ($notificationCount > 0): ?> aria-label="<?= htmlspecialchars((function_exists('__') ? __('author.notifications') : 'Notifications') . ', ' . $notificationCount . ' non lues') ?>"<?php endif; ?>>
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('author.notifications') : 'Notifications') ?>
+            <?php if ($notificationCount > 0): ?><span class="sidebar-notif-badge" aria-hidden="true"><?= $notificationCount > 99 ? '99+' : $notificationCount ?></span><?php endif; ?>
           </a>
           <a href="<?= $base ?>/reviewer/profil" class="<?= ($_SESSION['reviewer_page'] ?? '') === 'profil' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg>

@@ -72,9 +72,10 @@ if (!empty($currentUser['id']) && class_exists('Models\NotificationModel')) {
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#user"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('admin.comite_editorial_menu') : 'Comité éditorial') ?>
           </a>
-          <a href="<?= $base ?>/admin/notifications" class="<?= ($_SESSION['admin_page'] ?? '') === 'notifications' ? 'active' : '' ?>">
+          <a href="<?= $base ?>/admin/notifications" class="<?= ($_SESSION['admin_page'] ?? '') === 'notifications' ? 'active' : '' ?>"<?php if ($notificationCount > 0): ?> aria-label="<?= htmlspecialchars((function_exists('__') ? __('nav.notifications') : 'Notifications') . ', ' . $notificationCount . ' non lues') ?>"<?php endif; ?>>
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#mail"/></svg>
             <?= htmlspecialchars(function_exists('__') ? __('nav.notifications') : 'Notifications') ?>
+            <?php if ($notificationCount > 0): ?><span class="sidebar-notif-badge" aria-hidden="true"><?= $notificationCount > 99 ? '99+' : $notificationCount ?></span><?php endif; ?>
           </a>
           <a href="<?= $base ?>/admin/parametres" class="<?= ($_SESSION['admin_page'] ?? '') === 'parametres' ? 'active' : '' ?>">
             <svg class="icon-svg icon-20" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#clipboard-check"/></svg>

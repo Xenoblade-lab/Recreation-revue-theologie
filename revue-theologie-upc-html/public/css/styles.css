@@ -638,6 +638,19 @@ textarea { resize: vertical; min-height: 120px; }
 }
 .dashboard-sidebar nav a:hover, .dashboard-sidebar nav a.active { background: rgba(255,255,255,0.1); color: var(--primary-foreground); }
 .dashboard-sidebar nav a svg { flex-shrink: 0; opacity: 0.9; }
+.dashboard-sidebar .sidebar-notif-badge {
+  margin-left: auto;
+  flex-shrink: 0;
+  min-width: 1.25rem;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  border-radius: 9999px;
+  background: var(--accent, #b3001b);
+  color: #fff;
+}
 /* Phase 3.1 – Padding et largeur zone main */
 .dashboard-main { flex: 1; min-width: 0; padding: 1rem; background: var(--secondary); }
 @media (min-width: 768px) { .dashboard-main { padding: 1.5rem; } }
