@@ -35,9 +35,15 @@ class NotificationModel
     /** Marquer une notification comme lue (si elle appartient à l'utilisateur) */
     public static function markAsRead(string $id, int $userId): bool
     {
+        $id = trim($id);
+        if ($id === '') {
+            return false;
+        }
         $db = getDB();
         $stmt = $db->prepare("UPDATE notifications SET read_at = NOW() WHERE id = :id AND notifiable_id = :uid AND read_at IS NULL");
-        $stmt->execute([':id' => $id, ':uid' => $userId]);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_STR);
+        $stmt->bindValue(':uid', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->rowCount() > 0;
     }
 

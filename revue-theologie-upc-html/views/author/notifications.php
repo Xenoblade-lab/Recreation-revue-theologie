@@ -53,7 +53,17 @@ foreach ($notifications as $n) {
           <p class="text-muted text-sm mt-1 mb-0">
             <?= authorFormatDate($n['created_at'] ?? null) ?>
             <?php if ($link): ?>
-              <?php $readUrl = (strpos($link, 'http') === 0) ? $link : $base . (strpos($link, '/') === 0 ? $link : '/' . $link); ?>
+              <?php
+              $isExternal = (strpos($link, 'http') === 0);
+              if ($isExternal) {
+                $readUrl = $link;
+              } else {
+                $path = '/' . ltrim($link, '/');
+                $readUrl = ($id !== '' && $isUnread)
+                  ? $base . '/author/notification/' . htmlspecialchars($id) . '/read-and-go?redirect=' . rawurlencode($path)
+                  : $base . $path;
+              }
+              ?>
               · <a href="<?= htmlspecialchars($readUrl) ?>" class="text-primary"><?= htmlspecialchars(__('common.read')) ?></a>
             <?php endif; ?>
           </p>

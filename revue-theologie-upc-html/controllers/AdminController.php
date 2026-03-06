@@ -455,7 +455,7 @@ class AdminController
                 $assignedCount++;
                 NotificationModel::create($evaluateurId, 'EvaluationAssigned', [
                     'message' => 'Un nouvel article vous a été assigné pour évaluation : « ' . $titre . ' ».',
-                    'link' => 'reviewer/evaluation/' . $evalId,
+                    'link' => 'reviewer/evaluation/' . $evalId . '?article_id=' . $id,
                 ]);
             }
         }
@@ -613,6 +613,8 @@ class AdminController
 
     public function notifications(array $params = []): void
     {
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
         $user = AuthService::getUser();
         $notifications = NotificationModel::getByUserId((int) $user['id']);
         $error = $_SESSION['admin_error'] ?? null;
@@ -621,6 +623,27 @@ class AdminController
             'notifications' => $notifications,
             'error'         => $error,
         ], 'Notifications | Administration - Revue Congolaise de Théologie Protestante', 'notifications');
+    }
+
+    /** Lien "Lire" : marquer la notification comme lue puis rediriger vers la page cible (GET, param redirect). */
+    public function notificationReadAndGo(array $params = []): void
+    {
+        requireAdmin();
+        $id = trim((string) ($params['id'] ?? ''));
+        $user = AuthService::getUser();
+        $userId = (int) $user['id'];
+        if ($id !== '') {
+            NotificationModel::markAsRead($id, $userId);
+        }
+        $base = $this->base();
+        $redirect = isset($_GET['redirect']) ? trim((string) $_GET['redirect']) : '';
+        if ($redirect !== '' && $redirect[0] === '/' && strpos($redirect, '//') === false && strpos($redirect, ':') === false) {
+            header('Location: ' . $base . $redirect);
+        } else {
+            header('Location: ' . $base . '/admin/notifications');
+        }
+        release_session();
+        exit;
     }
 
     public function notificationMarkRead(array $params = []): void
@@ -632,10 +655,14 @@ class AdminController
             header('Location: ' . $this->base() . '/admin/notifications');
             exit;
         }
-        $id = $params['id'] ?? '';
+        $id = trim((string) ($params['id'] ?? ''));
         $user = AuthService::getUser();
+        $userId = (int) $user['id'];
         if ($id !== '') {
-            NotificationModel::markAsRead($id, (int) $user['id']);
+            $updated = NotificationModel::markAsRead($id, $userId);
+            if (!$updated) {
+                $_SESSION['admin_error'] = function_exists('__') ? __('admin.mark_read_failed') : 'Impossible de marquer cette notification comme lue. L’identifiant est peut‑être invalide.';
+            }
         }
         release_session();
         header('Location: ' . $this->base() . '/admin/notifications');

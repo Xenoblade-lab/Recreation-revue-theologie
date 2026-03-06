@@ -43,12 +43,15 @@ class ReviewerController
         $terminees = EvaluationModel::countByEvaluateurIdAndStatut($evaluateurId, 'termine');
         $total = EvaluationModel::countByEvaluateurId($evaluateurId);
         $tauxCompletion = $total > 0 ? (int) round(($terminees / $total) * 100) : 0;
+        $error = $_SESSION['reviewer_error'] ?? null;
+        if (isset($_SESSION['reviewer_error'])) unset($_SESSION['reviewer_error']);
         $this->render('index', [
             'assignations'   => $assignations,
             'enAttente'      => $enAttente,
             'enCours'        => $enCours,
             'terminees'      => $terminees,
             'tauxCompletion' => $tauxCompletion,
+            'error'          => $error,
         ], 'Tableau de bord évaluateur | Revue Congolaise de Théologie Protestante', 'index');
     }
 
@@ -56,18 +59,25 @@ class ReviewerController
     {
         $user = AuthService::getUser();
         $evaluateurId = (int) $user['id'];
+        $base = $this->base();
         $id = (int) ($params['id'] ?? 0);
         $evaluation = $id ? EvaluationModel::getByIdForReviewer($id, $evaluateurId) : null;
+
         if (!$evaluation || in_array($evaluation['statut'], ['termine', 'annule'], true)) {
-            $base = $this->base();
+            $articleId = isset($_GET['article_id']) ? (int) $_GET['article_id'] : 0;
+            if ($articleId > 0) {
+                $fallback = EvaluationModel::getByArticleIdAndEvaluateur($articleId, $evaluateurId);
+                if ($fallback && in_array($fallback['statut'], ['en_attente', 'en_cours'], true)) {
+                    header('Location: ' . $base . '/reviewer/evaluation/' . $fallback['id']);
+                    exit;
+                }
+            }
             requireReviewer();
             $_SESSION['reviewer_page'] = '';
+            $_SESSION['reviewer_error'] = function_exists('__') ? __('reviewer.evaluation_not_found_message') : 'Cette évaluation n\'est plus disponible. Consultez vos évaluations en attente ci-dessous.';
             release_session();
-            http_response_code(404);
-            $viewContent = '<div class="container section"><h1>Évaluation introuvable</h1><p><a href="' . $base . '/reviewer">Retour au tableau de bord</a></p></div>';
-            $pageTitle = 'Évaluation | Revue Congolaise de Théologie Protestante';
-            require BASE_PATH . '/views/layouts/reviewer-dashboard.php';
-            return;
+            header('Location: ' . $base . '/reviewer');
+            exit;
         }
         $error = $_SESSION['reviewer_error'] ?? null;
         unset($_SESSION['reviewer_error']);
@@ -198,6 +208,8 @@ class ReviewerController
 
     public function notifications(array $params = []): void
     {
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
         $user = AuthService::getUser();
         $notifications = NotificationModel::getByUserId((int) $user['id']);
         $error = $_SESSION['reviewer_error'] ?? null;
@@ -206,6 +218,27 @@ class ReviewerController
             'notifications' => $notifications,
             'error'          => $error,
         ], 'Notifications | Espace évaluateur - Revue Congolaise de Théologie Protestante', 'notifications');
+    }
+
+    /** Lien "Lire" : marquer la notification comme lue puis rediriger vers la page cible (GET, param redirect). */
+    public function notificationReadAndGo(array $params = []): void
+    {
+        requireReviewer();
+        $id = trim((string) ($params['id'] ?? ''));
+        $user = AuthService::getUser();
+        $userId = (int) $user['id'];
+        if ($id !== '') {
+            NotificationModel::markAsRead($id, $userId);
+        }
+        $base = $this->base();
+        $redirect = isset($_GET['redirect']) ? trim((string) $_GET['redirect']) : '';
+        if ($redirect !== '' && $redirect[0] === '/' && strpos($redirect, '//') === false && strpos($redirect, ':') === false) {
+            header('Location: ' . $base . $redirect);
+        } else {
+            header('Location: ' . $base . '/reviewer/notifications');
+        }
+        release_session();
+        exit;
     }
 
     public function notificationMarkRead(array $params = []): void
@@ -217,11 +250,16 @@ class ReviewerController
             header('Location: ' . $this->base() . '/reviewer/notifications');
             exit;
         }
-        $id = $params['id'] ?? '';
+        $id = trim((string) ($params['id'] ?? ''));
         $user = AuthService::getUser();
+        $userId = (int) $user['id'];
         if ($id !== '') {
-            NotificationModel::markAsRead($id, (int) $user['id']);
+            $updated = NotificationModel::markAsRead($id, $userId);
+            if (!$updated) {
+                $_SESSION['reviewer_error'] = function_exists('__') ? __('reviewer.mark_read_failed') : 'Impossible de marquer cette notification comme lue. L’identifiant est peut‑être invalide.';
+            }
         }
+        release_session();
         header('Location: ' . $this->base() . '/reviewer/notifications');
         exit;
     }

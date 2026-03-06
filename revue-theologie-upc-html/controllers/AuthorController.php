@@ -561,6 +561,8 @@ class AuthorController
 
     public function notifications(array $params = []): void
     {
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
         $user = AuthService::getUser();
         $userId = (int) $user['id'];
         $notifications = NotificationModel::getByUserId($userId);
@@ -570,6 +572,27 @@ class AuthorController
             'notifications' => $notifications,
             'error'          => $error,
         ], 'Notifications | Espace auteur - Revue Congolaise de Théologie Protestante', 'notifications', false);
+    }
+
+    /** Lien "Lire" : marquer la notification comme lue puis rediriger vers la page cible (GET, param redirect). */
+    public function notificationReadAndGo(array $params = []): void
+    {
+        requireAuth();
+        $id = trim((string) ($params['id'] ?? ''));
+        $user = AuthService::getUser();
+        $userId = (int) $user['id'];
+        if ($id !== '') {
+            NotificationModel::markAsRead($id, $userId);
+        }
+        $base = $this->base();
+        $redirect = isset($_GET['redirect']) ? trim((string) $_GET['redirect']) : '';
+        if ($redirect !== '' && $redirect[0] === '/' && strpos($redirect, '//') === false && strpos($redirect, ':') === false) {
+            header('Location: ' . $base . $redirect);
+        } else {
+            header('Location: ' . $base . '/author/notifications');
+        }
+        release_session();
+        exit;
     }
 
     /** Marquer une notification comme lue (POST) */
@@ -582,10 +605,14 @@ class AuthorController
             header('Location: ' . $this->base() . '/author/notifications');
             exit;
         }
-        $id = $params['id'] ?? '';
+        $id = trim((string) ($params['id'] ?? ''));
         $user = AuthService::getUser();
+        $userId = (int) $user['id'];
         if ($id !== '') {
-            NotificationModel::markAsRead($id, (int) $user['id']);
+            $updated = NotificationModel::markAsRead($id, $userId);
+            if (!$updated) {
+                $_SESSION['author_error'] = function_exists('__') ? __('author.mark_read_failed') : 'Impossible de marquer cette notification comme lue. L’identifiant est peut‑être invalide.';
+            }
         }
         release_session();
         header('Location: ' . $this->base() . '/author/notifications');

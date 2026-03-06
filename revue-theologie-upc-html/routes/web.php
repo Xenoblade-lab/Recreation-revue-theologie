@@ -51,6 +51,7 @@ Router::get('/author/article/[i:id]/edit', [AuthorController::class, 'articleEdi
 Router::post('/author/article/[i:id]/edit', [AuthorController::class, 'articleUpdate']);
 Router::post('/author/article/[i:id]/submit', [AuthorController::class, 'articleSubmitDraft']);
 Router::get('/author/notifications', [AuthorController::class, 'notifications']);
+Router::get('/author/notification/[s:id]/read-and-go', [AuthorController::class, 'notificationReadAndGo']);
 Router::post('/author/notification/[s:id]/read', [AuthorController::class, 'notificationMarkRead']);
 Router::post('/author/notifications/read-all', [AuthorController::class, 'notificationsMarkAllRead']);
 
@@ -69,11 +70,13 @@ Router::get('/reviewer/historique', [ReviewerController::class, 'historique']);
 Router::get('/reviewer/notifications', [ReviewerController::class, 'notifications']);
 Router::get('/reviewer/profil', [ReviewerController::class, 'profil']);
 Router::post('/reviewer/profil', [ReviewerController::class, 'profilUpdate']);
+Router::get('/reviewer/notification/[s:id]/read-and-go', [ReviewerController::class, 'notificationReadAndGo']);
 Router::post('/reviewer/notification/[s:id]/read', [ReviewerController::class, 'notificationMarkRead']);
 Router::post('/reviewer/notifications/read-all', [ReviewerController::class, 'notificationsMarkAllRead']);
 
 Router::get('/admin', [AdminController::class, 'index']);
 Router::get('/admin/notifications', [AdminController::class, 'notifications']);
+Router::get('/admin/notification/[s:id]/read-and-go', [AdminController::class, 'notificationReadAndGo']);
 Router::post('/admin/notification/[s:id]/read', [AdminController::class, 'notificationMarkRead']);
 Router::post('/admin/notifications/read-all', [AdminController::class, 'notificationsMarkAllRead']);
 Router::get('/admin/users', [AdminController::class, 'users']);

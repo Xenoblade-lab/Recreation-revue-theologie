@@ -10,6 +10,9 @@ $notificationCount = 0;
 if (!empty($currentUser['id']) && class_exists('Models\NotificationModel')) {
     $notificationCount = \Models\NotificationModel::countUnreadByUserId((int) $currentUser['id']);
 }
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
 ?>
 <!DOCTYPE html>
 <html lang="<?= function_exists('current_lang') ? htmlspecialchars(current_lang()) : 'fr' ?>">

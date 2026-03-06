@@ -33,6 +33,9 @@ function reviewerJoursRestants(?string $dateEcheance): ?int {
   <h1><?= htmlspecialchars(__('reviewer.dashboard_title')) ?></h1>
   <p><?= htmlspecialchars(__('reviewer.dashboard_intro')) ?></p>
 </div>
+<?php if (!empty($error)): ?>
+<p class="mb-4 p-3 rounded text-accent" style="background: rgba(179,0,27,0.08); border: 1px solid rgba(179,0,27,0.2);"><?= htmlspecialchars($error) ?></p>
+<?php endif; ?>
 <div class="dashboard-stats">
   <div class="stat-card">
     <div class="stat-icon primary"><svg class="icon-svg icon-24" aria-hidden="true"><use href="<?= $base ?>/images/icons.svg#file-text"/></svg></div>
