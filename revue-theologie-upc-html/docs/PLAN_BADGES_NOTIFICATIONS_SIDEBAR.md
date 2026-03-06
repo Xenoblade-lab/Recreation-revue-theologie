@@ -16,17 +16,17 @@ Objectif : afficher le **nombre de notifications non lues** à côté du lien «
 
 ### Étape 1.1 – Layout Admin
 
-- [ ] **1.1.1** Dans `views/layouts/admin-dashboard.php`, en haut du fichier (après la définition de `$base`), ajouter le calcul du nombre de notifications non lues pour l’utilisateur connecté.
-- [ ] **1.1.2** Utiliser une variable `$notificationCount` (ou `$unreadNotificationCount`) : si `$currentUser` et `$currentUser['id']` sont définis, appeler `NotificationModel::countUnreadByUserId((int) $currentUser['id'])`, sinon `0`.
-- [ ] **1.1.3** S’assurer que le modèle est disponible (namespace `Models\NotificationModel` ou autoload déjà chargé par le front controller).
+- [x] **1.1.1** Dans `views/layouts/admin-dashboard.php`, en haut du fichier (après la définition de `$base`), ajouter le calcul du nombre de notifications non lues pour l’utilisateur connecté.
+- [x] **1.1.2** Utiliser une variable `$notificationCount` (ou `$unreadNotificationCount`) : si `$currentUser` et `$currentUser['id']` sont définis, appeler `NotificationModel::countUnreadByUserId((int) $currentUser['id'])`, sinon `0`.
+- [x] **1.1.3** S’assurer que le modèle est disponible (namespace `Models\NotificationModel` ou autoload déjà chargé par le front controller).
 
 ### Étape 1.2 – Layout Auteur
 
-- [ ] **1.2.1** Même logique dans `views/layouts/author-dashboard.php` : calculer `$notificationCount` (ou `$unreadNotificationCount`) en début de fichier à partir de `$currentUser`.
+- [x] **1.2.1** Même logique dans `views/layouts/author-dashboard.php` : calculer `$notificationCount` (ou `$unreadNotificationCount`) en début de fichier à partir de `$currentUser`.
 
 ### Étape 1.3 – Layout Évaluateur
 
-- [ ] **1.3.1** Même logique dans `views/layouts/reviewer-dashboard.php` : calculer `$notificationCount` (ou `$unreadNotificationCount`) en début de fichier à partir de `$currentUser`.
+- [x] **1.3.1** Même logique dans `views/layouts/reviewer-dashboard.php` : calculer `$notificationCount` (ou `$unreadNotificationCount`) en début de fichier à partir de `$currentUser`.
 
 ---
 

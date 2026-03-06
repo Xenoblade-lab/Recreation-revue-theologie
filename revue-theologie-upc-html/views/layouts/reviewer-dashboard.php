@@ -5,6 +5,10 @@
  */
 $base = $base ?? (defined('BASE_URL') ? rtrim(BASE_URL, '/') : '');
 $pageTitle = $pageTitle ?? 'Espace évaluateur | Revue Congolaise de Théologie Protestante';
+$notificationCount = 0;
+if (!empty($currentUser['id']) && class_exists('Models\NotificationModel')) {
+    $notificationCount = \Models\NotificationModel::countUnreadByUserId((int) $currentUser['id']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?= function_exists('current_lang') ? htmlspecialchars(current_lang()) : 'fr' ?>">
