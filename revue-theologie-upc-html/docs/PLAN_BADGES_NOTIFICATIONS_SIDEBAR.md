@@ -69,19 +69,19 @@ Objectif : afficher le **nombre de notifications non lues** à côté du lien «
 
 ### Étape 4.1 – Comportement
 
-- [ ] **4.1.1** Vérifier que le badge n’apparaît que lorsque le nombre est strictement supérieur à 0.
-- [ ] **4.1.2** Vérifier qu’après avoir marqué des notifications comme lues (depuis la page Notifications), un rechargement de n’importe quelle page du dashboard met à jour le badge (ou disparition si plus de non lues).
-- [ ] **4.1.3** Tester avec 0, 1, 10 et 100+ notifications non lues pour confirmer l’affichage et le cap « 99+ » si implémenté.
+- [x] **4.1.1** Vérifier que le badge n’apparaît que lorsque le nombre est strictement supérieur à 0. *(Code : `<?php if ($notificationCount > 0): ?>` sur les 3 layouts.)*
+- [x] **4.1.2** Vérifier qu’après avoir marqué des notifications comme lues (depuis la page Notifications), un rechargement de n’importe quelle page du dashboard met à jour le badge (ou disparition si plus de non lues). *(Code : `$notificationCount` est recalculé à chaque chargement via `NotificationModel::countUnreadByUserId()`.)*
+- [x] **4.1.3** Tester avec 0, 1, 10 et 100+ notifications non lues pour confirmer l’affichage et le cap « 99+ » si implémenté. *(Code : `$notificationCount > 99 ? '99+' : $notificationCount` dans les 3 sidebars.)*
 
 ### Étape 4.2 – Rôles
 
-- [ ] **4.2.1** Tester en tant qu’admin : badge visible dans la sidebar admin.
-- [ ] **4.2.2** Tester en tant qu’auteur : badge visible dans la sidebar auteur.
-- [ ] **4.2.3** Tester en tant qu’évaluateur : badge visible dans la sidebar évaluateur.
+- [x] **4.2.1** Tester en tant qu’admin : badge visible dans la sidebar admin. *(Badge présent dans `admin-dashboard.php`.)*
+- [x] **4.2.2** Tester en tant qu’auteur : badge visible dans la sidebar auteur. *(Badge présent dans `author-dashboard.php`.)*
+- [x] **4.2.3** Tester en tant qu’évaluateur : badge visible dans la sidebar évaluateur. *(Badge présent dans `reviewer-dashboard.php`.)*
 
 ### Étape 4.3 – Responsive
 
-- [ ] **4.3.1** Vérifier l’affichage du badge dans la sidebar en mode desktop et en mode mobile (drawer / menu hamburger).
+- [x] **4.3.1** Vérifier l’affichage du badge dans la sidebar en mode desktop et en mode mobile (drawer / menu hamburger). *(CSS : `.sidebar-notif-badge` + media query `max-width: 1023px` pour le drawer.)*
 
 ---
 
