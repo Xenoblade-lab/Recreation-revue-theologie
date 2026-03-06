@@ -54,14 +54,14 @@ Objectif : afficher le **nombre de notifications non lues** à côté du lien «
 
 ### Étape 3.1 – Classe du badge sidebar
 
-- [ ] **3.1.1** Dans `public/css/styles.css` (ou fichier CSS des dashboards), ajouter ou compléter une classe pour le badge de notifications dans la sidebar (ex. `.dashboard-sidebar .sidebar-notif-badge` ou `.dashboard-sidebar nav a .badge`).
-- [ ] **3.1.2** Définir : taille de police, couleur de fond (ex. rouge ou accent), couleur du texte, padding, border-radius, alignement à droite du lien ou après le texte « Notifications ».
-- [ ] **3.1.3** S’assurer que le badge reste lisible en mode responsive (sidebar repliée / drawer sur mobile).
+- [x] **3.1.1** Dans `public/css/styles.css` (ou fichier CSS des dashboards), ajouter ou compléter une classe pour le badge de notifications dans la sidebar (ex. `.dashboard-sidebar .sidebar-notif-badge` ou `.dashboard-sidebar nav a .badge`).
+- [x] **3.1.2** Définir : taille de police, couleur de fond (ex. rouge ou accent), couleur du texte, padding, border-radius, alignement à droite du lien ou après le texte « Notifications ».
+- [x] **3.1.3** S’assurer que le badge reste lisible en mode responsive (sidebar repliée / drawer sur mobile).
 
 ### Étape 3.2 – Accessibilité
 
-- [ ] **3.2.1** Ajouter un attribut `aria-label` sur le lien « Notifications » si le badge est affiché (ex. « Notifications, X non lues ») ou garder un libellé clair pour les lecteurs d’écran.
-- [ ] **3.2.2** Éviter de mettre des informations utiles uniquement en couleur (le chiffre doit être lisible et compris même sans le badge coloré).
+- [x] **3.2.1** Ajouter un attribut `aria-label` sur le lien « Notifications » si le badge est affiché (ex. « Notifications, X non lues ») ou garder un libellé clair pour les lecteurs d’écran.
+- [x] **3.2.2** Éviter de mettre des informations utiles uniquement en couleur (le chiffre doit être lisible et compris même sans le badge coloré).
 
 ---
 

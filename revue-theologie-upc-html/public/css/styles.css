@@ -638,6 +638,7 @@ textarea { resize: vertical; min-height: 120px; }
 }
 .dashboard-sidebar nav a:hover, .dashboard-sidebar nav a.active { background: rgba(255,255,255,0.1); color: var(--primary-foreground); }
 .dashboard-sidebar nav a svg { flex-shrink: 0; opacity: 0.9; }
+/* Badge notifications dans la sidebar (Phase 3 – visible desktop + drawer mobile) */
 .dashboard-sidebar .sidebar-notif-badge {
   margin-left: auto;
   flex-shrink: 0;
@@ -650,6 +651,13 @@ textarea { resize: vertical; min-height: 120px; }
   border-radius: 9999px;
   background: var(--accent, #b3001b);
   color: #fff;
+}
+@media (max-width: 1023px) {
+  .dashboard-sidebar .sidebar-notif-badge {
+    min-width: 1.35rem;
+    padding: 0.2rem 0.45rem;
+    font-size: 0.75rem;
+  }
 }
 /* Phase 3.1 – Padding et largeur zone main */
 .dashboard-main { flex: 1; min-width: 0; padding: 1rem; background: var(--secondary); }
