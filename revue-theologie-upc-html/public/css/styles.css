@@ -72,6 +72,18 @@ a:hover { color: var(--primary); }
 .gap-6 { gap: 1.5rem; }
 .gap-8 { gap: 2rem; }
 .gap-12 { gap: 3rem; }
+/* Accessibilité : libellé visible uniquement pour les lecteurs d’écran (Phase 5.2) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Header : toujours visible en haut au scroll (fixed + !important pour éviter toute surcharge) */
 .site-header-sticky-wrap {
@@ -297,12 +309,74 @@ body.page-template-2 {
 /* Forms */
 .form-group { margin-bottom: 1.25rem; }
 .form-group label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+/* Phase 4 – Classe .input : propriétés de base partagées par tous les champs (input, textarea, select) */
+.input {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--foreground);
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  box-sizing: border-box;
+}
+.w-full { width: 100%; }
 input[type="text"], input[type="email"], input[type="password"], textarea {
   width: 100%; padding: 0.5rem 0.75rem; font-size: 0.875rem; font-family: inherit;
   border: 1px solid var(--input); border-radius: var(--radius); background: var(--background);
 }
-input:focus, textarea:focus { outline: 2px solid var(--ring); outline-offset: 2px; }
+/* Phase 1 – Menus d’option (select) : alignés sur les champs texte */
+/* Phase 2 – Flèche personnalisée (chevron) à la place de la flèche native */
+/* Phase 6.3 – Règles globales : tous les select du site (dashboards et hors dashboard-card) héritent du même style */
+select {
+  width: 100%;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--foreground);
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 1.15rem;
+  min-height: 2.5rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+select::-ms-expand {
+  display: none;
+}
+/* Phase 3 – Liste des options (dropdown) : police et couleurs lisibles (support variable selon navigateur) */
+select option {
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  background: var(--background);
+  padding: 0.35rem 0.75rem;
+}
+/* Option « Rejeté » : couleur d’accent quand le navigateur le permet */
+select option[value="rejete"] {
+  color: var(--accent);
+}
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
 textarea { resize: vertical; min-height: 120px; }
+/* Phase 4.3 – Select avec largeur limitée : sur petits écrans, ne pas dépasser 100% */
+/* Phase 5.1 – Responsive : hauteur tactile (~44px) et police 1rem sur mobile (évite zoom iOS) */
+@media (max-width: 639px) {
+  select {
+    max-width: 100% !important;
+    min-height: 44px;
+    font-size: 1rem;
+  }
+}
 
 /* Page specific */’/* Page specific */
 .section-title { text-align: center; margin-bottom: 4rem; }
@@ -735,9 +809,13 @@ textarea { resize: vertical; min-height: 120px; }
 .dashboard-card > ul li a.text-primary { min-height: 44px; padding: 0.5rem 0.75rem; display: inline-flex; align-items: center; }
 
 /* Phase 5.3 – Formulaires dans les dashboards : champs et boutons responsive */
+/* Phase 1.3 – Select dans dashboard-card et form-group : héritent des styles de base, responsive */
 .dashboard-card input,
 .dashboard-card select,
-.dashboard-card textarea {
+.dashboard-card textarea,
+.form-group input,
+.form-group select,
+.form-group textarea {
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -747,7 +825,8 @@ textarea { resize: vertical; min-height: 120px; }
 .dashboard-card input[type="number"],
 .dashboard-card input[type="url"],
 .dashboard-card select,
-.dashboard-card textarea { width: 100%; }
+.dashboard-card textarea,
+.form-group select { width: 100%; }
 .dashboard-card form .flex,
 .dashboard-card form .wrap-row,
 .dashboard-card form .form-actions {

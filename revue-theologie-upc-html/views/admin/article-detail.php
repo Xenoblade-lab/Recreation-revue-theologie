@@ -96,7 +96,8 @@ $conflictingUnfavorable = (int) ($conflictingUnfavorable ?? 0);
   <?php endif; ?>
   <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/statut" class="flex items-center gap-2 flex-wrap">
     <?= csrf_field() ?>
-    <select name="statut" class="input" style="width: auto;">
+    <label for="article_statut" class="sr-only">Statut</label>
+    <select id="article_statut" name="statut" class="input" style="width: auto;" aria-label="Statut de l'article">
       <option value="soumis" <?= $statut === 'soumis' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.article_status_soumis')) ?></option>
       <option value="valide" <?= $statut === 'valide' ? 'selected' : '' ?> <?= !$canPublishOrReject ? 'disabled' : '' ?>><?= htmlspecialchars(__('admin.article_status_publie')) ?></option>
       <option value="rejete" <?= $statut === 'rejete' ? 'selected' : '' ?> <?= !$canPublishOrReject ? 'disabled' : '' ?>><?= htmlspecialchars(__('admin.article_status_rejete')) ?></option>
@@ -137,7 +138,8 @@ $conflictingUnfavorable = (int) ($conflictingUnfavorable ?? 0);
   <h2><?= htmlspecialchars(__('admin.assign_issue')) ?></h2>
   <form method="post" action="<?= $base ?>/admin/article/<?= $articleId ?>/issue" class="flex items-center gap-2 flex-wrap">
     <?= csrf_field() ?>
-    <select name="issue_id" class="input" style="width: auto; min-width: 220px;">
+    <label for="article_issue_id" class="sr-only"><?= htmlspecialchars(__('admin.assign_issue') ?: 'Numéro de parution') ?></label>
+    <select id="article_issue_id" name="issue_id" class="input" style="width: auto; min-width: 220px;" aria-label="<?= htmlspecialchars(__('admin.assign_issue') ?: 'Numéro de parution') ?>">
       <option value="">— <?= htmlspecialchars(__('admin.no_issue')) ?> —</option>
       <?php foreach ($revues as $rev): ?>
         <option value="<?= (int) $rev['id'] ?>" <?= (isset($article['issue_id']) && (int)$article['issue_id'] === (int)$rev['id']) ? 'selected' : '' ?>><?= htmlspecialchars($rev['numero'] ?? '') ?> — <?= htmlspecialchars($rev['titre'] ?? '') ?></option>

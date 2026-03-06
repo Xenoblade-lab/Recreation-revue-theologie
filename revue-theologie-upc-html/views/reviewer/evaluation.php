@@ -54,7 +54,7 @@ if ($recommendation === 'accepte_avec_modifications') {
     <?= csrf_field() ?>
     <div>
       <label for="recommendation" class="block text-sm font-medium mb-1"><?= htmlspecialchars(__('reviewer.recommendation_label')) ?></label>
-      <select id="recommendation" name="recommendation" class="input w-full" style="max-width:20rem;">
+      <select id="recommendation" name="recommendation" class="input w-full" style="max-width:20rem;" required aria-required="true">
         <option value=""><?= htmlspecialchars(__('reviewer.choose')) ?></option>
         <option value="accepte" <?= $recommendation === 'accepte' ? 'selected' : '' ?>><?= htmlspecialchars(__('reviewer.reco_accepte')) ?></option>
         <option value="revision_mineure" <?= $recommendation === 'revision_mineure' ? 'selected' : '' ?>><?= htmlspecialchars(__('reviewer.reco_minor')) ?></option>

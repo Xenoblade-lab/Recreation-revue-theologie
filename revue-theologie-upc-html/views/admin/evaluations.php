@@ -21,7 +21,7 @@ function adminFormatDate(?string $d): string {
 <div class="dashboard-card mb-4">
   <form method="get" action="<?= $base ?>/admin/evaluations" class="flex flex-wrap items-center gap-3">
     <label for="statut" class="font-medium"><?= htmlspecialchars(__('admin.filter_status')) ?></label>
-    <select id="statut" name="statut" class="px-3 py-2 border rounded">
+    <select id="statut" name="statut" class="input" style="width: auto; min-width: 12rem;">
       <option value=""><?= htmlspecialchars(__('admin.filter_all')) ?></option>
       <option value="en_attente" <?= $filterStatut === 'en_attente' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.eval_en_attente')) ?></option>
       <option value="en_cours" <?= $filterStatut === 'en_cours' ? 'selected' : '' ?>><?= htmlspecialchars(__('admin.eval_en_cours')) ?></option>
